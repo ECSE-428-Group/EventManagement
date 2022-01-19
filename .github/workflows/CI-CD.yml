@@ -27,5 +27,4 @@ jobs:
           
       - name: Step 3 - Have GitHub Actions Build and Test Maven Project
         run: |
-          mvn spring-javaformat:apply
           mvn clean test
