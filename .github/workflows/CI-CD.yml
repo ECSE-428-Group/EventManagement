@@ -26,7 +26,7 @@ jobs:
           java-version: 1.8
           
       - name: Step 3 - Have GitHub Actions Build and Test Maven Project
-        run: |
+        run: 
           cd ./EventManagement-Backend
           mvn clean test
         
