@@ -1,0 +1,49 @@
+class User
+{
+  id;
+  name;
+  email;
+  password;
+  boolean vaxStatus;
+  Tags[] interests;
+}
+
+class Post
+{
+  title;
+  description;
+
+  * posts -- 1 User poster;
+}
+
+class Event
+{
+  Date date;
+  boolean private;
+  description;
+  String picture;
+  String[] attendeeIds;
+  * events1 -- * User organizers;
+  * events-- * User attendee;
+  1 -- * Post posts;
+}
+
+class EventSystem
+{
+}
+
+
+
+class Comment
+{
+  message;
+  * -- 1 Post post;
+}
+
+enum Tags {music, drinking, food, free}
+
+class Admin
+{
+
+  isA User;
+}
