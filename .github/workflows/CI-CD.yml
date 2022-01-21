@@ -30,10 +30,4 @@ jobs:
           cd ./EventManagement-Backend
           mvn clean test
         
-      - name: Step 3 - Deploy to Heroku
-        run: | 
-          cd ./EventManagement-Backend
-          git add . 
-          git commit -m "Deployment to heroku."
-          git push heroku master
     
