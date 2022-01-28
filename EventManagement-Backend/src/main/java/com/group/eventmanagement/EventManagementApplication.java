@@ -1,5 +1,4 @@
 package com.group.eventmanagement;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +14,7 @@ public class EventManagementApplication {
 	
 	@RequestMapping("/")
 	public String greeting(){
-		return "Hello world!";
+		return "Hello!";
 	}
 
 }
