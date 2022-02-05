@@ -1,0 +1,75 @@
+class User
+{
+  isA Person;
+  boolean isVaccinated;
+  TimeStamp birthday;
+  1 -- * Tag tags;
+}
+
+class Post
+{
+  Long postId; // Id
+  String title;
+  String description;
+  * posts -- 1 User user;
+}
+
+class Event
+{
+  Long eventId; // Id
+  TimeStamp date;
+  boolean isPrivate;
+  boolean isVirtual;
+  String location;
+  String description;
+  String image;
+  1 event -- * Tag tags;
+  * organizedEvents-- * User organizers;
+  * attendingEvents -- * User attendees;
+  1 event <@>- * Post posts;
+}
+
+class EventManager
+{
+  Long eventManagerId;
+  1 <@>- * User users;
+  1 <@>- * Admin admins;
+  1 <@>- * Event events;
+  1 <@>- * Post posts;
+  1 <@>- * Tag tags;
+  1 <@>- * Comment comments;
+}
+
+
+class Comment
+{
+  Long id; // Id
+  String content;
+  * comments -<@> 1 Post post;
+  * comments -- 1 User commenter;
+}
+
+
+class Admin
+{
+   isA Person;
+}
+
+
+class Person
+{
+  abstract;
+  String firstName;
+  String lastName;
+  String email;
+  String password;
+  String username; // Id 
+}
+
+class Tag
+{
+  String name; // Id
+  String description;
+}
+
+
