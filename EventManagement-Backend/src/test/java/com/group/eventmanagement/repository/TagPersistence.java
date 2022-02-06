@@ -39,8 +39,6 @@ public class TagPersistence {
     @Transactional
     public void testAndLoadTagPersistence() {
 
-
-
         // User
         String username = "saba";
         String firstname = "Saba";
