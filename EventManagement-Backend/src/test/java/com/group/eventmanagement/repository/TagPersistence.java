@@ -2,6 +2,7 @@ package com.group.eventmanagement.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -68,18 +69,39 @@ public class TagPersistence {
         tag.setName(name);
         tag.setUsers(userList);
 
+
+        // Tag2
+        String name2 = "TestTag2";
+        String description2 = "TestDescription2";
+        List<User> userList2 = new ArrayList<User>();
+        Tag tag2 = new Tag();
+
+        userList2.add(user);
+        tag2.setDescription(description2);
+        tag2.setName(name2);
+        tag2.setUsers(userList2);
+
         tagRepository.save(tag);
+        tagRepository.save(tag2);
 
         tag = null;
         tag = tagRepository.findByName(name);
+
+        tag2 = null;
+        tag2 = tagRepository.findByName(name2);
 
         user = null;
         user = tagRepository.findByName(name).getUsers().get(0);
 
         assertNotNull(tag);
+        assertNotNull(tag2);
         assertEquals(name, tag.getName());
+        assertEquals(name2, tag2.getName());
         assertNotNull(user);
+        assertEquals(2, tagRepository.findAll().size());
         assertEquals(username, tag.getUsers().get(0).getUsername());
+        assertTrue(tagRepository.existsByName(name));
+        assertTrue(tagRepository.existsByName(name2));
 
     }
 

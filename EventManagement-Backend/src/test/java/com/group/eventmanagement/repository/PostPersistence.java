@@ -11,6 +11,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import com.group.eventmanagement.model.Event;
+import com.group.eventmanagement.model.Post;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
@@ -23,37 +24,27 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class EventPersistence {
+public class PostPersistence {
 
     @Autowired
     private EventRepository eventRepository;
 
     @Autowired
-    private TagRepository tagRepository;
+    private PostRepository postRepository;
 
     @Autowired
     private UserRepository userRepository;
 
     @AfterEach
     public void clearDatabase() {
-        tagRepository.deleteAll();
-        userRepository.deleteAll();
+        postRepository.deleteAll();
         eventRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
     @Transactional
-    public void testAndLoadEventPersistence() {
-
-        // Tag
-        String name = "TestTag";
-        String description = "TestDescription";
-        Tag tag = new Tag();
-
-        tag.setDescription(description);
-        tag.setName(name);
-
-        tagRepository.save(tag);
+    public void testAndLoadPostPersistence() {
 
         // User
         String username = "saba";
@@ -63,6 +54,7 @@ public class EventPersistence {
         String password = "test1234";
         Timestamp birthday = new Timestamp(1644162880059L);
         List<Tag> tagList = new ArrayList<Tag>();
+        List<Post> postList = new ArrayList<Post>();
         User user = new User();
 
         user.setUsername(username);
@@ -72,8 +64,8 @@ public class EventPersistence {
         user.setEmail(email);
         user.setBirthday(birthday);
         user.setVaccinationStatus(true);
-        tagList.add(tag);
         user.setTags(tagList);
+        user.setPosts(postList);
 
         userRepository.save(user);
 
@@ -94,7 +86,6 @@ public class EventPersistence {
         organizer.setEmail(emailOrganizer);
         organizer.setBirthday(birthdayOrganizer);
         organizer.setVaccinationStatus(true);
-        tagListOrganizer.add(tag);
         organizer.setTags(tagListOrganizer);
 
         userRepository.save(organizer);
@@ -111,6 +102,8 @@ public class EventPersistence {
         attendees1.add(user);
         List<User> organizers1 = new ArrayList<User>();
         organizers1.add(organizer);
+        List<Post> postListEvent = new ArrayList<Post>();
+        event1.setPosts(postListEvent);
 
         event1.setDate(time1);
         event1.setIsPrivate(private1);
@@ -121,45 +114,36 @@ public class EventPersistence {
         event1.setOrganizers(organizers1);
         event1.setAttendees(attendees1);
 
-        // Event 2
-        Event event2 = new Event();
-        Timestamp time2 = new Timestamp(System.currentTimeMillis());
-        boolean private2 = true;
-        boolean virtual2 = false;
-        String location2 = "Test Location";
-        String description2 = "Test Description";
-        String image2 = "image2";
-        List<User> attendees2 = new ArrayList<User>();
-        attendees2.add(organizer);
-        List<User> organizers2 = new ArrayList<User>();
-        organizers2.add(user);
-
-        event2.setDate(time2);
-        event2.setIsPrivate(private2);
-        event2.setDescription(description2);
-        event2.setIsVirtual(virtual2);
-        event2.setLocation(location2);
-        event2.setImage(image2);
-        event2.setOrganizers(organizers2);
-        event2.setAttendees(attendees2);
-
         eventRepository.save(event1);
-        eventRepository.save(event2);
 
-        Long id1 = event1.getEventId();
-        Long id2 = event2.getEventId();
+        // Post
+        Post post = new Post();
+        String title = "Post Title";
+        String description = "Post Description";
 
-        event1 = null;
-        event2 = null;
+        post.setUser(user);
+        post.setDescription(description);
+        post.setTitle(title);
+        post.setEvent(event1);
 
-        event1 = eventRepository.findByEventId(id1);
-        event2 = eventRepository.findByEventId(id2);
+        user.getPosts().add(post);
+        event1.getPosts().add(post);
+
+        userRepository.save(user);
+        userRepository.save(organizer);
+        eventRepository.save(event1);
+        postRepository.save(post);
+
+        Long postId = post.getPostId();
+
+        post = null;
+        post = postRepository.findByPostId(postId);
 
         // Assertions
+        assertNotNull(post);
+        assertEquals(1, postRepository.findAll());
+        assertTrue(postRepository.existsById(postId));
         assertNotNull(event1);
-        assertNotNull(event2);
-        assertTrue(eventRepository.existsByEventId(id1));
-        assertTrue(eventRepository.existsByEventId(id2));
         assertEquals(2, eventRepository.findAll().size());
 
     }

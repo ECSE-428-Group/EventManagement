@@ -73,7 +73,7 @@ public class UserPersistence {
         user.setTags(tagList);
 
         // Non Vax User
-        String noVax_username = "saba";
+        String noVax_username = "noVax_saba";
         String noVax_firstname = "Saba";
         String noVax_lastname = "Fathi";
         String noVax_email = "test@email.com";
@@ -110,6 +110,7 @@ public class UserPersistence {
         assertNotNull(user);
         assertNotNull(tag);
         assertTrue(tagRepository.existsByName(name));
+        assertEquals(2, userRepository.findAll().size());
         assertEquals(2, tag.getUsers().size());
     }
 
