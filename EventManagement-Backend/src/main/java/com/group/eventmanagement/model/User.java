@@ -5,6 +5,7 @@ import java.util.*;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name = "users")
 public class User extends Person
 {
 
@@ -61,14 +62,14 @@ public class User extends Person
     ///////////////////////////////////////////////////////////////////////////
 
     private List<Event> organizedEvents;
-    @ManyToMany
+    @ManyToMany(mappedBy = "organizers")
     public List<Event> getEvents() {return this.organizedEvents; }
     public void setEvents(List<Event> organizedEvents) { this.organizedEvents = organizedEvents; }
 
     ///////////////////////////////////////////////////////////////////////////
 
     private List<Event> attendingEvents;
-    @ManyToMany
+    @ManyToMany(mappedBy = "attendees")
     public List<Event> getAttendingEvents() {
         return this.attendingEvents;
     }
@@ -79,7 +80,7 @@ public class User extends Person
     ///////////////////////////////////////////////////////////////////////////
 
     private List<Comment> comments;
-    @OneToMany(targetEntity = Post.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commenter")
+    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "commenter")
     public List<Comment> getComments() {
         return this.comments;
     }

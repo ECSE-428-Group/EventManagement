@@ -1,15 +1,15 @@
 package com.group.eventmanagement.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "comments")
 public class Comment
 {
 
     private Long id;
     @Id
+    @GeneratedValue
     public Long getId() {
         return this.id;
     }

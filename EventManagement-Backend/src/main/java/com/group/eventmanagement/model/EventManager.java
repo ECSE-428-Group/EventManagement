@@ -1,11 +1,19 @@
 package com.group.eventmanagement.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.*;
 
+@Entity
 public class EventManager
 {
+
+    private Long eventManagerId;
+    @Id
+    @GeneratedValue
+    public Long getEventManagerId() { return eventManagerId; }
+    public void setEventManagerId(Long eventManagerId) { this.eventManagerId = eventManagerId; }
+
+    ///////////////////////////////////////////////////////////////////////////
 
     private List<User> users;
     @OneToMany(cascade = CascadeType.ALL)

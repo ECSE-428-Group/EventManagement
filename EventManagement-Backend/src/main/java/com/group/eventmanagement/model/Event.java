@@ -5,11 +5,13 @@ import java.util.*;
 import java.sql.Timestamp;
 
 @Entity
+@Table(name = "events")
 public class Event
 {
 
     private Long eventId;
     @Id
+    @GeneratedValue
     public Long getEventId() { return eventId; }
     public void setEventId(Long eventId) { this.eventId = eventId; }
 
@@ -59,14 +61,14 @@ public class Event
     ///////////////////////////////////////////////////////////////////////////
 
     private List<User> organizers;
-    @ManyToMany(mappedBy = "organizedEvents")
+    @ManyToMany
     public List<User> getOrganizers() { return this.organizers; }
     public void setOrganizers(List<User> organizers) { this.organizers = organizers; }
 
     ///////////////////////////////////////////////////////////////////////////
 
     private List<User> attendees;
-    @ManyToMany(mappedBy = "attendingEvents")
+    @ManyToMany
     public List<User> getAttendees() { return this.attendees; }
     public void setAttendees(List<User> attendees) { this.attendees = attendees; }
 

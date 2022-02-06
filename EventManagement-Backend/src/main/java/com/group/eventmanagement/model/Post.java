@@ -4,11 +4,13 @@ import javax.persistence.*;
 import java.util.*;
 
 @Entity
+@Table(name = "posts")
 public class Post
 {
 
     private Long postId;
     @Id
+    @GeneratedValue
     public Long getPostId() {
         return this.postId;
     }
@@ -57,7 +59,7 @@ public class Post
     ///////////////////////////////////////////////////////////////////////////
 
     private List<Comment> comments;
-    @OneToMany(targetEntity = Post.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
+    @OneToMany(targetEntity = Comment.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
     public List<Comment> getComments() {
         return this.comments;
     }
