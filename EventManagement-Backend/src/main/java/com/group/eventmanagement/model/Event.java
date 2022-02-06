@@ -1,54 +1,80 @@
 package com.group.eventmanagement.model;
 
-import org.springframework.stereotype.Component;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import java.sql.Date; // B/c db uses sql data and time format and not the Java Date-Time format
-import java.sql.Time;
+import javax.persistence.*;
+import java.util.*;
+import java.sql.Timestamp;
 
 @Entity
-public class Event{
+public class Event
+{
 
-    private String name;
+    private Long eventId;
+    @Id
+    public Long getEventId() { return eventId; }
+    public void setEventId(Long eventId) { this.eventId = eventId; }
 
-    @Id // primary key - placed on get method b/c get method gets invoked on primary key
-    public String getName() {
-        return this.name;
-    }
+    ///////////////////////////////////////////////////////////////////////////
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private Timestamp date;
+    public Timestamp getDate() { return this.date; }
+    public void setDate(Timestamp date) { this.date = date; }
 
-    private Date date;
+    ///////////////////////////////////////////////////////////////////////////
 
-    public Date getDate() {
-        return this.date;
-    }
+    private boolean isPrivate;
+    public boolean getIsPrivate() { return this.isPrivate; }
+    public void setIsPrivate(boolean isPrivate) { this.isPrivate = isPrivate; }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
+    ///////////////////////////////////////////////////////////////////////////
 
-    private Time startTime;
+    private boolean isVirtual;
+    public boolean getIsVirtual() { return this.isVirtual; }
+    public void setIsVirtual(boolean isVirtual) { this.isVirtual = isVirtual; }
 
-    public Time getStartTime() {
-        return this.startTime;
-    }
+    ///////////////////////////////////////////////////////////////////////////
 
-    public void setStartTime(Time startTime) {
-        this.startTime = startTime;
-    }
+    private String location;
+    public String getLocation() { return this.location; }
+    public void setLocation(String location) { this.location = location; }
 
-    private Time endTime;
+    ///////////////////////////////////////////////////////////////////////////
 
-    public Time getEndTime() {
-        return this.endTime;
-    }
+    private String description;
+    public String getDescription() { return this.description; }
+    public void setDescription(String description) { this.description = description; }
 
-    public void setEndTime(Time endTime) {
-        this.endTime = endTime;
-    }
+    ///////////////////////////////////////////////////////////////////////////
+
+    private String image;
+    public String getImage() { return this.image; }
+    public void setImage(String image) { this.image = image; }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    private List<Tag> tags;
+    @ManyToMany(mappedBy = "events")
+    public List<Tag> getTags() { return this.tags; }
+    public void setTags(List<Tag> tags) { this.tags = tags; }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    private List<User> organizers;
+    @ManyToMany(mappedBy = "organizedEvents")
+    public List<User> getOrganizers() { return this.organizers; }
+    public void setOrganizers(List<User> organizers) { this.organizers = organizers; }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    private List<User> attendees;
+    @ManyToMany(mappedBy = "attendingEvents")
+    public List<User> getAttendees() { return this.attendees; }
+    public void setAttendees(List<User> attendees) { this.attendees = attendees; }
+
+    ///////////////////////////////////////////////////////////////////////////
+
+    private List<Post> posts;
+    @OneToMany(targetEntity = Post.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "event")
+    public List<Post> getPosts() { return this.posts; }
+    public void setPosts(List<Post> posts) { this.posts = posts; }
 
 }

@@ -2,8 +2,8 @@ class User
 {
   isA Person;
   boolean isVaccinated;
-  TimeStamp birthday;
-  1 -- * Tag tags;
+  Timestamp birthday;
+  * users -- * Tag tags;
 }
 
 class Post
@@ -17,13 +17,13 @@ class Post
 class Event
 {
   Long eventId; // Id
-  TimeStamp date;
+  Timestamp date;
   boolean isPrivate;
   boolean isVirtual;
   String location;
   String description;
   String image;
-  1 event -- * Tag tags;
+  * events -- * Tag tags;
   * organizedEvents-- * User organizers;
   * attendingEvents -- * User attendees;
   1 event <@>- * Post posts;
@@ -59,11 +59,11 @@ class Admin
 class Person
 {
   abstract;
+  String username; // Id
   String firstName;
   String lastName;
   String email;
-  String password;
-  String username; // Id 
+  String password; 
 }
 
 class Tag

@@ -9,18 +9,15 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.Month;
 
-import com.group.eventmanagement.model.Event;
-import com.group.eventmanagement.model.Person;
-import com.group.eventmanagement.model.Registration;
+import com.group.eventmanagement.modelOld.Event;
+import com.group.eventmanagement.modelOld.Person;
+import com.group.eventmanagement.modelOld.Registration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import javax.transaction.Transactional;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest

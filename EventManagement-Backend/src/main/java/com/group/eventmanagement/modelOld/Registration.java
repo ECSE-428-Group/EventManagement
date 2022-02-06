@@ -1,6 +1,4 @@
-package com.group.eventmanagement.model;
-
-import org.springframework.stereotype.Component;
+package com.group.eventmanagement.modelOld;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

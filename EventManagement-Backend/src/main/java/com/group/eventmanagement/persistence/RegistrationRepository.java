@@ -2,12 +2,11 @@ package com.group.eventmanagement.persistence;
 
 import java.util.List;
 
-import com.group.eventmanagement.model.Event;
-import com.group.eventmanagement.model.Person;
-import com.group.eventmanagement.model.Registration;
+import com.group.eventmanagement.modelOld.Event;
+import com.group.eventmanagement.modelOld.Person;
+import com.group.eventmanagement.modelOld.Registration;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
 @Component
 public interface RegistrationRepository extends CrudRepository<Registration, Integer> {
