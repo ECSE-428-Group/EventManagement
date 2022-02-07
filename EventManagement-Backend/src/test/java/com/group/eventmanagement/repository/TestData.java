@@ -8,7 +8,7 @@ import com.group.eventmanagement.model.Comment;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
-public class Constants {
+public class TestData {
 
     /////////////////////////// USERS /////////////////////////////////
 
