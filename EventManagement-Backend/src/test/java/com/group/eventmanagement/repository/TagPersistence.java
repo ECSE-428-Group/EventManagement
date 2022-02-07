@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
+import org.hibernate.usertype.UserType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,10 +52,27 @@ public class TagPersistence {
         tagRepository.save(tag);
 
         // Tag 2
-        Tag tag2 = TestData.createTag(1);
+        Tag tag2 = TestData.createTag(2);
         tagRepository.save(tag2);
 
+        // Add tags
+        user.getTags().add(tag);
+        user.getTags().add(tag2);
+
+        userRepository.save(user);
+
+        tag = null;
+        tag2 = null;
+        user = null;
+
+        user = userRepository.findUserByUsername(TestData.user1Username);
+        tag = tagRepository.findByName(TestData.tag1Name);
+        tag2 = tagRepository.findByName(TestData.tag2Name);
+
         // Assertions
+        assertNotNull(tag);
+        assertNotNull(tag2);
+        assertEquals(2, user.getTags().size());
 
     }
 
