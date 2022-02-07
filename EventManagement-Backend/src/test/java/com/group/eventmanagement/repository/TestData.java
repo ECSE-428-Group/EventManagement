@@ -126,6 +126,42 @@ public class TestData {
     static List<User> event2Organizers = new ArrayList<User>();
 
 
+    public static Event createEvent(boolean isPrivate) {
+
+        if (isPrivate) {
+            // Event 1
+            Event event = new Event();
+            event.setAttendees(event1Attendees);
+            event.setDate(event1Time);
+            event.setDescription(event1Description);
+            event.setIsPrivate(true);
+            event.setIsVirtual(false);
+            event.setLocation(event1Location);
+            event.setOrganizers(event1Organizers);
+            event.setImage(event1Image);
+
+            return event;
+
+        } else {
+            // Event 2
+            Event event = new Event();
+            event.setAttendees(event2Attendees);
+            event.setDate(event2Time);
+            event.setDescription(event2Description);
+            event.setIsPrivate(true);
+            event.setIsVirtual(false);
+            event.setLocation(event2Location);
+            event.setOrganizers(event2Organizers);
+            event.setImage(event2Image);
+
+            return event;
+
+        }
+
+    }
+
+
+
     /////////////////////////// POSTS /////////////////////////////////
 
     // Post 1

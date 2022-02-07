@@ -4,16 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
-
-import com.group.eventmanagement.repository.TestData;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

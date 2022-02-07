@@ -14,6 +14,7 @@ import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class TagPersistence {
     @Autowired
     private UserRepository userRepository;
 
+    @BeforeEach
     @AfterEach
     public void clearDatabase() {
         tagRepository.deleteAll();
@@ -41,67 +43,18 @@ public class TagPersistence {
     public void testAndLoadTagPersistence() {
 
         // User
-        String username = "saba";
-        String firstname = "Saba";
-        String lastname = "Fathi";
-        String email = "test@email.com";
-        String password = "test1234";
-        Timestamp birthday = new Timestamp(1644162880059L);
-        User user = new User();
-
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setFirstName(firstname);
-        user.setLastName(lastname);
-        user.setEmail(email);
-        user.setBirthday(birthday);
-
+        User user = TestData.createUser(true);
         userRepository.save(user);
 
-        // Tag
-        String name = "TestTag";
-        String description = "TestDescription";
-        List<User> userList = new ArrayList<User>();
-        Tag tag = new Tag();
-
-        userList.add(user);
-        tag.setDescription(description);
-        tag.setName(name);
-        tag.setUsers(userList);
-
-
-        // Tag2
-        String name2 = "TestTag2";
-        String description2 = "TestDescription2";
-        List<User> userList2 = new ArrayList<User>();
-        Tag tag2 = new Tag();
-
-        userList2.add(user);
-        tag2.setDescription(description2);
-        tag2.setName(name2);
-        tag2.setUsers(userList2);
-
+        // Tag 1
+        Tag tag = TestData.createTag(1);
         tagRepository.save(tag);
+
+        // Tag 2
+        Tag tag2 = TestData.createTag(1);
         tagRepository.save(tag2);
 
-        tag = null;
-        tag = tagRepository.findByName(name);
-
-        tag2 = null;
-        tag2 = tagRepository.findByName(name2);
-
-        user = null;
-        user = tagRepository.findByName(name).getUsers().get(0);
-
-        assertNotNull(tag);
-        assertNotNull(tag2);
-        assertEquals(name, tag.getName());
-        assertEquals(name2, tag2.getName());
-        assertNotNull(user);
-        assertEquals(2, tagRepository.findAll().size());
-        assertEquals(username, tag.getUsers().get(0).getUsername());
-        assertTrue(tagRepository.existsByName(name));
-        assertTrue(tagRepository.existsByName(name2));
+        // Assertions
 
     }
 
