@@ -13,6 +13,8 @@ import javax.transaction.Transactional;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
+import com.group.eventmanagement.repository.TestData;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,82 +40,40 @@ public class UserPersistence {
         userRepository.deleteAll();
     }
 
-
     @Test
     @Transactional
     public void testAndLoadUserPersistence() {
 
         // Tag
-        String name = "TestTag";
-        String description = "TestDescription";
-        List<User> userList = new ArrayList<User>();
-        Tag tag = new Tag();
-
-        tag.setDescription(description);
-        tag.setName(name);
-
+        Tag tag = TestData.createTag(1);
         tagRepository.save(tag);
 
-        // Vax User
-        String username = "saba";
-        String firstname = "Saba";
-        String lastname = "Fathi";
-        String email = "test@email.com";
-        String password = "test1234";
-        Timestamp birthday = new Timestamp(1644162880059L);
-        List<Tag> tagList = new ArrayList<Tag>();
-        User user = new User();
-
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setFirstName(firstname);
-        user.setLastName(lastname);
-        user.setEmail(email);
-        user.setBirthday(birthday);
-        user.setVaccinationStatus(true);
-        tagList.add(tag);
-        user.setTags(tagList);
-
-        // Non Vax User
-        String noVax_username = "noVax_saba";
-        String noVax_firstname = "Saba";
-        String noVax_lastname = "Fathi";
-        String noVax_email = "test@email.com";
-        String noVax_password = "test1234";
-        Timestamp noVax_birthday = new Timestamp(1644162880059L);
-        List<Tag> noVax_tagList = new ArrayList<Tag>();
-        User noVax_user = new User();
-
-        noVax_user.setUsername(noVax_username);
-        noVax_user.setPassword(noVax_password);
-        noVax_user.setFirstName(noVax_firstname);
-        noVax_user.setLastName(noVax_lastname);
-        noVax_user.setEmail(noVax_email);
-        noVax_user.setBirthday(noVax_birthday);
-        noVax_user.setVaccinationStatus(false);
-        noVax_tagList.add(tag);
-        noVax_user.setTags(noVax_tagList);
-
+        // User
+        User user = TestData.createUser(true);
+        user.getTags().add(tag);
         userRepository.save(user);
-        userRepository.save(noVax_user);
 
-        userList.add(user);
-        userList.add(noVax_user);
-        tag.setUsers(userList);
+        User noVax_user = TestData.createUser(false);
+        user.getTags().add(tag);
+        userRepository.save(noVax_user);
 
         tagRepository.save(tag);
 
         user = null;
-        user = userRepository.findUserByUsername(username);
+        user = userRepository.findUserByUsername(TestData.user1Username);
 
-        tag = null;
-        tag = user.getTags().get(0);
+        noVax_user = null;
+        noVax_user = userRepository.findUserByUsername(TestData.user2Username);
 
         assertNotNull(user);
+        assertNotNull(noVax_user);
         assertNotNull(tag);
-        assertTrue(tagRepository.existsByName(name));
+        assertTrue(userRepository.existsByUsername(TestData.user2Username));
+        assertTrue(userRepository.existsByUsername(TestData.user1Username));
         assertEquals(2, userRepository.findAll().size());
-        assertEquals(2, tag.getUsers().size());
     }
+
+
+
 
 }

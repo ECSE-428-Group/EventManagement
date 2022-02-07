@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.group.eventmanagement.model.Comment;
+import com.group.eventmanagement.model.Event;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
@@ -18,8 +19,8 @@ public class TestData {
     static String user1Lastname = "Fathi";
     static String user1Email = "saba@email.com";
     static String user1Password = "test1234";
-    static Timestamp user1String = new Timestamp(System.currentTimeMillis());
-    static List<Tag> user1TagList = new ArrayList<Tag>();
+    static Timestamp user1Birthday = new Timestamp(System.currentTimeMillis());
+    static List<Tag> user1Tags = new ArrayList<Tag>();
 
     // USER 2
     static String user2Username = "user2";
@@ -30,21 +31,77 @@ public class TestData {
     static Timestamp user2Birthday = new Timestamp(System.currentTimeMillis());
     static List<Tag> user2Tags = new ArrayList<Tag>();
 
+    public static User createUser(boolean vaxStatus) {
+
+        if (vaxStatus) { // vax user
+            User user = new User();
+
+            user.setUsername(user1Username);
+            user.setPassword(user1Password);
+            user.setFirstName(user1Firstname);
+            user.setLastName(user1Lastname);
+            user.setEmail(user1Email);
+            user.setBirthday(user1Birthday);
+            user.setVaccinationStatus(true);
+            user.setTags(user1Tags);
+
+            return user;
+        } else { // No vax user
+            User user = new User();
+
+            user.setUsername(user2Username);
+            user.setPassword(user2Password);
+            user.setFirstName(user2Firstname);
+            user.setLastName(user2Lastname);
+            user.setEmail(user2Email);
+            user.setBirthday(user2Birthday);
+            user.setVaccinationStatus(false);
+            user.setTags(user2Tags);
+
+            return user;
+        }
+    }
+
 
     /////////////////////////// TAGS /////////////////////////////////
 
     // Tag 1
-    static String name1 = "TestTag1";
+    static String tag1Name = "TestTag1";
     static String tag1Description = "TestDescription1";
     static List<User> tag1Users = new ArrayList<User>();
-    static List<User> tag1Events = new ArrayList<User>();
+    static List<Event> tag1Events = new ArrayList<Event>();
 
     // Tag 2
-    static String name2 = "TestTag2";
+    static String tag2Name = "TestTag2";
     static String tag2Description = "TestDescription2";
     static List<User> tag2Users = new ArrayList<User>();
-    static List<User> tag2Events = new ArrayList<User>();
+    static List<Event> tag2Events = new ArrayList<Event>();
 
+
+    public static Tag createTag(int num) {
+
+        if (num == 1) {
+            // Tag 1
+            Tag tag1 = new Tag();
+
+            tag1.setDescription(TestData.tag1Description);
+            tag1.setName(TestData.tag1Name);
+            tag1.setEvents(TestData.tag1Events);
+            tag1.setUsers(TestData.tag1Users);
+
+            return tag1;
+        } else {
+            // Tag 2
+            Tag tag2 = new Tag();
+
+            tag2.setDescription(TestData.tag2Description);
+            tag2.setName(TestData.tag2Name);
+            tag2.setEvents(TestData.tag2Events);
+            tag2.setUsers(TestData.tag2Users);
+
+            return tag2;
+        }
+    }
 
     /////////////////////////// EVENTS /////////////////////////////////
 
