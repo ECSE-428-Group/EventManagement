@@ -14,6 +14,7 @@ import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ public class UserPersistence {
     @Autowired
     private TagRepository tagRepository;
 
+    @BeforeEach
     @AfterEach
     public void clearDatabase() {
         tagRepository.deleteAll();

@@ -16,6 +16,7 @@ import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ public class PostPersistence {
     @Autowired
     private UserRepository userRepository;
 
+    @BeforeEach
     @AfterEach
     public void clearDatabase() {
         postRepository.deleteAll();
@@ -126,12 +128,12 @@ public class PostPersistence {
         post.setTitle(title);
         post.setEvent(event1);
 
-        user.getPosts().add(post);
-        event1.getPosts().add(post);
-
         userRepository.save(user);
         userRepository.save(organizer);
         eventRepository.save(event1);
+
+        assertEquals(1, userRepository.findAll().size());
+
         postRepository.save(post);
 
         Long postId = post.getPostId();
@@ -141,10 +143,8 @@ public class PostPersistence {
 
         // Assertions
         assertNotNull(post);
-        assertEquals(1, postRepository.findAll());
+        assertEquals(1, postRepository.findAll().size());
         assertTrue(postRepository.existsById(postId));
         assertNotNull(event1);
-        assertEquals(2, eventRepository.findAll().size());
-
     }
 }
