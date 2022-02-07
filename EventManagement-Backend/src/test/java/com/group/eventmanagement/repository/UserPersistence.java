@@ -30,8 +30,8 @@ public class UserPersistence {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        tagRepository.deleteAll();
         userRepository.deleteAll();
+        tagRepository.deleteAll();
     }
 
     @Test

@@ -35,8 +35,8 @@ public class TagPersistence {
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
-        tagRepository.deleteAll();
         userRepository.deleteAll();
+        tagRepository.deleteAll();
     }
 
     @Test

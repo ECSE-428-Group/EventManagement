@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.group.eventmanagement.model.Comment;
 import com.group.eventmanagement.model.Event;
+import com.group.eventmanagement.model.Post;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
@@ -161,7 +162,6 @@ public class TestData {
     }
 
 
-
     /////////////////////////// POSTS /////////////////////////////////
 
     // Post 1
@@ -173,6 +173,30 @@ public class TestData {
     static String post2Title = "Post 2 Title";
     static String post2Description = "Post 2 Description";
     static List<Comment> post2Comments = new ArrayList<Comment>();
+
+
+    public static Post createPost(Event event, User user, int num) {
+
+        if (num == 1) {
+            Post post = new Post();
+            post.setTitle(post1Title);
+            post.setDescription(post1Description);
+            post.setUser(user);
+            post.setEvent(event);
+            post.setComments(post1Comments);
+
+            return post;
+        } else {
+            Post post = new Post();
+            post.setTitle(post2Title);
+            post.setDescription(post2Description);
+            post.setUser(user);
+            post.setEvent(event);
+            post.setComments(post2Comments);
+
+            return post;
+        }
+    }
 
 
     /////////////////////////// COMMENTS /////////////////////////////////
