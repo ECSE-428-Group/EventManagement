@@ -1,7 +1,6 @@
-package com.group.eventmanagement.service;
+package com.group.eventmanagement.controller;
 
 import java.sql.Timestamp;
-
 
 public class TestData {
 
@@ -14,11 +13,4 @@ public class TestData {
 	static String userEmail = "test@email.com";
 	static String userPassword = "test1234";
 	static Timestamp userBirthday = new Timestamp(System.currentTimeMillis());
-	
-	// INVALID CONSTANTS
-	static String invalidUserEmail = "something@";
-	
-	// EXISTENT USERNAME
-	static String nonExistentUsername = "Mia123";
-
 }

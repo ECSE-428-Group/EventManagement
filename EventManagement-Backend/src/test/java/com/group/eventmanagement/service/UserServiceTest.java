@@ -13,7 +13,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.group.eventmanagament.service.UserService;
 import com.group.eventmanagement.model.User;
 import com.group.eventmanagement.repository.UserRepository;
 
@@ -77,5 +76,21 @@ public class UserServiceTest {
 		
 		assertNull(user);
 		assertEquals("Email is incorrect.", error);
+	}
+	
+	@Test
+	public void testCreateDuplicateUsernameUser() {
+		when(userRepository.existsByUsername(TestData.nonExistentUsername)).thenReturn(true);
+		User user = null;
+		String error = "";
+		
+		try {
+			user = userService.createUser(TestData.nonExistentUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userBirthday, TestData.userEmail);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertNull(user);
+		assertEquals("This username already exists!", error);
 	}
 }

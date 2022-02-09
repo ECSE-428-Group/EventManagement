@@ -16,7 +16,7 @@ import com.group.eventmanagement.model.User;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class UserPersistence {
+public class UserPersistenceTest {
 	
 	@Autowired
 	UserRepository userRepository;

@@ -1,4 +1,4 @@
-package com.group.eventmanagament.service;
+package com.group.eventmanagement.service;
 
 import java.sql.Timestamp;
 
@@ -26,6 +26,9 @@ public class UserService {
 		String error = "";
 		
 		// Input validation
+		if(userRepository.existsByUsername(username)) {
+			error += "This username already exists! ";
+		}
 		if(username == null || username.trim().length() <= 0) {
 			error += "Username cannot be empty! ";
 		}
