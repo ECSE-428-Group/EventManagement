@@ -21,8 +21,7 @@ public class UserService {
 	
 	///// CREATION OF USER /////
 	@Transactional
-	public User createUser(String username, String password, 
-			String firstName, String lastName, Timestamp birthday, String email) {
+	public User createUser(String username, String password, String firstName, String lastName, Timestamp birthday, String email) {
 		String error = "";
 		
 		// Input validation
@@ -32,7 +31,7 @@ public class UserService {
 		if(username == null || username.trim().length() <= 0) {
 			error += "Username cannot be empty! ";
 		}
-		if(password == null || password.length() <= 0) {
+		if(password == null || password.trim().length() <= 0) {
 			error += "Password cannot be empty! ";
 		}
 		if(firstName == null || firstName.trim().length() <= 0) {
@@ -44,7 +43,7 @@ public class UserService {
 		if(birthday == null || birthday.after(new Timestamp(System.currentTimeMillis()))) {
 			error += "Date of birth is incorrect. ";
 		}
-		if(email == null || !email.matches(".+@.+")) {
+		if(email == null || email.trim().length() <= 0|| !email.matches(".+@.+")) {
 			error += "Email is incorrect. ";
 		}
 		
