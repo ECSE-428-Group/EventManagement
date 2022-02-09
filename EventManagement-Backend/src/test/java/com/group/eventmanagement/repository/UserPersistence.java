@@ -65,7 +65,7 @@ public class UserPersistence {
 		// Save multiple users in repository
 		User user1 = TestData.createUser(false);
 		User user2 = TestData.createUser(true);
-		User user3 = TestData.createUser(true); // user2 and user3 are the same
+		User user3 = TestData.createUser(true); // user2 and user3 have the same credentials
 		
 		userRepository.save(user1);
 		userRepository.save(user2);
