@@ -12,7 +12,7 @@ public class AdminControllerTest {
 	@Test
 	public void testUserCreation() {
 		try {
-			URL url = new URL(TestData.SERVER_URL + "/" + TestData.adminUsername);
+			URL url = new URL(TestData.SERVER_URL + TestData.adminUsername);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("firstName", TestData.adminFirstname);
 			connection.setRequestProperty("lastName", TestData.adminLastname);

@@ -12,7 +12,7 @@ public class UserControllerTest {
 	@Test
 	public void testUserCreation() {
 		try {
-			URL url = new URL(TestData.SERVER_URL + "/" + TestData.userUsername);
+			URL url = new URL(TestData.SERVER_URL + TestData.userUsername);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 			connection.setRequestProperty("firstName", TestData.userUsername);
 			connection.setRequestProperty("lastName", TestData.userLastname);
