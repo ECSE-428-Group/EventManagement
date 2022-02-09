@@ -18,7 +18,7 @@ public class TestData {
     static String user1Username = "user1";
     static String user1Firstname = "Saba";
     static String user1Lastname = "Fathi";
-    static String user1Email = "saba@email.com";
+    static String user1Email = "test1@email.com";
     static String user1Password = "test1234";
     static Timestamp user1Birthday = new Timestamp(System.currentTimeMillis());
     static List<Tag> user1Tags = new ArrayList<Tag>();
@@ -27,16 +27,23 @@ public class TestData {
     static String user2Username = "user2";
     static String user2Firstname = "John";
     static String user2Lastname = "Smith";
-    static String user2Email = "test@email.com";
+    static String user2Email = "test2@email.com";
     static String user2Password = "test1234";
     static Timestamp user2Birthday = new Timestamp(System.currentTimeMillis());
     static List<Tag> user2Tags = new ArrayList<Tag>();
 
-    public static User createUser(boolean vaxStatus) {
+    // USER 3
+    static String user3Username = "user3";
+    static String user3Firstname = "John";
+    static String user3Lastname = "Smith";
+    static String user3Email = "test3@email.com";
+    static String user3Password = "test1334";
+    static Timestamp user3Birthday = new Timestamp(System.currentTimeMillis());
+    static List<Tag> user3Tags = new ArrayList<Tag>();
 
-        if (vaxStatus) { // vax user
-            User user = new User();
+    public static void setUser(User user, int num) {
 
+        if (num == 1) { // vax user
             user.setUsername(user1Username);
             user.setPassword(user1Password);
             user.setFirstName(user1Firstname);
@@ -46,10 +53,7 @@ public class TestData {
             user.setVaccinationStatus(true);
             user.setTags(user1Tags);
 
-            return user;
-        } else { // No vax user
-            User user = new User();
-
+        } else if (num == 2) { // No vax user
             user.setUsername(user2Username);
             user.setPassword(user2Password);
             user.setFirstName(user2Firstname);
@@ -59,7 +63,16 @@ public class TestData {
             user.setVaccinationStatus(false);
             user.setTags(user2Tags);
 
-            return user;
+        } else if (num == 3) {
+            user.setUsername(user3Username);
+            user.setPassword(user3Password);
+            user.setFirstName(user3Firstname);
+            user.setLastName(user3Lastname);
+            user.setEmail(user3Email);
+            user.setBirthday(user3Birthday);
+            user.setVaccinationStatus(true);
+            user.setTags(user3Tags);
+
         }
     }
 
@@ -79,28 +92,21 @@ public class TestData {
     static List<Event> tag2Events = new ArrayList<Event>();
 
 
-    public static Tag createTag(int num) {
+    public static void setTag(Tag tag, int num) {
 
         if (num == 1) {
             // Tag 1
-            Tag tag1 = new Tag();
+            tag.setDescription(TestData.tag1Description);
+            tag.setName(TestData.tag1Name);
+            tag.setEvents(TestData.tag1Events);
+            tag.setUsers(TestData.tag1Users);
 
-            tag1.setDescription(TestData.tag1Description);
-            tag1.setName(TestData.tag1Name);
-            tag1.setEvents(TestData.tag1Events);
-            tag1.setUsers(TestData.tag1Users);
-
-            return tag1;
         } else {
             // Tag 2
-            Tag tag2 = new Tag();
-
-            tag2.setDescription(TestData.tag2Description);
-            tag2.setName(TestData.tag2Name);
-            tag2.setEvents(TestData.tag2Events);
-            tag2.setUsers(TestData.tag2Users);
-
-            return tag2;
+            tag.setDescription(TestData.tag2Description);
+            tag.setName(TestData.tag2Name);
+            tag.setEvents(TestData.tag2Events);
+            tag.setUsers(TestData.tag2Users);
         }
     }
 
@@ -127,11 +133,10 @@ public class TestData {
     static List<User> event2Organizers = new ArrayList<User>();
 
 
-    public static Event createEvent(boolean isPrivate) {
+    public static void setEvent(Event event, boolean isPrivate) {
 
         if (isPrivate) {
             // Event 1
-            Event event = new Event();
             event.setAttendees(event1Attendees);
             event.setDate(event1Time);
             event.setDescription(event1Description);
@@ -141,11 +146,8 @@ public class TestData {
             event.setOrganizers(event1Organizers);
             event.setImage(event1Image);
 
-            return event;
-
         } else {
             // Event 2
-            Event event = new Event();
             event.setAttendees(event2Attendees);
             event.setDate(event2Time);
             event.setDescription(event2Description);
@@ -154,8 +156,6 @@ public class TestData {
             event.setLocation(event2Location);
             event.setOrganizers(event2Organizers);
             event.setImage(event2Image);
-
-            return event;
 
         }
 
@@ -175,26 +175,22 @@ public class TestData {
     static List<Comment> post2Comments = new ArrayList<Comment>();
 
 
-    public static Post createPost(Event event, User user, int num) {
+    public static void setPost(Post post, Event event, User user, int num) {
 
         if (num == 1) {
-            Post post = new Post();
             post.setTitle(post1Title);
             post.setDescription(post1Description);
             post.setUser(user);
             post.setEvent(event);
             post.setComments(post1Comments);
 
-            return post;
         } else {
-            Post post = new Post();
             post.setTitle(post2Title);
             post.setDescription(post2Description);
             post.setUser(user);
             post.setEvent(event);
             post.setComments(post2Comments);
 
-            return post;
         }
     }
 

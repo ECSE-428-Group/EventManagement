@@ -38,36 +38,26 @@ public class UserPersistence {
     @Transactional
     public void testAndLoadUserPersistence() {
 
-        // Tag
-        Tag tag = TestData.createTag(1);
-        tagRepository.save(tag);
-
         // User
-        User user = TestData.createUser(true);
-        user.getTags().add(tag);
+        User user = new User();
+        TestData.setUser(user, 1);
         userRepository.save(user);
 
-        User noVax_user = TestData.createUser(false);
-        user.getTags().add(tag);
+        User noVax_user = new User();
+        TestData.setUser(noVax_user, 3);
         userRepository.save(noVax_user);
-
-        tagRepository.save(tag);
 
         user = null;
         user = userRepository.findUserByUsername(TestData.user1Username);
 
         noVax_user = null;
-        noVax_user = userRepository.findUserByUsername(TestData.user2Username);
+        noVax_user = userRepository.findUserByUsername(TestData.user3Username);
 
         assertNotNull(user);
         assertNotNull(noVax_user);
-        assertNotNull(tag);
-        assertTrue(userRepository.existsByUsername(TestData.user2Username));
+        assertTrue(userRepository.existsByUsername(TestData.user3Username));
         assertTrue(userRepository.existsByUsername(TestData.user1Username));
         assertEquals(2, userRepository.findAll().size());
     }
-
-
-
 
 }

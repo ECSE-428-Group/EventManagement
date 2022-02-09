@@ -44,19 +44,23 @@ public class EventPersistence {
     public void testAndLoadEventPersistence() {
 
         // Tag
-        Tag tag = TestData.createTag(1);
+        Tag tag = new Tag();
+        TestData.setTag(tag, 1);
         tagRepository.save(tag);
 
         // User
-        User user = TestData.createUser(true);
+        User user = new User();
+        TestData.setUser(user, 1);
         userRepository.save(user);
 
         // Organizer
-        User organizer = TestData.createUser(false);
+        User organizer = new User();
+        TestData.setUser(organizer, 3);
         userRepository.save(organizer);
 
         // Event
-        Event event = TestData.createEvent(true);
+        Event event = new Event();
+        TestData.setEvent(event, true);
         eventRepository.save(event);
 
         Long id = event.getEventId();

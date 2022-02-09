@@ -2,18 +2,13 @@ package com.group.eventmanagement.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.transaction.Transactional;
 
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
-import org.hibernate.usertype.UserType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,21 +38,26 @@ public class TagPersistence {
     @Transactional
     public void testAndLoadTagPersistence() {
 
-        // User
-        User user = TestData.createUser(true);
-        userRepository.save(user);
-
         // Tag 1
-        Tag tag = TestData.createTag(1);
+        Tag tag = new Tag();
+        TestData.setTag(tag, 1);
         tagRepository.save(tag);
 
         // Tag 2
-        Tag tag2 = TestData.createTag(2);
+        Tag tag2 = new Tag();
+        TestData.setTag(tag2, 2);
         tagRepository.save(tag2);
+
+        // User
+        User user = new User();
+        TestData.setUser(user, 1);
+        userRepository.save(user);
+        System.out.println(user.getTags().size());
 
         // Add tags
         user.getTags().add(tag);
         user.getTags().add(tag2);
+        System.out.println(user.getTags().size());
 
         userRepository.save(user);
 

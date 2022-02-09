@@ -4,15 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import com.group.eventmanagement.model.Event;
 import com.group.eventmanagement.model.Post;
-import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
 import org.junit.jupiter.api.AfterEach;
@@ -49,19 +44,23 @@ public class PostPersistence {
     public void testAndLoadPostPersistence() {
 
         // User
-        User user = TestData.createUser(true);
+        User user = new User();
+        TestData.setUser(user, 2);
         userRepository.save(user);
 
         // Organizer
-        User organizer = TestData.createUser(false);
+        User organizer = new User();
+        TestData.setUser(organizer, 3);
         userRepository.save(organizer);
 
         // Event 1
-        Event event = TestData.createEvent(false);
+        Event event = new Event();
+        TestData.setEvent(event, false);
         eventRepository.save(event);
 
         // Post
-        Post post = TestData.createPost(event, user, 1);
+        Post post = new Post();
+        TestData.setPost(post, event, user, 1);
 
         userRepository.save(user);
         userRepository.save(organizer);
