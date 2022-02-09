@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.group.eventmanagement.model.Admin;
 import com.group.eventmanagement.model.Comment;
 import com.group.eventmanagement.model.Event;
 import com.group.eventmanagement.model.Post;
@@ -161,7 +162,6 @@ public class TestData {
 
     }
 
-
     /////////////////////////// POSTS /////////////////////////////////
 
     // Post 1
@@ -203,5 +203,31 @@ public class TestData {
     // Comment 2
     static String comment2Content = "Comment 2 Content";
 
+	/////////////////////////// ADMINS /////////////////////////////////
+
+	// ADMIN 1
+	static String admin1Username = "Admin1";
+	static String admin1Password = "password1";
+	static String admin1FirstName = "Admin1";
+	static String admin1LastName = "Test1";
+	static String admin1Email = "admin1@mail.com";
+
+	// ADMIN 2
+	static String admin2Username = "Admin2";
+	static String admin2Password = "password2";
+	static String admin2FirstName = "Admin2";
+	static String admin2LastName = "Test2";
+	static String admin2Email = "admin2@mail.com";
+
+	public static Admin createAdmin(String username, String firstName, String lastName, String email, String password) {
+		Admin newAdmin = new Admin();
+		newAdmin.setUsername(username);
+		newAdmin.setFirstName(firstName);
+		newAdmin.setLastName(lastName);
+		newAdmin.setPassword(password);
+		newAdmin.setEmail(email);
+
+		return newAdmin;
+	}
 
 }

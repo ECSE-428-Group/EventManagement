@@ -34,7 +34,7 @@ public abstract class Person {
     }
 
     ///////////////////////////////////////////////////////////////////////////
-
+    
     private String email;
     public String getEmail() {
         return this.email;
