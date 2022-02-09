@@ -7,24 +7,22 @@ import java.net.URL;
 
 import org.junit.jupiter.api.Test;
 
-public class UserControllerTest {
-	
+public class AdminControllerTest {
+
 	@Test
 	public void testUserCreation() {
 		try {
-			URL url = new URL(TestData.SERVER_URL + "/" + TestData.userUsername);
+			URL url = new URL(TestData.SERVER_URL + "/" + TestData.adminUsername);
 			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestProperty("firstName", TestData.userUsername);
-			connection.setRequestProperty("lastName", TestData.userLastname);
-			connection.setRequestProperty("birthday", TestData.userBirthday.toString());
-			connection.setRequestProperty("email", TestData.userEmail);
-			connection.setRequestProperty("password", TestData.userPassword);
+			connection.setRequestProperty("firstName", TestData.adminFirstname);
+			connection.setRequestProperty("lastName", TestData.adminLastname);
+			connection.setRequestProperty("email", TestData.adminEmail);
+			connection.setRequestProperty("password", TestData.adminPassword);
 			connection.setRequestMethod("POST");
 			assertEquals(200, connection.getResponseCode());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-} 
+}
 */

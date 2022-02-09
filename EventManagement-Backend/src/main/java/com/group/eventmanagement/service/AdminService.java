@@ -1,32 +1,29 @@
 package com.group.eventmanagement.service;
 
-import java.sql.Timestamp;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.group.eventmanagement.model.User;
-import com.group.eventmanagement.repository.UserRepository;
+import com.group.eventmanagement.model.Admin;
+import com.group.eventmanagement.repository.AdminRepository;
 
 @Service
-public class UserService {
+public class AdminService {
 
-	private UserRepository userRepository;
-	
+	AdminRepository adminRepository;
+
 	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public AdminService(AdminRepository adminRepository) {
+		this.adminRepository = adminRepository;
 	}
-	
-	///// CREATION OF USER /////
+
+	///// CREATION OF ADMIN /////
 	@Transactional
-	public User createUser(String username, String password, 
-			String firstName, String lastName, Timestamp birthday, String email) {
+	public Admin createAdmin(String username, String firstName, String lastName, String email, String password) {
 		String error = "";
 		
 		// Input validation
-		if(userRepository.existsByUsername(username)) {
+		if(adminRepository.existsByUsername(username)) {
 			error += "This username already exists! ";
 		}
 		if(username == null || username.trim().length() <= 0) {
@@ -41,9 +38,6 @@ public class UserService {
 		if(lastName == null || lastName.trim().length() <= 0) {
 			error += "Last name cannot be empty. ";
 		}
-		if(birthday == null || birthday.after(new Timestamp(System.currentTimeMillis()))) {
-			error += "Date of birth is incorrect. ";
-		}
 		if(email == null || !email.matches(".+@.+")) {
 			error += "Email is incorrect. ";
 		}
@@ -53,18 +47,16 @@ public class UserService {
 			throw new IllegalArgumentException(error);
 		}
 		
-		// Create user account if no errors
-		User newUser = new User();
-		newUser.setUsername(username);
-		newUser.setPassword(password);
-		newUser.setFirstName(firstName);
-		newUser.setLastName(lastName);
-		newUser.setBirthday(birthday);
-		newUser.setEmail(email);
+		// If no errors, then create admin account
+		Admin newAdmin = new Admin();
+		newAdmin.setUsername(username);
+		newAdmin.setFirstName(firstName);
+		newAdmin.setLastName(lastName);
+		newAdmin.setEmail(email);
+		newAdmin.setPassword(password);
 		
-		userRepository.save(newUser);
+		adminRepository.save(newAdmin);
 		
-		return newUser;
+		return newAdmin;
 	}
-	
 }

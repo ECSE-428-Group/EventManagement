@@ -80,12 +80,12 @@ public class UserServiceTest {
 	
 	@Test
 	public void testCreateDuplicateUsernameUser() {
-		when(userRepository.existsByUsername(TestData.nonExistentUsername)).thenReturn(true);
+		when(userRepository.existsByUsername(TestData.existentUsername)).thenReturn(true);
 		User user = null;
 		String error = "";
 		
 		try {
-			user = userService.createUser(TestData.nonExistentUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userBirthday, TestData.userEmail);
+			user = userService.createUser(TestData.existentUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userBirthday, TestData.userEmail);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}

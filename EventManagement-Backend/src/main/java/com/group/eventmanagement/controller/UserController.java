@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.group.eventmanagement.model.User;
 import com.group.eventmanagement.service.UserService;
 
-
 @CrossOrigin(origins = "*")
 @RestController
 public class UserController {
@@ -26,7 +25,7 @@ public class UserController {
 		this.userService = userService;
 	}
 	
-	/////////// CREATE USER ACCOUNT ////////////////
+	/////////// CREATE USER ACCOUNT ///////////
 	@PostMapping(value = {
 			"/userprofile/{username}",
 			"/userprofile/{username}/"
