@@ -13,17 +13,17 @@ import com.group.eventmanagement.repository.UserRepository;
 public class UserService {
 
 	private UserRepository userRepository;
-	
+
 	@Autowired
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
-	
+
 	///// CREATION OF USER /////
 	@Transactional
 	public User createUser(String username, String password, String firstName, String lastName, Timestamp birthday, String email) {
 		String error = "";
-		
+
 		// Input validation
 		if(userRepository.existsByUsername(username)) {
 			error += "This username already exists! ";
@@ -43,15 +43,15 @@ public class UserService {
 		if(birthday == null || birthday.after(new Timestamp(System.currentTimeMillis()))) {
 			error += "Date of birth is incorrect. ";
 		}
-		if(email == null || email.trim().length() <= 0|| !email.matches(".+@.+")) {
+		if(email == null || email.trim().length() <= 0 || !email.matches(".+@.+")) {
 			error += "Email is incorrect. ";
 		}
-		
+
 		error = error.trim();
 		if(error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-		
+
 		// Create user account if no errors
 		User newUser = new User();
 		newUser.setUsername(username);
@@ -60,10 +60,10 @@ public class UserService {
 		newUser.setLastName(lastName);
 		newUser.setBirthday(birthday);
 		newUser.setEmail(email);
-		
+
 		userRepository.save(newUser);
-		
+
 		return newUser;
 	}
-	
+
 }

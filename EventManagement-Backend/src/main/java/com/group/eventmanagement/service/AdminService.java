@@ -21,7 +21,7 @@ public class AdminService {
 	@Transactional
 	public Admin createAdmin(String username, String firstName, String lastName, String email, String password) {
 		String error = "";
-		
+
 		// Input validation
 		if(adminRepository.existsByUsername(username)) {
 			error += "This username already exists! ";
@@ -29,7 +29,7 @@ public class AdminService {
 		if(username == null || username.trim().length() <= 0) {
 			error += "Username cannot be empty! ";
 		}
-		if(password == null || password.length() <= 0) {
+		if(password == null || password.trim().length() <= 0) {
 			error += "Password cannot be empty! ";
 		}
 		if(firstName == null || firstName.trim().length() <= 0) {
@@ -38,15 +38,15 @@ public class AdminService {
 		if(lastName == null || lastName.trim().length() <= 0) {
 			error += "Last name cannot be empty. ";
 		}
-		if(email == null || !email.matches(".+@.+")) {
+		if(email == null || !email.trim().matches(".+@.+")) {
 			error += "Email is incorrect. ";
 		}
-		
+
 		error = error.trim();
 		if(error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-		
+
 		// If no errors, then create admin account
 		Admin newAdmin = new Admin();
 		newAdmin.setUsername(username);
@@ -54,9 +54,9 @@ public class AdminService {
 		newAdmin.setLastName(lastName);
 		newAdmin.setEmail(email);
 		newAdmin.setPassword(password);
-		
+
 		adminRepository.save(newAdmin);
-		
+
 		return newAdmin;
 	}
 }
