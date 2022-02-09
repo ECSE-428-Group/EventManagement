@@ -32,7 +32,7 @@ public class AdminController {
 			@RequestParam(name = "password") String password,
 			@RequestParam(name = "firstName") String firstName,
 			@RequestParam(name = "lastName") String lastName,
-			@RequestParam(name = "email") String email) {
+			@RequestParam(name = "email") String email) throws IllegalArgumentException {
 		Admin newAdmin = adminService.createAdmin(username, firstName, lastName, email, password);
 		return newAdmin;
 	}

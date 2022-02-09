@@ -1,30 +1,62 @@
-/*package com.group.eventmanagement.controller;
+package com.group.eventmanagement.controller;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.net.HttpURLConnection;
-import java.net.URL;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
 
+import com.group.eventmanagement.model.User;
+import com.group.eventmanagement.service.UserService;
+
+@WebMvcTest(UserController.class)
 public class UserControllerTest {
+	
+	@Autowired
+	private MockMvc mockMvc;
+	
+	@MockBean
+	private UserService userService;
 	
 	@Test
 	public void testUserCreation() {
+		User mockUser = TestData.createUserObject(TestData.userUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userBirthday, TestData.userEmail);
+		when(userService.createUser(TestData.userUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userBirthday, TestData.userEmail))
+		.thenReturn(mockUser);
+		
 		try {
-			URL url = new URL(TestData.SERVER_URL + TestData.userUsername);
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-			connection.setRequestProperty("firstName", TestData.userUsername);
-			connection.setRequestProperty("lastName", TestData.userLastname);
-			connection.setRequestProperty("birthday", TestData.userBirthday.toString());
-			connection.setRequestProperty("email", TestData.userEmail);
-			connection.setRequestProperty("password", TestData.userPassword);
-			connection.setRequestMethod("POST");
-			assertEquals(200, connection.getResponseCode());
+			this.mockMvc.perform(post("/userprofile/"+TestData.userUsername)
+					.param("firstName", TestData.userFirstname)
+					.param("lastName", TestData.userLastname)
+					.param("password", TestData.userPassword)
+					.param("birthday", TestData.userBirthday2.toString())
+					.param("email", TestData.userEmail)
+					).andExpect(status().isOk());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testInvalidUserCreation() {
+		when(userService.createUser(TestData.invalidUserUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userBirthday2Con, TestData.userEmail))
+		.thenThrow(IllegalArgumentException.class);
+		
+		try {
+			this.mockMvc.perform(post("/userprofile/"+TestData.invalidUserUsername)
+					.param("firstName", TestData.userFirstname)
+					.param("lastName", TestData.userLastname)
+					.param("password", TestData.userPassword)
+					.param("birthday", TestData.userBirthday2.toString())
+					.param("email", TestData.userEmail)
+					).andExpect(status().isInternalServerError());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
 } 
-*/
