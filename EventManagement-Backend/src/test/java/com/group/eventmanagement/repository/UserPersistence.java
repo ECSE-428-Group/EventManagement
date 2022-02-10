@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.transaction.Transactional;
 
-import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
 import org.junit.jupiter.api.AfterEach;
