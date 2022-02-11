@@ -73,7 +73,7 @@ public class User extends Person
     public List<Event> getAttendingEvents() {
         return this.attendingEvents;
     }
-    public void setAttendingEvents(List<Event> organizedEvents) {
+    public void setAttendingEvents(List<Event> attendingEvents) {
         this.attendingEvents = attendingEvents;
     }
 

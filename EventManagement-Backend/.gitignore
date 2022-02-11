@@ -31,3 +31,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+## Eclipse ##
+.classpath
+.project
+.settings/
+
+
+.metadata/
