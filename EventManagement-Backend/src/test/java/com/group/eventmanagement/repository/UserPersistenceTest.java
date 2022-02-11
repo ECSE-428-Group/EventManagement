@@ -24,9 +24,13 @@ public class UserPersistenceTest {
     @Autowired
     private UserRepository userRepository;
 
+	@Autowired
+	private TagRepository tagRepository;
+
     @BeforeEach
     @AfterEach
     public void clearDatabase() {
+		tagRepository.deleteAll();
         userRepository.deleteAll();
     }
 
@@ -78,10 +82,31 @@ public class UserPersistenceTest {
 	}
 
 	@Test
+	public void testDeleteUser() {
+		// Save multiple users in repository
+		User user1 = new User();
+		TestData.setUser(user1, 1);
+		System.out.println(user1.getTags().toString());
+		User user2 = new User();
+		TestData.setUser(user2, 2);
+		User user3 = new User();
+		TestData.setUser(user3, 3);
+
+		userRepository.save(user1);
+		userRepository.save(user2);
+		userRepository.save(user3);
+
+		userRepository.delete(userRepository.findUserByUsername(TestData.user1Username));
+		int count = userRepository.findAll().size();
+		assertEquals(2, count);
+	}
+
+	@Test
 	public void testFindAllUsers() {
 		// Save multiple users in repository
 		User user1 = new User();
 		TestData.setUser(user1, 1);
+		System.out.println(user1.getTags().toString());
 		User user2 = new User();
 		TestData.setUser(user2, 2);
 		User user3 = new User();

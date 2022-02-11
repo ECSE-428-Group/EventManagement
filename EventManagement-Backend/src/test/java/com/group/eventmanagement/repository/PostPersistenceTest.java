@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class PostPersistence {
+public class PostPersistenceTest {
 
     @Autowired
     private EventRepository eventRepository;
@@ -77,6 +77,9 @@ public class PostPersistence {
 
         // Assertions
         assertNotNull(post);
+        for (Post posting: postRepository.findAll()){
+            System.out.println(posting.getDescription());
+        }
         assertEquals(1, postRepository.findAll().size());
         assertTrue(postRepository.existsById(postId));
     }

@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class EventPersistence {
+public class EventPersistenceTest {
 
     @Autowired
     private EventRepository eventRepository;
