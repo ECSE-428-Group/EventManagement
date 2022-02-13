@@ -1,12 +1,8 @@
 package com.group.eventmanagement.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
-import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.anyLong;
 import org.mockito.invocation.InvocationOnMock;
 
@@ -25,14 +21,13 @@ import com.group.eventmanagement.model.Event;
 import com.group.eventmanagement.repository.EventRepository;
 
 @ExtendWith(MockitoExtension.class)
-public class AttendeesServiceTest {
-	
+public class EventServiceTest {
 	
 	@Mock
 	private EventRepository eventRepository;
 
 	@InjectMocks
-	private AttendeesService service;
+	private EventService service;
 	
 	//Test values
 	private static final String location = "Mugiwara Library";
@@ -334,5 +329,5 @@ public class AttendeesServiceTest {
 		 assertEquals("This event does not have any attendees.", error);
 	}*/
 	
-	
+
 }
