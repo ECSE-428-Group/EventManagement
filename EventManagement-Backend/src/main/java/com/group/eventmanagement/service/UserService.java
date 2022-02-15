@@ -1,6 +1,8 @@
 package com.group.eventmanagement.service;
 
 import java.sql.Timestamp;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -118,8 +120,10 @@ public class UserService {
 			error += "Last name cannot be empty string";
 		}
 		
-		if(newEmail.trim().length() == 0) {
-			error += "Email cannot be empty string";
+		try {
+			validateEmail(newEmail);
+		} catch (AddressException e) {
+			error += e.getMessage();
 		}
 		
 		error = error.trim();
@@ -137,5 +141,10 @@ public class UserService {
 		userRepository.save(user);
 		
 		return user;
+	}
+	
+	private static void validateEmail(String email) throws AddressException {
+		InternetAddress address = new InternetAddress(email);
+		address.validate();
 	}
 }
