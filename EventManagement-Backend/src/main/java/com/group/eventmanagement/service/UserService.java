@@ -70,15 +70,11 @@ public class UserService {
 	
 	///// UPDATE OF USER /////
 	@Transactional
-	public User updateUser(String username, String newPassword, String newFirstName, String newLastName, Timestamp newBirthday, String newEmail) {
+	public User updateUser(String username, String curPassword, String newPassword, String newFirstName, String newLastName, Timestamp newBirthday, String newEmail) {
 		String error = "";
-		
+
 		if(!userRepository.existsByUsername(username)) {
 			error += "User does not exist";
-		}
-		
-		if (newBirthday.after(new Timestamp(System.currentTimeMillis()))) {
-			error += "Invalid birthday";
 		}
 		
 		error = error.trim();
@@ -87,6 +83,10 @@ public class UserService {
 		}
 		
 		User user = userRepository.findUserByUsername(username);
+		
+		if(!curPassword.equals(user.getPassword())) {
+			error += "Incorrect Password";
+		}
 		
 		if(newPassword == null) {
 			newPassword = user.getPassword();
@@ -102,6 +102,8 @@ public class UserService {
 		
 		if(newBirthday == null) {
 			newBirthday = user.getBirthday();
+		} else if (newBirthday.after(new Timestamp(System.currentTimeMillis()))) {
+			error += "Invalid birthday";	
 		}
 		
 		if(newEmail == null) {
