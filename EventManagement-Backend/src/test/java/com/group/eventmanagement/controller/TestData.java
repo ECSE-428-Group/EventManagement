@@ -2,8 +2,12 @@ package com.group.eventmanagement.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import com.group.eventmanagement.model.Admin;
+import com.group.eventmanagement.model.Event;
+import com.group.eventmanagement.model.Post;
+import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
 public class TestData {
@@ -65,5 +69,43 @@ public class TestData {
 		admin.setEmail(email);
 		
 		return admin;
+	}
+	
+	/////////////////////////// EVENT /////////////////////////////////
+	
+	// EVENT CONSTANTS
+	static Long eventID = (long) 123;
+	static Timestamp eventDate = new Timestamp(System.currentTimeMillis());
+	static boolean isPrivate = false;
+	static boolean isVirtual = false;
+	static String eventLocation = "Shibuya, Tokyo, Japan";
+	static String eventDescription = "Sightseeing";
+	static String eventImage = "sample picture";
+	static ArrayList<Tag> eventTags = new ArrayList<Tag>();
+	static ArrayList<User> eventOrganizers = new ArrayList<User>();
+	static ArrayList<User> eventAttendees = new ArrayList<User>();
+	static ArrayList<Post> eventPosts = new ArrayList<Post>();
+	
+	// INVALID CONSTANTS
+	static Timestamp invalidEventDate = new Timestamp(System.currentTimeMillis()-24*60*60*1000); //Date before current Date
+
+	public static Event createEventObject(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String eventLocation,
+										  String eventDescription, String eventImage, ArrayList<Tag> eventTags, ArrayList<User> eventOrganizers,
+										  ArrayList<User> eventAttendees, ArrayList<Post> eventPosts) {
+		
+		Event event = new Event();
+		event.setEventId(eventID);
+		event.setDate(eventDate);
+		event.setIsPrivate(isPrivate);
+		event.setIsVirtual(isVirtual);
+		event.setLocation(eventLocation);
+		event.setDescription(eventDescription);
+		event.setImage(eventImage);
+		event.setTags(eventTags);
+		event.setOrganizers(eventOrganizers);
+		event.setAttendees(eventAttendees);
+		event.setPosts(eventPosts);
+		
+		return event;
 	}
 }
