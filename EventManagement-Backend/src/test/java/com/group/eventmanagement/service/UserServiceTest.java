@@ -93,4 +93,35 @@ public class UserServiceTest {
 		assertNull(user);
 		assertEquals("This username already exists!", error);
 	}
+	
+	@Test
+	public void testUpdateUserSuccess() {
+		
+		when(userRepository.save(any(User.class))).thenReturn(null);
+		
+		User existingUser = new User();
+		existingUser.setUsername(TestData.userUsername);
+		existingUser.setFirstName(TestData.userFirstname);
+		existingUser.setLastName(TestData.userLastname);
+		existingUser.setEmail(TestData.userEmail);
+		existingUser.setPassword(TestData.userPassword);
+		
+		when(userRepository.findUserByUsername(TestData.userUsername)).thenReturn(existingUser);
+		when(userRepository.existsByUsername(TestData.userUsername)).thenReturn(true);
+		
+		try {
+			existingUser = userService.updateUser(TestData.userUsername, TestData.userPassword2, TestData.userFirstname2, TestData.userLastname2, TestData.userBirthday2, TestData.userEmail2);
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+			fail();
+		}
+		
+		assertEquals(TestData.userUsername, existingUser.getUsername());
+		assertEquals(TestData.userFirstname2, existingUser.getFirstName());
+		assertEquals(TestData.userLastname2, existingUser.getLastName());
+		assertEquals(TestData.userEmail2, existingUser.getEmail());
+		assertEquals(TestData.userBirthday2, existingUser.getBirthday());
+		assertEquals(TestData.userPassword2, existingUser.getPassword());
+		
+	}
 }

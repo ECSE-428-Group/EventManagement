@@ -44,11 +44,12 @@
 			<version>42.3.2</version>
 		</dependency>
 
-        <dependency>
-            <groupId>jakarta.mail</groupId>
-            <artifactId>jakarta.mail-api</artifactId>
-            <version>2.1.0-RC1</version>
+       <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>2.0.1</version>
         </dependency>
+
 
 	</dependencies>
 

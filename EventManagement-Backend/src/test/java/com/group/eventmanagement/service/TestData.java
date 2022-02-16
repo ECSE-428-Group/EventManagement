@@ -8,12 +8,18 @@ public class TestData {
 	/////////////////////////// USERS /////////////////////////////////
 
 	// USER CONSTANTS
-	static String userUsername = "user2";
+	static String userUsername = "user1";
 	static String userFirstname = "John";
 	static String userLastname = "Smith";
 	static String userEmail = "test@email.com";
 	static String userPassword = "test1234";
 	static Timestamp userBirthday = new Timestamp(System.currentTimeMillis());
+	
+	static String userFirstname2 = "Jake";
+	static String userLastname2 = "Doe";
+	static String userEmail2 = "test2@email.com";
+	static String userPassword2 = "testtest1234";
+	static Timestamp userBirthday2 = new Timestamp(System.currentTimeMillis()-100000);
 
 	// INVALID CONSTANTS
 	static String invalidUserEmail = "something@";
