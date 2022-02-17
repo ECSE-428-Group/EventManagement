@@ -1,6 +1,7 @@
 package com.group.eventmanagement.service;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,16 @@ public class UserService {
 		userRepository.save(newUser);
 
 		return newUser;
+	}
+
+	public User getUserByUsername(String username){
+		if(username == null || username.isEmpty()){
+			throw new IllegalArgumentException("Username can't be empty");
+		}else if (!userRepository.existsByUsername(username)){
+			throw new IllegalArgumentException("No user was found with this username");
+		}
+		User user = userRepository.findUserByUsername(username);
+		return user;
 	}
 
 }
