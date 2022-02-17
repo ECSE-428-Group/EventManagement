@@ -3,6 +3,8 @@ package com.group.eventmanagement.service;
 import javax.transaction.Transactional;
 
 import com.group.eventmanagement.repository.CommentRepository;
+import com.group.eventmanagement.repository.PostRepository;
+import com.group.eventmanagement.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,24 +17,28 @@ import com.group.eventmanagement.model.User;
 public class CommentService {
 
     CommentRepository commentRepository;
+    PostRepository postRepository;
+    UserRepository userRepository;
 
     @Autowired
-    public CommentService(CommentRepository commentRepository) {
+    public CommentService(CommentRepository commentRepository, PostRepository postRepository, UserRepository userRepository) {
         this.commentRepository = commentRepository;
+        this.postRepository = postRepository;
+        this.userRepository = userRepository;
     }
 
     @Transactional
-    public Comment createComment(String content, Post post, User commenter) {
+    public Comment createComment(String content, Long postId, String commenterUsername) {
         String error = "";
 
         // Input validation
         if(content == null || content.trim().length() <= 0) {
             error += "Comment cannot be empty! ";
         }
-        if(post == null) {
+        if(postId == null || !postRepository.existsById(postId)) {
             error += "Comment must be linked to a post! ";
         }
-        if(commenter == null) {
+        if(commenterUsername == null || !userRepository.existsByUsername(commenterUsername)) {
             error += "Comment must be linked to a user! ";
         }
 
@@ -41,6 +47,10 @@ public class CommentService {
 			throw new IllegalArgumentException(error);
 		}
 
+        // Get post and commenter
+        Post post = postRepository.findByPostId(postId);
+        User commenter = userRepository.findUserByUsername(commenterUsername);
+        
         Comment newComment = new Comment();
         newComment.setContent(content);
         newComment.setPost(post);
@@ -49,5 +59,10 @@ public class CommentService {
         commentRepository.save(newComment);
         
         return newComment;
+    }
+
+    @Transactional
+    public Comment getComment(Long id) {
+        return commentRepository.findCommentById(id);
     }
 }
