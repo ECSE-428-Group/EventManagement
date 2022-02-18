@@ -25,6 +25,7 @@ public class TestData {
 	// INVALID CONSTANTS
 	static String invalidUserEmail = "something@";
 	static Timestamp invalidUserBirthday = new Timestamp(System.currentTimeMillis()+100000);
+	static String invalidUserPassword = "sd";
 	
 	// EXISTENT USERNAME
 	static String existentUsername = "Mia123";

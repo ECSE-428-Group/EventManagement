@@ -59,8 +59,8 @@ public class UserServiceTest {
 		}
 
 		assertNull(invalidUser);
-		assertEquals("Username cannot be empty! Password cannot be empty! First name cannot be empty. "
-				+ "Last name cannot be empty. Date of birth is incorrect. Email is incorrect.", error);
+		assertEquals("Username is invalid. Password is invalid. First name cannot be empty. "
+				+ "Last name cannot be empty. Birthday is invalid. Email is invalid.", error);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class UserServiceTest {
 		}
 
 		assertNull(user);
-		assertEquals("Email is incorrect.", error);
+		assertEquals("Email is invalid.", error);
 	}
 
 	@Test
@@ -178,7 +178,7 @@ public class UserServiceTest {
 			error = e.getMessage();
 		}
 		
-		assertEquals("User does not exist", error);
+		assertEquals("User does not exist.", error);
 	}
 	
 	@Test
@@ -203,11 +203,11 @@ public class UserServiceTest {
 			error = e.getMessage();
 		}
 		
-		assertEquals("Incorrect Password", error);
+		assertEquals("Incorrect Password.", error);
 	}
 	
 	@Test
-	public void testUpdateUserInvalidBirthday() {
+	public void testUpdateUserInvalid() {
 		String error = "";
 
 		
@@ -223,11 +223,12 @@ public class UserServiceTest {
 		when(userRepository.existsByUsername(TestData.userUsername)).thenReturn(true);
 		
 		try {
-			existingUser = userService.updateUser(TestData.userUsername, TestData.userPassword, null, null, null, TestData.invalidUserBirthday, null);
+			existingUser = userService.updateUser(TestData.userUsername, TestData.userPassword, TestData.invalidUserPassword, null, null, TestData.invalidUserBirthday, TestData.invalidUserEmail);
 		} catch (IllegalArgumentException e) {
 			error = e.getMessage();
 		}
 		
-		assertEquals("Invalid birthday", error);
+		assertEquals("Password is invalid. Birthday is invalid. Email is invalid.", error);
 	}
+	
 }
