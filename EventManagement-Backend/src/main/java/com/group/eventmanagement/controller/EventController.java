@@ -2,8 +2,6 @@ package com.group.eventmanagement.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,9 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.group.eventmanagement.service.EventService;
 import com.group.eventmanagement.model.Event;
-import com.group.eventmanagement.model.Tag;
-import com.group.eventmanagement.model.User;
-import com.group.eventmanagement.model.Post;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -30,43 +25,26 @@ public class EventController {
 		this.eventService = eventService;		
 	}
 	
-	/////////// CREATE EVENT ///////////
-	
+	/////////// CREATE EVENT ///////////	
 	@PostMapping(value = {
-			"/event/{eventID}",
-			"/event/{eventID}/"			
+			"/event/{eventId}",
+			"/event/{eventId}/"			
 	})
 	public Event createEvent(
-			@PathVariable("eventID") Long eventID,
-			@RequestParam(name = "eventDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate eventDate,
-			@RequestParam(name = "isPrivate") boolean isPrivate,
-			@RequestParam(name = "isVirtual") boolean isVirtual,
+			@PathVariable("event") String eventId,
+			@RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+			@RequestParam(name = "isPrivate") String isPrivate,
+			@RequestParam(name = "isVirtual") String isVirtual,
 			@RequestParam(name = "location") String location,
 			@RequestParam(name = "description") String description,
-			@RequestParam(name = "image") String image,
-			@RequestParam(name = "tags") List<String> tagNames,
-			@RequestParam(name = "organizers") List<String> organizerNames,
-			@RequestParam(name = "attendees") List<String> attendeeNames,
-			@RequestParam(name = "posts") List<String> postsID			
+			@RequestParam(name = "image") String image
 			)throws IllegalArgumentException{	
-		List<Tag> tags = new ArrayList<Tag>();
-		for(String name : tagNames) {
-			tags.add(eventService.getTag(name));
-		}
-		List<User> organizers = new ArrayList<User>();
-		for(String name : organizerNames) {
-			organizers.add(eventService.getUser(name));
-		}
-		List<User> attendees = new ArrayList<User>();
-		for(String name : attendeeNames) {
-			attendees.add(eventService.getUser(name));
-		}
-		List<Post> posts = new ArrayList<Post>();
-		for(String name : postsID) {
-			posts.add(eventService.getPost(name));
-		}
-		Timestamp convertedEventDate = Timestamp.valueOf(eventDate.atStartOfDay());
-		Event newEvent = eventService.createEvent(eventID, convertedEventDate, isPrivate, isVirtual, location, description, image, tags, organizers, attendees, posts);
+		
+		Long eventIDl = Long.parseLong(eventId);
+		boolean isPrivateb = Boolean.parseBoolean(isPrivate);
+		boolean isVirtualb = Boolean.parseBoolean(isVirtual);
+		Timestamp convertedEventDate = Timestamp.valueOf(date.atStartOfDay());
+		Event newEvent = eventService.createEvent(eventIDl, convertedEventDate, isPrivateb, isVirtualb, location, description, image);
 		return newEvent;
 	}
 }

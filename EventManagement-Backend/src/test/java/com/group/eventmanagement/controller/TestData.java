@@ -90,8 +90,7 @@ public class TestData {
 	static Timestamp invalidEventDate = new Timestamp(System.currentTimeMillis()-24*60*60*1000); //Date before current Date
 
 	public static Event createEventObject(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String eventLocation,
-										  String eventDescription, String eventImage, ArrayList<Tag> eventTags, ArrayList<User> eventOrganizers,
-										  ArrayList<User> eventAttendees, ArrayList<Post> eventPosts) {
+										  String eventDescription, String eventImage) {
 		
 		Event event = new Event();
 		event.setEventId(eventID);
@@ -101,10 +100,6 @@ public class TestData {
 		event.setLocation(eventLocation);
 		event.setDescription(eventDescription);
 		event.setImage(eventImage);
-		event.setTags(eventTags);
-		event.setOrganizers(eventOrganizers);
-		event.setAttendees(eventAttendees);
-		event.setPosts(eventPosts);
 		
 		return event;
 	}
