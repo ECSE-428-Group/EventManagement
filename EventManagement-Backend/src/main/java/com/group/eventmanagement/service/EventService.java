@@ -12,11 +12,17 @@ import com.group.eventmanagement.model.Post;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 import com.group.eventmanagement.repository.EventRepository;
+import com.group.eventmanagement.repository.PostRepository;
+import com.group.eventmanagement.repository.TagRepository;
+import com.group.eventmanagement.repository.UserRepository;
 
 @Service
 public class EventService {
 
-	EventRepository eventRepo;
+	private EventRepository eventRepo;
+	private TagRepository tagRepo;
+	private UserRepository userRepo;
+	private PostRepository postRepo;
 	
 	
 	@Autowired
@@ -24,8 +30,7 @@ public class EventService {
 		this.eventRepo = eventRepo;
 	}
 	
-	///// EVENT CREATION /////
-	
+	///// EVENT CREATION /////	
 	@Transactional
 	public Event createEvent(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String location, String description,
 							 String image, List<Tag> tags, List<User> organizers, List<User> attendees, List<Post> posts) {
@@ -33,16 +38,16 @@ public class EventService {
 		String error = "";
 		
 		//Input validation
-		if(eventRepo.existsById(eventID)) {	//An event with this ID already exists
+		/*if(eventRepo.existsById(eventID)) {	//An event with this ID already exists
 			error+= "This ID is already in use. ";
-		}
+		}*/
 		if(eventDate == null) {	//An event must have a date
 			error += "This event has no date associated to it. ";
 		}
-		if(eventDate.before(new Timestamp(System.currentTimeMillis()))) {	//An event cannot be scheduled for a date in the past
+		if(eventDate != null && eventDate.before(new Timestamp(System.currentTimeMillis()))) {	//An event cannot be scheduled for a date in the past
 			error += "This date has already passsed. ";
 		}
-		if(!isVirtual && (location == null || location.trim().length() <= 0)) {	//An event's location cannot be empty
+		if(location == null || location.trim().length() <= 0) {	//An event's location cannot be empty
 			error += "This event has no location associated to it. ";
 		}
 		if(description == null || description.trim().length() <= 0) {	//An event's description cannot be empty
@@ -81,4 +86,22 @@ public class EventService {
 		
 		return newEvent;
 	}	
+	
+	///// GET TAG /////	
+	@Transactional
+	public Tag getTag(String name) {
+		return tagRepo.findByName(name);
+	}
+	///// GET USER /////	
+	@Transactional
+	public User getUser(String name) {
+		return userRepo.findUserByUsername(name);
+	}
+	///// GET USER /////	
+	@Transactional
+	public Post getPost(String postID) {
+		long l=Long.parseLong(postID);  
+		return postRepo.findByPostId(l);
+	}
+	
 }

@@ -2,6 +2,7 @@ package com.group.eventmanagement.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.group.eventmanagement.model.Post;
 import com.group.eventmanagement.model.Tag;
@@ -43,16 +44,16 @@ public class TestData {
 	
 	// EVENT CONSTANTS
 	static Long eventID = (long) 123;
-	static Timestamp eventDate = new Timestamp(System.currentTimeMillis());
+	static Timestamp eventDate = new Timestamp(System.currentTimeMillis()+24*60*60*1000);
 	static boolean isPrivate = false;
 	static boolean isVirtual = false;
 	static String eventLocation = "Shibuya, Tokyo, Japan";
 	static String eventDescription = "Sightseeing";
 	static String eventImage = "sample picture";
-	static ArrayList<Tag> eventTags = new ArrayList<Tag>();
-	static ArrayList<User> eventOrganizers = new ArrayList<User>();
-	static ArrayList<User> eventAttendees = new ArrayList<User>();
-	static ArrayList<Post> eventPosts = new ArrayList<Post>();
+	static List<Tag> eventTags = new ArrayList<Tag>();
+	static List<User> eventOrganizers = new ArrayList<User>();
+	static List<User> eventAttendees = new ArrayList<User>();
+	static List<Post> eventPosts = new ArrayList<Post>();
 	
 	// INVALID CONSTANTS
 	static Timestamp invalidEventDate = new Timestamp(System.currentTimeMillis()-24*60*60*1000); //Date before current Date	
