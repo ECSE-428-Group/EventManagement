@@ -40,11 +40,10 @@ public class EventController {
 	}
 	
 	@PutMapping(value = "/event/{eventID}")
-	public User addAttendee(@PathVariable ("eventID") Long id,
+	public void addAttendee(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername,
 	    		@RequestParam String attendeeUsername) throws IllegalArgumentException{
-		User attendee = eventService.addAttendee(callerUsername, id, attendeeUsername);
-		return attendee;
+		eventService.addAttendee(callerUsername, id, attendeeUsername);
 	}
 	
 	@GetMapping(value = "/event/{eventID}")

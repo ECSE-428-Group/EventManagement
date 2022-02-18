@@ -26,7 +26,7 @@ public class EventService {
 	
 	//Adds an attendee to the event
 	@Transactional
-    public User addAttendee(String callerUsername, Long eventID, String attendeeUsername){
+    public void addAttendee(String callerUsername, Long eventID, String attendeeUsername){
 	
 		 //store variables
         Event event = eventRepository.findByEventId(eventID);
@@ -71,7 +71,6 @@ public class EventService {
         //updates list of attendees
         attendees.add(user);
         event.setAttendees(attendees);
-		return user;
 	}
 	
 	//Return
@@ -115,7 +114,6 @@ public class EventService {
         //looks for correct attendee and returns it
         User attendee = userRepository.findUserByUsername(attendeeUsername);
         return attendee;
-
     }
 
     @Transactional
