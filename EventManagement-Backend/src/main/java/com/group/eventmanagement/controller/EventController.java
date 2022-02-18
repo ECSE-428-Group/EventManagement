@@ -39,14 +39,14 @@ public class EventController {
 		this.eventService = eventService;
 	}
 	
-	@PutMapping(value = "/event/{eventID}")
+	@PutMapping(value = "/event/addOne/{eventID}")
 	public void addAttendee(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername,
 	    		@RequestParam String attendeeUsername) throws IllegalArgumentException{
 		eventService.addAttendee(callerUsername, id, attendeeUsername);
 	}
 	
-	@GetMapping(value = "/event/{eventID}")
+	@GetMapping(value = "/event/getOne/{eventID}")
 	public User getAttendee(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername,
 	    		@RequestParam String attendeeUsername) throws IllegalArgumentException{
@@ -54,7 +54,7 @@ public class EventController {
 		return attendee;
 	}
 	
-	@GetMapping(value = "/event/{eventID}")
+	@GetMapping(value = "/event/getAll/")
 	public List<User> getAllAttendees(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername
 	    		) throws IllegalArgumentException{
@@ -62,13 +62,13 @@ public class EventController {
 		return attendees;
 	}
 	
-	@PutMapping(value = "/event/{eventID}")
+	@PutMapping(value = "/event/removeOne/{eventID}")
 	public void removeAttendee(@PathVariable ("eventID") Long id,
 			@RequestParam String callerUsername, @RequestParam String attendeeUsername) throws IllegalArgumentException{
 		 eventService.removeAttendeeFromEvent(callerUsername, id, attendeeUsername);		 
 	 }
 	 
-	 @PutMapping(value = "/event/{eventID}")
+	 @PutMapping(value = "/event/removeAll/")
 	    public void removeAllAttendees(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername
 	    		) throws IllegalArgumentException{
