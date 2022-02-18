@@ -21,6 +21,7 @@ import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 import com.group.eventmanagement.model.Post;
 import com.group.eventmanagement.repository.EventRepository;
+import com.group.eventmanagement.repository.UserRepository;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -31,18 +32,25 @@ public class EventController {
 	
 	
 	@Autowired
-	public EventRepository repo;
+	public EventRepository eventRepo;
 	
 	@Autowired
 	public EventController(EventService eventService) {
 		this.eventService = eventService;
 	}
 	
+	@PutMapping(value = "/event/{eventID}")
+	public User addAttendee(@PathVariable ("eventID") Long id,
+	    		@RequestParam String callerUsername,
+	    		@RequestParam String attendeeUsername) throws IllegalArgumentException{
+		User attendee = eventService.addAttendee(callerUsername, id, attendeeUsername);
+		return attendee;
+	}
+	
 	@GetMapping(value = "/event/{eventID}")
 	public User getAttendee(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername,
 	    		@RequestParam String attendeeUsername) throws IllegalArgumentException{
-		Event event = repo.findByEventId(id);
 		User attendee = eventService.getAttendee(callerUsername, id, attendeeUsername);
 		return attendee;
 	}
@@ -51,26 +59,22 @@ public class EventController {
 	public List<User> getAllAttendees(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername
 	    		) throws IllegalArgumentException{
-		Event event = repo.findByEventId(id);
 		List<User> attendees = eventService.getAllAttendees(callerUsername, id);
 		return attendees;
 	}
 	
 	@PutMapping(value = "/event/{eventID}")
-	public Event removeAttendee(@PathVariable ("eventID") Long id,
+	public void removeAttendee(@PathVariable ("eventID") Long id,
 			@RequestParam String callerUsername, @RequestParam String attendeeUsername) throws IllegalArgumentException{
-		Event event = repo.findByEventId(id);
 		 eventService.removeAttendeeFromEvent(callerUsername, id, attendeeUsername);		 
-		 return event;
 	 }
 	 
 	 @PutMapping(value = "/event/{eventID}")
-	    public Event removeAllAttendees(@PathVariable ("eventID") Long id,
+	    public void removeAllAttendees(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername
 	    		) throws IllegalArgumentException{
-		 Event event = repo.findByEventId(id);
 		 eventService.removeAllAttendeesFromEvent(callerUsername, id);		 
-		 return event;
+		 
 	 }
 	
 	
