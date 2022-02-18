@@ -53,7 +53,7 @@ public class EventServiceTest {
 	private static String user1Username = "user1";
 	private static String user3Username = "user3";
 	private static String user4Username = "user4";
-	private static String user5Username = TestData.existentUsername;
+	private static String user5Username = "user5";
 	
 	
 	@BeforeEach
@@ -146,6 +146,16 @@ public class EventServiceTest {
 	    	}
 			
 		});
+	    lenient().when(userRepository.existsByUsername(anyString())).thenAnswer((InvocationOnMock invocation) -> {
+			
+	    	if (invocation.getArgument(0).equals(user5Username) || invocation.getArgument(0).equals(user1Username)){	
+			return true;
+	    	}
+	    	else{
+	    		return false;
+	    	}
+			
+		});
 	}
 	//----------------------ADD ATTENDEE TESTS---------------
 		//Reminder: Attendees:1,2,5 Organizers: 3,4
@@ -155,7 +165,7 @@ public class EventServiceTest {
 		public void addAttendeeSuccess() {
 			
 			try {
-				service.addAttendee(user3Username, eventID, user2.getUsername());
+				service.addAttendee(user3Username, eventID, user5Username);
 			} catch (IllegalArgumentException e) {
 	            fail();
 			}
@@ -184,9 +194,20 @@ public class EventServiceTest {
 			} catch (IllegalArgumentException e) {
 	          error = e.getMessage();
 			}
-			 assertEquals("This attendee does not exist.", error);
-			
+			 assertEquals("This attendee does not exist.", error);	
 		}
+		//tests if trying to add an attendee that doesn't exist/isn't in the event
+				@Test
+				public void addAttendeeAlreadyThere() {
+					String error = "";
+					
+					try {
+						service.addAttendee(user3Username, eventID, user1Username);
+					} catch (IllegalArgumentException e) {
+			          error = e.getMessage();
+					}
+					 assertEquals("This attendee is already participating in this event.", error);	
+				}
 		
 		//tests if trying to add an attendee that doesn't exist/isn't in the event
 		@Test

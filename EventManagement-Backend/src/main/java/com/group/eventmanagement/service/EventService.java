@@ -60,8 +60,12 @@ public class EventService {
         }
         
         //checks if the attendee exists
-        if(!attendeesUsernames.contains(attendeeUsername)){
+        if(!userRepository.existsByUsername(attendeeUsername)){
             throw new IllegalArgumentException("This attendee does not exist.");
+        }
+        //checks if the attendee aalready in event
+        if(attendeesUsernames.contains(attendeeUsername)){
+            throw new IllegalArgumentException("This attendee is already participating in this event.");
         }
         
         //updates list of attendees
