@@ -31,7 +31,7 @@ public class EventController {
 			"/event/{eventId}/"			
 	})
 	public Event createEvent(
-			@PathVariable("event") String eventId,
+			@PathVariable("eventId") String eventId,
 			@RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
 			@RequestParam(name = "isPrivate") String isPrivate,
 			@RequestParam(name = "isVirtual") String isVirtual,
