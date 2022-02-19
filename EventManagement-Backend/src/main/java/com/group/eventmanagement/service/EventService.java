@@ -13,18 +13,18 @@ import com.group.eventmanagement.repository.EventRepository;
 public class EventService {
 
 	private EventRepository eventRepo;
-	
+
 	@Autowired
 	public EventService(EventRepository eventRepo) {
 		this.eventRepo = eventRepo;
 	}
-	
-	///// EVENT CREATION /////	
+
+	///// EVENT CREATION /////
 	@Transactional
 	public Event createEvent(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String location, String description, String image) {
-		
+
 		String error = "";
-		
+
 		//Input validation
 		if(eventDate == null) {	//An event must have a date
 			error += "This event has no date associated to it. ";
@@ -41,12 +41,13 @@ public class EventService {
 		if(image == null || image.trim().length() <= 0) {	//An event must have an image associated with it
 			error += "This event has no image associated to it. ";
 		}
-		
+
+        System.out.println(error);
 		error = error.trim();
 		if(error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-	
+
 		//Event creation
 		Event newEvent = new Event();
 		newEvent.setEventId(eventID);
@@ -55,10 +56,10 @@ public class EventService {
 		newEvent.setIsVirtual(isVirtual);
 		newEvent.setLocation(location);
 		newEvent.setDescription(description);
-		newEvent.setImage(image);	
-		
+		newEvent.setImage(image);
+
 		eventRepo.save(newEvent);
-		
+
 		return newEvent;
-	}	
+	}
 }

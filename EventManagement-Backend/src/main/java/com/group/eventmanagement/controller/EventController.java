@@ -19,31 +19,31 @@ import com.group.eventmanagement.model.Event;
 public class EventController {
 
 	private EventService eventService;
-	
+
 	@Autowired
 	public EventController(EventService eventService) {
-		this.eventService = eventService;		
+		this.eventService = eventService;
 	}
-	
-	/////////// CREATE EVENT ///////////	
+
+	/////////// CREATE EVENT ///////////
 	@PostMapping(value = {
 			"/event/{eventId}",
-			"/event/{eventId}/"			
+			"/event/{eventId}/"
 	})
 	public Event createEvent(
 			@PathVariable("eventId") String eventId,
-			@RequestParam(name = "date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+			@RequestParam(name = "date") String date,
 			@RequestParam(name = "isPrivate") String isPrivate,
 			@RequestParam(name = "isVirtual") String isVirtual,
 			@RequestParam(name = "location") String location,
 			@RequestParam(name = "description") String description,
 			@RequestParam(name = "image") String image
-			)throws IllegalArgumentException{	
-		
+			)throws IllegalArgumentException{
+
 		Long eventIDl = Long.parseLong(eventId);
 		boolean isPrivateb = Boolean.parseBoolean(isPrivate);
 		boolean isVirtualb = Boolean.parseBoolean(isVirtual);
-		Timestamp convertedEventDate = Timestamp.valueOf(date.atStartOfDay());
+		Timestamp convertedEventDate = Timestamp.valueOf(date);
 		Event newEvent = eventService.createEvent(eventIDl, convertedEventDate, isPrivateb, isVirtualb, location, description, image);
 		return newEvent;
 	}

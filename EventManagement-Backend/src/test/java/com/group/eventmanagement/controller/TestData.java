@@ -11,12 +11,12 @@ import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.User;
 
 public class TestData {
-	
+
 	/////////////////////////// SERVER /////////////////////////////////
-	
+
 	static String SERVER_URL = "https://event-management-app-backend.herokuapp.com/";
 
-	
+
 	/////////////////////////// USERS /////////////////////////////////
 
 	// USER CONSTANTS
@@ -26,13 +26,13 @@ public class TestData {
 	static String userEmail = "test@email.com";
 	static String userPassword = "test1234";
 	static Timestamp userBirthday = new Timestamp(System.currentTimeMillis());
-	
+
 	static LocalDate userBirthday2 = LocalDate.of(1990, 1, 8);
 	static Timestamp userBirthday2Con = Timestamp.valueOf(userBirthday2.atStartOfDay());
-	
+
 	// INVALID CONSTANTS
 	static String invalidUserUsername = "invalidUser";
-	
+
 	public static User createUserObject(String username, String password, String firstName, String lastName,
 			Timestamp birthday, String email) {
 		User user = new User();
@@ -42,23 +42,23 @@ public class TestData {
 		user.setLastName(lastName);
 		user.setPassword(password);
 		user.setEmail(email);
-		
+
 		return user;
 	}
-	
-	
+
+
 	/////////////////////////// ADMINS /////////////////////////////////
-	
+
 	// ADMIN CONSTANTS
 	static String adminUsername = "admin";
 	static String adminFirstname = "Main";
 	static String adminLastname = "Admin";
 	static String adminEmail = "admin@mail.com";
 	static String adminPassword = "adminpassword";
-	
+
 	// INVALID CONSTANTS
 	static String invalidAdminUsername = "invalid";
-	
+
 	public static Admin createAdminObject(String username, String password, String firstName, String lastName,
 			String email) {
 		Admin admin = new Admin();
@@ -67,12 +67,12 @@ public class TestData {
 		admin.setLastName(lastName);
 		admin.setPassword(password);
 		admin.setEmail(email);
-		
+
 		return admin;
 	}
-	
+
 	/////////////////////////// EVENT /////////////////////////////////
-	
+
 	// EVENT CONSTANTS
 	static Long eventID = (long) 123;
 	static Timestamp eventDate = new Timestamp(System.currentTimeMillis());
@@ -85,13 +85,13 @@ public class TestData {
 	static ArrayList<User> eventOrganizers = new ArrayList<User>();
 	static ArrayList<User> eventAttendees = new ArrayList<User>();
 	static ArrayList<Post> eventPosts = new ArrayList<Post>();
-	
+
 	// INVALID CONSTANTS
 	static Timestamp invalidEventDate = new Timestamp(System.currentTimeMillis()-24*60*60*1000); //Date before current Date
 
 	public static Event createEventObject(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String eventLocation,
 										  String eventDescription, String eventImage) {
-		
+
 		Event event = new Event();
 		event.setEventId(eventID);
 		event.setDate(eventDate);
@@ -100,7 +100,7 @@ public class TestData {
 		event.setLocation(eventLocation);
 		event.setDescription(eventDescription);
 		event.setImage(eventImage);
-		
+
 		return event;
 	}
 }

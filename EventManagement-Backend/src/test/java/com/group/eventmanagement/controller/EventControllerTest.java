@@ -15,19 +15,19 @@ import com.group.eventmanagement.service.EventService;
 
 @WebMvcTest(EventController.class)
 public class EventControllerTest {
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private EventService eventService;
-	
+
 	@Test
 	public void testEventCreation() {
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
 		when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-		.thenReturn(mockEvent);		
-		
+		.thenReturn(mockEvent);
+
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
 					.param("date", TestData.eventDate.toString())
@@ -39,14 +39,14 @@ public class EventControllerTest {
 					).andExpect(status().isOk());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
+
 	@Test
-	public void testInvalidEventCreation() {		
-		when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-		.thenThrow(IllegalArgumentException.class);	
-		
+	public void testInvalidEventCreation() {
+		when(eventService.createEvent(TestData.eventID, TestData.invalidEventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
+		.thenThrow(IllegalArgumentException.class);
+
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID)
 					.param("date", TestData.invalidEventDate.toString())
@@ -58,7 +58,7 @@ public class EventControllerTest {
 					).andExpect(status().isInternalServerError());
 		} catch (Exception e) {
 			e.printStackTrace();
-		}	
+		}
 	}
-	
+
 }
