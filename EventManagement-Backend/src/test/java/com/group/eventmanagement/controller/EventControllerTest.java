@@ -49,7 +49,7 @@ public class EventControllerTest {
 		mockEvent.setOrganizers(TestData.eventOrganizers);
 		
 		
-		doNothing().when(eventService).addAttendee(anyString(), TestData.eventID, anyString());
+		doNothing().when(eventService).addAttendee(TestData.johnUsername, TestData.eventID, TestData.anotherUserUsername);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -90,7 +90,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doThrow().when(eventService).addAttendee(anyString(), TestData.eventID, anyString());
+		doThrow().when(eventService).addAttendee(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername);
 		
 		try {
 			this.mockMvc.perform(put("/event/"+TestData.invalidEventID)
@@ -121,7 +121,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doNothing().when(eventService).getAttendee(anyString(), anyLong(), anyString());
+		doNothing().when(eventService).getAttendee(TestData.johnUsername, TestData.eventID, TestData.anotherUserUsername);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -161,7 +161,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doThrow().when(eventService).getAttendee(anyString(), anyLong(), anyString());
+		doThrow().when(eventService).getAttendee(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -201,7 +201,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doNothing().when(eventService).getAllAttendees(anyString(), anyLong());
+		doNothing().when(eventService).getAllAttendees(TestData.johnUsername, TestData.eventID);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -240,7 +240,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doThrow().when(eventService).getAllAttendees(anyString(), anyLong());
+		doThrow().when(eventService).getAllAttendees(TestData.johnUsername, TestData.invalidEventID);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -279,7 +279,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doNothing().when(eventService).removeAttendeeFromEvent(anyString(), TestData.eventID, anyString());
+		doNothing().when(eventService).removeAttendeeFromEvent(TestData.johnUsername, TestData.eventID, TestData.anotherUserUsername);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -319,7 +319,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doThrow().when(eventService).removeAttendeeFromEvent(anyString(), TestData.eventID, anyString());
+		doThrow().when(eventService).removeAttendeeFromEvent(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -360,7 +360,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doNothing().when(eventService).removeAllAttendeesFromEvent(anyString(), anyLong());
+		doNothing().when(eventService).removeAllAttendeesFromEvent(TestData.johnUsername, TestData.eventID);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
@@ -399,7 +399,7 @@ public class EventControllerTest {
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
 			
-		doThrow().when(eventService).removeAllAttendeesFromEvent(anyString(), anyLong());
+		doThrow().when(eventService).removeAllAttendeesFromEvent(TestData.johnUsername, TestData.invalidEventID);
 		
 		try {
 			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
