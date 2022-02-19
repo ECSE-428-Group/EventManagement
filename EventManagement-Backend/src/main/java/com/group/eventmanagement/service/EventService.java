@@ -14,7 +14,7 @@ import com.group.eventmanagement.repository.UserRepository;
 
 @Service
 public class EventService {
-	
+
 	private EventRepository eventRepository;
 	private UserRepository userRepository;
 
@@ -23,13 +23,13 @@ public class EventService {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
     }
-	
-///// EVENT CREATION /////	
+
+///// EVENT CREATION /////
 	@Transactional
 	public Event createEvent(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String location, String description, String image) {
-		
+
 		String error = "";
-		
+
 		//Input validation
 		if(eventDate == null) {	//An event must have a date
 			error += "This event has no date associated to it. ";
@@ -46,12 +46,12 @@ public class EventService {
 		if(image == null || image.trim().length() <= 0) {	//An event must have an image associated with it
 			error += "This event has no image associated to it. ";
 		}
-		
+
 		error = error.trim();
 		if(error.length() > 0) {
 			throw new IllegalArgumentException(error);
 		}
-	
+
 		//Event creation
 		Event newEvent = new Event();
 		newEvent.setEventId(eventID);
@@ -60,27 +60,27 @@ public class EventService {
 		newEvent.setIsVirtual(isVirtual);
 		newEvent.setLocation(location);
 		newEvent.setDescription(description);
-		newEvent.setImage(image);	
-		
+		newEvent.setImage(image);
+
 		eventRepository.save(newEvent);
-		
+
 		return newEvent;
-	}	
-	
-	
+	}
+
+
 	//Adds an attendee to the event
 	@Transactional
-    public void addAttendee(String callerUsername, Long eventID, String attendeeUsername){
-	
+    public boolean addAttendee(String callerUsername, Long eventID, String attendeeUsername){
+
 		 //store variables
         Event event = eventRepository.findByEventId(eventID);
         User user = userRepository.findUserByUsername(attendeeUsername);
-        
+
       //checks if the event exists
         if( eventRepository.existsByEventId(eventID) == false){
             throw new IllegalArgumentException("The event you are trying to access does not exist.");
         }
-        
+
         List<User> attendees = event.getAttendees(); //stores all attendees
         List<User> organizers = event.getOrganizers(); //stores all organizers
         ArrayList<String> organizerUsernames = new ArrayList<>(); //stores all organizer names
@@ -91,7 +91,7 @@ public class EventService {
             String currUsername = curr.getUsername();
             organizerUsernames.add(currUsername);
         }
-        
+
         //list of attendee id
         for(User curr : attendees){
             String currUsername = curr.getUsername();
@@ -102,7 +102,7 @@ public class EventService {
         if(!organizerUsernames.contains(callerUsername)){
             throw new IllegalArgumentException("Must be an organizer to add an attendee to the event.");
         }
-        
+
         //checks if the attendee exists
         if(!userRepository.existsByUsername(attendeeUsername)){
             throw new IllegalArgumentException("This attendee does not exist.");
@@ -111,24 +111,25 @@ public class EventService {
         if(attendeesUsernames.contains(attendeeUsername)){
             throw new IllegalArgumentException("This attendee is already participating in this event.");
         }
-        
+
         //updates list of attendees
         attendees.add(user);
         event.setAttendees(attendees);
+        return true;
 	}
-	
+
 	//Return
     @Transactional
     public User getAttendee(String callerUsername, Long eventID, String attendeeUsername){
 
         //store variables
         Event event = eventRepository.findByEventId(eventID);
-        
+
       //checks if the event exists
         if( eventRepository.existsByEventId(eventID) == false){
             throw new IllegalArgumentException("The event you are trying to access does not exist.");
         }
-        
+
         List<User> attendees = event.getAttendees(); //stores all attendees
         List<User> organizers = event.getOrganizers(); //stores all organizers
         ArrayList<String> organizerUsernames = new ArrayList<>(); //stores all organizer names
@@ -149,7 +150,7 @@ public class EventService {
         if(!organizerUsernames.contains(callerUsername)){
             throw new IllegalArgumentException("Must be an organizer to view the list of attendees.");
         }
-        
+
         //checks if the attendee exists
         if(!attendeesUsernames.contains(attendeeUsername)){
             throw new IllegalArgumentException("The attendee does not exist or is not subscribed to this event.");
@@ -169,7 +170,7 @@ public class EventService {
         if( eventRepository.existsByEventId(eventID) == false){
             throw new IllegalArgumentException("The event you are trying to access does not exist.");
         }
-        
+
         List<User> organizers = event.getOrganizers();
         ArrayList<String> organizerUsernames = new ArrayList<>();
         List<User> attendees = event.getAttendees();
@@ -184,7 +185,7 @@ public class EventService {
         if(!organizerUsernames.contains(callerUsername)){
             throw new IllegalArgumentException("Must be an organizer to view the list of attendees.");
         }
-      
+
         //checks if there are attendees
         if( attendees.size() == 0){
             throw new IllegalArgumentException("This event does not have any attendees.");
@@ -194,20 +195,20 @@ public class EventService {
     }
 
     @Transactional
-    public void removeAttendeeFromEvent(String callerUsername, Long eventID, String attendeeUsername){
+    public Boolean removeAttendeeFromEvent(String callerUsername, Long eventID, String attendeeUsername){
         //store variables
         Event event = eventRepository.findByEventId(eventID);
-        
+
         //checks if the event exists
         if( eventRepository.existsByEventId(eventID) == false){
             throw new IllegalArgumentException("The event you are trying to access does not exist.");
         }
-        
+
         List<User> attendees = event.getAttendees();
         List<User> organizers = event.getOrganizers();
         ArrayList<String> organizerUsernames = new ArrayList<>();
         ArrayList<String> attendeesUsernames = new ArrayList<>(); //stores all attendees names
-        
+
         //list of organizers id
         for(User curr : organizers){
             String currUsername = curr.getUsername();
@@ -223,12 +224,12 @@ public class EventService {
         if(!organizerUsernames.contains(callerUsername)){
             throw new IllegalArgumentException("Must be an organizer to remove an attendee.");
         }
-        
+
         //checks if attempt to remove organizer
         if(organizerUsernames.contains(attendeeUsername)){
             throw new IllegalArgumentException("You cannot remove an organizer of the event.");
         }
-        
+
         //checks if the attendee exists
         if(!attendeesUsernames.contains(attendeeUsername)){
             throw new IllegalArgumentException("The attendee does not exist or is not subscribed to this event.");
@@ -241,18 +242,20 @@ public class EventService {
         attendees.remove(toRemove);
         event.setAttendees(attendees);
         eventRepository.save(event);
+
+        return true;
     }
 
     @Transactional
-    public void removeAllAttendeesFromEvent(String callerUsername, Long eventID) {
+    public Boolean removeAllAttendeesFromEvent(String callerUsername, Long eventID) {
         //store variables
         Event event = eventRepository.findByEventId(eventID);
-        
+
         //checks if the event exists
         if( eventRepository.existsByEventId(eventID) == false){
             throw new IllegalArgumentException("The event you are trying to access does not exist.");
         }
-        
+
         List<User> organizers = event.getOrganizers();
         ArrayList<String> organizerUsernames = new ArrayList<>();
         List<User> attendees = event.getAttendees();
@@ -267,7 +270,7 @@ public class EventService {
         if(!organizerUsernames.contains(callerUsername)){
             throw new IllegalArgumentException("Must be an organizer to remove attendees.");
         }
-      
+
         //checks if there are attendees
         if( attendees.size() == 0 || attendees == null){
             throw new IllegalArgumentException("This event does not have any attendees.");
@@ -277,6 +280,8 @@ public class EventService {
         attendees = null;
         event.setAttendees(attendees);
         eventRepository.save(event);
+
+        return true;
     }
 
 

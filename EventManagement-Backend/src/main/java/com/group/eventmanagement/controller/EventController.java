@@ -27,25 +27,21 @@ import com.group.eventmanagement.repository.UserRepository;
 @RestController
 public class EventController {
 
-	
+
 	private EventService eventService;
-	
-	
-	@Autowired
-	public EventRepository eventRepo;
-	
+
 	@Autowired
 	public EventController(EventService eventService) {
 		this.eventService = eventService;
 	}
-	
+
 	@PutMapping(value = "/event/addOne/{eventID}")
 	public void addAttendee(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername,
 	    		@RequestParam String attendeeUsername) throws IllegalArgumentException{
 		eventService.addAttendee(callerUsername, id, attendeeUsername);
 	}
-	
+
 	@GetMapping(value = "/event/getOne/{eventID}")
 	public User getAttendee(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername,
@@ -53,28 +49,28 @@ public class EventController {
 		User attendee = eventService.getAttendee(callerUsername, id, attendeeUsername);
 		return attendee;
 	}
-	
-	@GetMapping(value = "/event/getAll/")
+
+	@GetMapping(value = "/event/getAll/{eventID}")
 	public List<User> getAllAttendees(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername
 	    		) throws IllegalArgumentException{
 		List<User> attendees = eventService.getAllAttendees(callerUsername, id);
 		return attendees;
 	}
-	
+
 	@PutMapping(value = "/event/removeOne/{eventID}")
 	public void removeAttendee(@PathVariable ("eventID") Long id,
 			@RequestParam String callerUsername, @RequestParam String attendeeUsername) throws IllegalArgumentException{
-		 eventService.removeAttendeeFromEvent(callerUsername, id, attendeeUsername);		 
+		 eventService.removeAttendeeFromEvent(callerUsername, id, attendeeUsername);
 	 }
-	 
-	 @PutMapping(value = "/event/removeAll/")
+
+	 @PutMapping(value = "/event/removeAll/{eventID}")
 	    public void removeAllAttendees(@PathVariable ("eventID") Long id,
 	    		@RequestParam String callerUsername
 	    		) throws IllegalArgumentException{
-		 eventService.removeAllAttendeesFromEvent(callerUsername, id);		 
-		 
+		 eventService.removeAllAttendeesFromEvent(callerUsername, id);
+
 	 }
-	
-	
+
+
 }

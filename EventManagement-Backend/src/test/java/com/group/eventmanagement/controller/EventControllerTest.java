@@ -5,6 +5,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -21,21 +22,19 @@ import com.group.eventmanagement.service.EventService;
 
 @WebMvcTest(EventController.class)
 public class EventControllerTest {
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private EventService eventService;
-	
+
 	//Tests if controller can validly add attendee
 	@Test
 	public void testValidAddAttendee() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-		when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-		.thenReturn(mockEvent);
-		
+
 		//create attendee
 		User attendee = new User();
 		attendee.setUsername(TestData.anotherUserUsername);
@@ -47,21 +46,9 @@ public class EventControllerTest {
 		//set attendees and organizers
 		mockEvent.setAttendees(TestData.eventAttendees);
 		mockEvent.setOrganizers(TestData.eventOrganizers);
-		
-		
-		doNothing().when(eventService).addAttendee(TestData.johnUsername, TestData.eventID, TestData.anotherUserUsername);
-		
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.eventID)
+			this.mockMvc.perform(put("/event/addOne/"+TestData.eventID)
 					.param("callerUsername", TestData.johnUsername)
 					.param("attendeeUsername", TestData.anotherUserUsername)
 					).andExpect(status().isOk());
@@ -69,31 +56,30 @@ public class EventControllerTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	//Tests invalid request
 	@Test
 	public void testInvalidAddAttendee() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-			.thenReturn(mockEvent);
-			
-			//create attendee
-			User attendee = new User();
-			attendee.setUsername(TestData.anotherUserUsername);
-			TestData.eventAttendees.add(attendee);
-			//create user
-			User organizer = new User();
-			organizer.setUsername(TestData.johnUsername);
-			TestData.eventOrganizers.add(organizer);
-			//set attendees and organizers
-			mockEvent.setAttendees(TestData.eventAttendees);
-			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doThrow().when(eventService).addAttendee(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername);
-		
+
+		//create attendee
+		User attendee = new User();
+		attendee.setUsername(TestData.anotherUserUsername);
+		TestData.eventAttendees.add(attendee);
+		//create user
+		User organizer = new User();
+		organizer.setUsername(TestData.johnUsername);
+		TestData.eventOrganizers.add(organizer);
+		//set attendees and organizers
+		mockEvent.setAttendees(TestData.eventAttendees);
+		mockEvent.setOrganizers(TestData.eventOrganizers);
+
+		when(eventService.addAttendee(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername))
+		.thenThrow(IllegalArgumentException.class);
+
 		try {
-			this.mockMvc.perform(put("/event/"+TestData.invalidEventID)
+			this.mockMvc.perform(put("/event/addOne/"+TestData.invalidEventID)
 					.param("callerUsername", TestData.johnUsername)
 					.param("attendeeUsername", TestData.anotherUserUsername)
 					).andExpect(status().isInternalServerError());
@@ -101,14 +87,14 @@ public class EventControllerTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testValidGetAttendee() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
 			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
 			.thenReturn(mockEvent);
-			
+
 			//create attendee
 			User attendee = new User();
 			attendee.setUsername(TestData.anotherUserUsername);
@@ -120,20 +106,10 @@ public class EventControllerTest {
 			//set attendees and organizers
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doNothing().when(eventService).getAttendee(TestData.johnUsername, TestData.eventID, TestData.anotherUserUsername);
-		
+
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.eventID)
+			this.mockMvc.perform(get("/event/getOne/"+TestData.eventID)
 					.param("callerUsername", TestData.johnUsername)
 					.param("attendeeUsername", TestData.anotherUserUsername)
 					).andExpect(status().isOk());
@@ -141,39 +117,29 @@ public class EventControllerTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testInvalidGetAttendee() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-			.thenReturn(mockEvent);
-			
-			//create attendee
-			User attendee = new User();
-			attendee.setUsername(TestData.anotherUserUsername);
-			TestData.eventAttendees.add(attendee);
-			//create user
-			User organizer = new User();
-			organizer.setUsername(TestData.johnUsername);
-			TestData.eventOrganizers.add(organizer);
-			//set attendees and organizers
-			mockEvent.setAttendees(TestData.eventAttendees);
-			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doThrow().when(eventService).getAttendee(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername);
-		
+
+		//create attendee
+		User attendee = new User();
+		attendee.setUsername(TestData.anotherUserUsername);
+		TestData.eventAttendees.add(attendee);
+		//create organizer
+		User organizer = new User();
+		organizer.setUsername(TestData.johnUsername);
+		TestData.eventOrganizers.add(organizer);
+		//set attendees and organizers
+		mockEvent.setAttendees(TestData.eventAttendees);
+		mockEvent.setOrganizers(TestData.eventOrganizers);
+
+		when(eventService.getAttendee(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername))
+		.thenThrow(IllegalArgumentException.class);
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.invalidEventID)
+			this.mockMvc.perform(get("/event/getOne/"+TestData.invalidEventID)
 					.param("callerUsername", TestData.johnUsername)
 					.param("attendeeUsername", TestData.anotherUserUsername)
 					).andExpect(status().isInternalServerError());
@@ -181,117 +147,85 @@ public class EventControllerTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testValidGetAllAttendees() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-			.thenReturn(mockEvent);
-			
-			//create attendee
-			User attendee = new User();
-			attendee.setUsername(TestData.anotherUserUsername);
-			TestData.eventAttendees.add(attendee);
-			//create user
-			User organizer = new User();
-			organizer.setUsername(TestData.johnUsername);
-			TestData.eventOrganizers.add(organizer);
-			//set attendees and organizers
-			mockEvent.setAttendees(TestData.eventAttendees);
-			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doNothing().when(eventService).getAllAttendees(TestData.johnUsername, TestData.eventID);
-		
+
+		//create attendee
+		User attendee = new User();
+		attendee.setUsername(TestData.anotherUserUsername);
+		TestData.eventAttendees.add(attendee);
+		//create user
+		User organizer = new User();
+		organizer.setUsername(TestData.johnUsername);
+		TestData.eventOrganizers.add(organizer);
+		//set attendees and organizers
+		mockEvent.setAttendees(TestData.eventAttendees);
+		mockEvent.setOrganizers(TestData.eventOrganizers);
+
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.eventID)
+			this.mockMvc.perform(get("/event/getAll/"+TestData.eventID)
 					.param("callerUsername", TestData.johnUsername)
 					).andExpect(status().isOk());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testInvalidGetAllAttendees() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-			.thenReturn(mockEvent);
-			
-			//create attendee
-			User attendee = new User();
-			attendee.setUsername(TestData.anotherUserUsername);
-			TestData.eventAttendees.add(attendee);
-			//create user
-			User organizer = new User();
-			organizer.setUsername(TestData.johnUsername);
-			TestData.eventOrganizers.add(organizer);
-			//set attendees and organizers
-			mockEvent.setAttendees(TestData.eventAttendees);
-			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doThrow().when(eventService).getAllAttendees(TestData.johnUsername, TestData.invalidEventID);
-		
+
+		//create attendee
+		User attendee = new User();
+		attendee.setUsername(TestData.anotherUserUsername);
+		TestData.eventAttendees.add(attendee);
+		//create user
+		User organizer = new User();
+		organizer.setUsername(TestData.johnUsername);
+		TestData.eventOrganizers.add(organizer);
+		//set attendees and organizers
+		mockEvent.setAttendees(TestData.eventAttendees);
+		mockEvent.setOrganizers(TestData.eventOrganizers);
+
+		when(eventService.getAllAttendees(TestData.johnUsername, TestData.invalidEventID))
+		.thenThrow(IllegalArgumentException.class);
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.invalidEventID)
+			this.mockMvc.perform(get("/event/getAll/"+TestData.invalidEventID)
 					.param("callerUsername", TestData.johnUsername)
 					).andExpect(status().isInternalServerError());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
-	public void testValidRemoveAttendees() {
+	public void testValidRemoveAttendee() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-			.thenReturn(mockEvent);
-			
-			//create attendee
-			User attendee = new User();
-			attendee.setUsername(TestData.anotherUserUsername);
-			TestData.eventAttendees.add(attendee);
-			//create user
-			User organizer = new User();
-			organizer.setUsername(TestData.johnUsername);
-			TestData.eventOrganizers.add(organizer);
-			//set attendees and organizers
-			mockEvent.setAttendees(TestData.eventAttendees);
-			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doNothing().when(eventService).removeAttendeeFromEvent(TestData.johnUsername, TestData.eventID, TestData.anotherUserUsername);
-		
+
+		//create attendee
+		User attendee = new User();
+		attendee.setUsername(TestData.anotherUserUsername);
+		TestData.eventAttendees.add(attendee);
+		//create user
+		User organizer = new User();
+		organizer.setUsername(TestData.johnUsername);
+		TestData.eventOrganizers.add(organizer);
+		//set attendees and organizers
+		mockEvent.setAttendees(TestData.eventAttendees);
+		mockEvent.setOrganizers(TestData.eventOrganizers);
+
+		when(eventService.removeAttendeeFromEvent(TestData.johnUsername, mockEvent.getEventId(), TestData.anotherUserUsername))
+		.thenThrow(IllegalArgumentException.class);
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.eventID)
+			this.mockMvc.perform(put("/event/removeOne/"+TestData.eventID)
 					.param("callerUsername", TestData.johnUsername)
 					.param("attendeeUsername", TestData.anotherUserUsername)
 					).andExpect(status().isOk());
@@ -299,39 +233,31 @@ public class EventControllerTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testInvalidRemoveAttendees() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
-			.thenReturn(mockEvent);
-			
-			//create attendee
-			User attendee = new User();
-			attendee.setUsername(TestData.anotherUserUsername);
-			TestData.eventAttendees.add(attendee);
-			//create user
-			User organizer = new User();
-			organizer.setUsername(TestData.johnUsername);
-			TestData.eventOrganizers.add(organizer);
-			//set attendees and organizers
-			mockEvent.setAttendees(TestData.eventAttendees);
-			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doThrow().when(eventService).removeAttendeeFromEvent(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername);
-		
+		when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
+		.thenReturn(mockEvent);
+
+		//create attendee
+		User attendee = new User();
+		attendee.setUsername(TestData.anotherUserUsername);
+		TestData.eventAttendees.add(attendee);
+		//create user
+		User organizer = new User();
+		organizer.setUsername(TestData.johnUsername);
+		TestData.eventOrganizers.add(organizer);
+		//set attendees and organizers
+		mockEvent.setAttendees(TestData.eventAttendees);
+		mockEvent.setOrganizers(TestData.eventOrganizers);
+
+		when(eventService.removeAttendeeFromEvent(TestData.johnUsername, TestData.invalidEventID, TestData.anotherUserUsername))
+		.thenThrow(IllegalArgumentException.class);
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.invalidEventID)
+			this.mockMvc.perform(put("/event/removeOne/"+TestData.invalidEventID)
 					.param("callerUsername", TestData.johnUsername)
 					.param("attendeeUsername", TestData.anotherUserUsername)
 					).andExpect(status().isInternalServerError());
@@ -339,14 +265,14 @@ public class EventControllerTest {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testValidRemoveAllAttendees() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
 			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
 			.thenReturn(mockEvent);
-			
+
 			//create attendee
 			User attendee = new User();
 			attendee.setUsername(TestData.anotherUserUsername);
@@ -355,31 +281,20 @@ public class EventControllerTest {
 			User organizer = new User();
 			organizer.setUsername(TestData.johnUsername);
 			TestData.eventOrganizers.add(organizer);
-			
+
 			//set attendees and organizers
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doNothing().when(eventService).removeAllAttendeesFromEvent(TestData.johnUsername, TestData.eventID);
-		
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.eventID)
+			this.mockMvc.perform(put("/event/removeAll/"+TestData.eventID)
 					.param("callerUsername", TestData.johnUsername)
 					).andExpect(status().isOk());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void testInvalidRemoveAllAttendees() {
 		//mockUp Event
@@ -398,20 +313,13 @@ public class EventControllerTest {
 			//set attendees and organizers
 			mockEvent.setAttendees(TestData.eventAttendees);
 			mockEvent.setOrganizers(TestData.eventOrganizers);
-			
-		doThrow().when(eventService).removeAllAttendeesFromEvent(TestData.johnUsername, TestData.invalidEventID);
-		
+
+
+		when(eventService.removeAllAttendeesFromEvent(TestData.johnUsername, TestData.invalidEventID))
+		.thenThrow(IllegalArgumentException.class);
+
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
-					.param("date", TestData.eventDate.toString())
-					.param("isPrivate", String.valueOf(TestData.isPrivate))
-					.param("isVirtual", String.valueOf(TestData.isVirtual))
-					.param("location", TestData.eventLocation)
-					.param("description", TestData.eventDescription)
-					.param("image", TestData.eventImage)
-					).andExpect(status().isOk());
-			
-			this.mockMvc.perform(put("/event/"+TestData.invalidEventID)
+			this.mockMvc.perform(put("/event/removeAll/"+TestData.invalidEventID)
 					.param("callerUsername", TestData.johnUsername)
 					).andExpect(status().isInternalServerError());
 		} catch (Exception e) {
