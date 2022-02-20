@@ -71,7 +71,7 @@ public class EventService {
 
     }
 
-    public void registerUserToEvent(Event event, User user){
+    public Event registerUserToEvent(Event event, User user){
         String error = "";
         if (event==null){
             error += "An event has to be specified";
@@ -89,18 +89,18 @@ public class EventService {
         attendees.add(user);
         event.setAttendees(attendees);
         eventRepository.save(event);
+		return event;
 
     }
-    public void unregisterUserToEvent(Event event, User user){
+    public Event unregisterUserToEvent(Event event, User user){
         String error = "";
         if (event==null){
             error += "An event has to be specified";
         }
+		List<User> attendees = event.getAttendees();
         if (user == null){
             error+= "A user has to be specified";
-        }
-        List<User> attendees = event.getAttendees();
-        if (!attendees.contains(user)){
+        }else if (!attendees.contains(user)){
             error += "User is already not registered to the event";
         }
         if (!error.isEmpty()){
@@ -109,6 +109,7 @@ public class EventService {
         attendees.remove(user);
         event.setAttendees(attendees);
         eventRepository.save(event);
+		return event;
 
     }
 }

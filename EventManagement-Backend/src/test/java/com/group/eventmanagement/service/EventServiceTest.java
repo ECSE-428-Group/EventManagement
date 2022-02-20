@@ -5,18 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
-import static org.mockito.Mockito.lenient;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import org.mockito.invocation.InvocationOnMock;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -24,7 +18,6 @@ import com.group.eventmanagement.model.User;
 import com.group.eventmanagement.model.Tag;
 import com.group.eventmanagement.model.Event;
 import com.group.eventmanagement.repository.EventRepository;
-import com.group.eventmanagement.repository.UserRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class EventServiceTest {
@@ -182,4 +175,124 @@ public class EventServiceTest {
 		assertNull(eventWithNoImage);
 		assertTrue(er.contains("This event has no image associated to it."));
 	}
+
+	@Test
+	public void registerUserSuccess(){
+		User user = new User();
+		user.setUsername("alex");
+		List<User> attendees = new ArrayList<User>();
+		Event newEvent = null;
+		try {
+			newEvent = eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
+			newEvent.setAttendees(attendees);
+			newEvent = eventService.registerUserToEvent(newEvent, user);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(newEvent);
+		assertEquals(1, newEvent.getAttendees().size());
+		assertEquals("alex", newEvent.getAttendees().get(0).getUsername());
+	}
+
+	@Test
+	public void registerUserUnsuccessful(){
+		String error = "";
+		User user = null;
+		List<User> attendees = new ArrayList<User>();
+		Event newEvent = null;
+		try {
+			newEvent = eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
+			newEvent.setAttendees(attendees);
+			newEvent = eventService.registerUserToEvent(newEvent, user);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNotNull(newEvent);
+		assertEquals(0, newEvent.getAttendees().size());
+		assertEquals("A user has to be specified", error);
+	}
+	
+	@Test
+	public void registerUserAlreadyRegistered(){
+		String error = "";
+		User user = new User();
+		user.setUsername("alex");
+		List<User> attendees = new ArrayList<User>();
+		attendees.add(user);
+		Event newEvent = null;
+		try {
+			newEvent = eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
+			newEvent.setAttendees(attendees);
+			newEvent = eventService.registerUserToEvent(newEvent, user);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNotNull(newEvent);
+		assertEquals(1, newEvent.getAttendees().size());
+		assertEquals("User already registered to the event", error);
+	}
+		
+
+	@Test
+	public void unregisterUserSuccess(){
+		User user = new User();
+		user.setUsername("alex");
+		List<User> attendees = new ArrayList<User>();
+		attendees.add(user);
+		Event newEvent = null;
+		try {
+			newEvent = eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
+			newEvent.setAttendees(attendees);
+			newEvent = eventService.unregisterUserToEvent(newEvent, user);
+		} catch (IllegalArgumentException e) {
+			fail();
+		}
+		assertNotNull(newEvent);
+		assertEquals(0, newEvent.getAttendees().size());
+	}
+
+	@Test
+	public void unregisterUserUnsuccessful(){
+		String error = "";
+		User user = null;
+		List<User> attendees = new ArrayList<User>();
+		Event newEvent = null;
+		try {
+			newEvent = eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
+			newEvent.setAttendees(attendees);
+			newEvent = eventService.unregisterUserToEvent(newEvent, user);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNotNull(newEvent);
+		assertEquals(0, newEvent.getAttendees().size());
+		assertEquals("A user has to be specified", error);
+	}
+
+	@Test
+	public void unregisterUserNotInEvent(){
+		String error = "";
+		User user = new User();
+		user.setUsername("alex");
+		List<User> attendees = new ArrayList<User>();
+		Event newEvent = null;
+		try {
+			newEvent = eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
+			newEvent.setAttendees(attendees);
+			newEvent = eventService.unregisterUserToEvent(newEvent, user);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		assertNotNull(newEvent);
+		assertEquals(0, newEvent.getAttendees().size());
+		assertEquals("User is already not registered to the event", error);
+	}
+
+
 }
