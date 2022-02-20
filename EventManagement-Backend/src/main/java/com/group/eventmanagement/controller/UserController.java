@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,5 +43,25 @@ public class UserController {
 		User newUser = userService.createUser(username, password, 
 				firstName, lastName, convertedBirthday, email);
 		return newUser;
+	}
+	
+	/////////// UPDATE USER ACCOUNT ///////////
+	@PutMapping(value = {
+			"/userprofile/{username}",
+			"/userprofile/{username}/"
+			})
+	public User updateUser(
+			@PathVariable("username") String username,
+			@RequestParam(name = "curPassword") String curPassword,
+			@RequestParam(name = "newPassword") String newPassword,
+			@RequestParam(name = "firstName") String newFirstName,
+			@RequestParam(name = "lastName") String newLastName,
+			@RequestParam(name = "birthday") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate newBirthday,
+			@RequestParam(name = "email") String newEmail
+			) throws IllegalArgumentException {
+		Timestamp convertedBirthday = Timestamp.valueOf(newBirthday.atStartOfDay());
+		User updatedUser = userService.updateUser(username,curPassword,newPassword, 
+				newFirstName, newLastName, convertedBirthday, newEmail);
+		return updatedUser;
 	}
 }
