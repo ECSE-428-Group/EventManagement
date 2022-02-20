@@ -77,4 +77,45 @@ public class EventService {
         return event;
 
     }
+
+    public void registerUserToEvent(Event event, User user){
+        String error = "";
+        if (event==null){
+            error += "An event has to be specified";
+        }
+        if (user == null){
+            error+= "A user has to be specified";
+        }
+        List<User> attendees = event.getAttendees();
+        if (attendees.contains(user)){
+            error += "User already registered to the event";
+        }
+        if (!error.isEmpty()){
+            throw new IllegalArgumentException(error);
+        }
+        attendees.add(user);
+        event.setAttendees(attendees);
+        eventRepository.save(event);
+
+    }
+    public void unregisterUserToEvent(Event event, User user){
+        String error = "";
+        if (event==null){
+            error += "An event has to be specified";
+        }
+        if (user == null){
+            error+= "A user has to be specified";
+        }
+        List<User> attendees = event.getAttendees();
+        if (!attendees.contains(user)){
+            error += "User is already not registered to the event";
+        }
+        if (!error.isEmpty()){
+            throw new IllegalArgumentException(error);
+        }
+        attendees.remove(user);
+        event.setAttendees(attendees);
+        eventRepository.save(event);
+
+    }
 }

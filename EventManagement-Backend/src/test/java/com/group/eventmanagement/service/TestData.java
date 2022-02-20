@@ -2,7 +2,6 @@ package com.group.eventmanagement.service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import com.group.eventmanagement.model.Comment;
 import com.group.eventmanagement.model.Post;

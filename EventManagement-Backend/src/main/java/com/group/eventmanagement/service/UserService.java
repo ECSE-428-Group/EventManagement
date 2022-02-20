@@ -1,7 +1,6 @@
 package com.group.eventmanagement.service;
 
 import java.sql.Timestamp;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
