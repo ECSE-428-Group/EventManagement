@@ -45,7 +45,7 @@ public class PostServiceTest {
         try {
             User user = userService.createUser(TestData.userUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userBirthday, TestData.userEmail);
             TestData.eventOrganizers.add(user);
-            Event event = eventService.createEvent(TestData.eventID, TestData.eventDate, false, false, TestData.eventLocation, TestData.eventDescription, TestData.eventImage, TestData.eventTags, TestData.eventOrganizers, TestData.eventAttendees, TestData.eventPosts);
+            Event event = eventService.createEvent(TestData.eventID, TestData.eventDate, false, false, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
             newPost = postService.createPost(event, TestData.postTitle, TestData.postDescription, user);
         } catch (IllegalArgumentException e) {
             e.printStackTrace();
