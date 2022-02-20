@@ -66,4 +66,14 @@ public class UserService {
 		return newUser;
 	}
 
+	public User getUserByUsername(String username){
+		if(username == null || username.isEmpty()){
+			throw new IllegalArgumentException("Username can't be empty");
+		}else if (!userRepository.existsByUsername(username)){
+			throw new IllegalArgumentException("No user was found with this username");
+		}
+		User user = userRepository.findUserByUsername(username);
+		return user;
+	}
+
 }
