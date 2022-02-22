@@ -12,6 +12,9 @@ import com.group.eventmanagement.model.User;
 import com.group.eventmanagement.repository.EventRepository;
 import com.group.eventmanagement.repository.UserRepository;
 
+import com.group.eventmanagement.model.Event;
+import com.group.eventmanagement.repository.EventRepository;
+
 @Service
 public class EventService {
 
@@ -24,7 +27,8 @@ public class EventService {
         this.userRepository = userRepository;
     }
 
-///// EVENT CREATION /////
+
+	///// EVENT CREATION /////
 	@Transactional
 	public Event createEvent(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String location, String description, String image) {
 
@@ -47,6 +51,7 @@ public class EventService {
 			error += "This event has no image associated to it. ";
 		}
 
+        System.out.println(error);
 		error = error.trim();
 		if(error.length() > 0) {
 			throw new IllegalArgumentException(error);
@@ -283,6 +288,4 @@ public class EventService {
 
         return true;
     }
-
-
 }
