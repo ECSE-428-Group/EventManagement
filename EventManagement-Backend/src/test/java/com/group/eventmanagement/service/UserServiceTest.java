@@ -59,8 +59,8 @@ public class UserServiceTest {
 		}
 
 		assertNull(invalidUser);
-		assertEquals("Username cannot be empty! Password cannot be empty! First name cannot be empty. "
-				+ "Last name cannot be empty. Date of birth is incorrect. Email is incorrect.", error);
+		assertEquals("Username is invalid. Password is invalid. First name cannot be empty. "
+				+ "Last name cannot be empty. Birthday is invalid. Email is invalid.", error);
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class UserServiceTest {
 		}
 
 		assertNull(user);
-		assertEquals("Email is incorrect.", error);
+		assertEquals("Email is invalid.", error);
 	}
 
 	@Test
@@ -93,4 +93,142 @@ public class UserServiceTest {
 		assertNull(user);
 		assertEquals("This username already exists!", error);
 	}
+	
+	@Test
+	public void testUpdateUserSuccess() {
+		
+		when(userRepository.save(any(User.class))).thenReturn(null);
+		
+		User existingUser = new User();
+		
+		existingUser.setUsername(TestData.userUsername);
+		existingUser.setPassword(TestData.userPassword);
+		existingUser.setFirstName(TestData.userFirstname);
+		existingUser.setLastName(TestData.userLastname);
+		existingUser.setBirthday(TestData.userBirthday);
+		existingUser.setEmail(TestData.userEmail);
+		
+		when(userRepository.findUserByUsername(TestData.userUsername)).thenReturn(existingUser);
+		when(userRepository.existsByUsername(TestData.userUsername)).thenReturn(true);
+		
+		try {
+			existingUser = userService.updateUser(TestData.userUsername, TestData.userPassword, TestData.userPassword2, TestData.userFirstname2, TestData.userLastname2, TestData.userBirthday2, TestData.userEmail2);
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+			fail();
+		}
+		
+		assertEquals(TestData.userUsername, existingUser.getUsername());
+		assertEquals(TestData.userFirstname2, existingUser.getFirstName());
+		assertEquals(TestData.userLastname2, existingUser.getLastName());
+		assertEquals(TestData.userEmail2, existingUser.getEmail());
+		assertEquals(TestData.userBirthday2, existingUser.getBirthday());
+		assertEquals(TestData.userPassword2, existingUser.getPassword());
+	}
+	
+	@Test
+	public void testUpdateUserNullValues() {
+		
+		when(userRepository.save(any(User.class))).thenReturn(null);
+		
+		User existingUser = new User();
+		existingUser.setUsername(TestData.userUsername);
+		existingUser.setPassword(TestData.userPassword);
+		existingUser.setFirstName(TestData.userFirstname);
+		existingUser.setLastName(TestData.userLastname);
+		existingUser.setBirthday(TestData.userBirthday);
+		existingUser.setEmail(TestData.userEmail);
+		
+		when(userRepository.findUserByUsername(TestData.userUsername)).thenReturn(existingUser);
+		when(userRepository.existsByUsername(TestData.userUsername)).thenReturn(true);
+		
+		try {
+			existingUser = userService.updateUser(TestData.userUsername, TestData.userPassword, null, null, null, null, null);
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+			fail();
+		}
+		
+		assertEquals(TestData.userUsername, existingUser.getUsername());
+		assertEquals(TestData.userFirstname, existingUser.getFirstName());
+		assertEquals(TestData.userLastname, existingUser.getLastName());
+		assertEquals(TestData.userEmail, existingUser.getEmail());
+		assertEquals(TestData.userBirthday, existingUser.getBirthday());
+		assertEquals(TestData.userPassword, existingUser.getPassword());
+	}
+	
+	@Test
+	public void testUpdateUserNonExist() {
+		String error = "";
+
+		
+		User existingUser = new User();
+		existingUser.setUsername(TestData.userUsername);
+		existingUser.setPassword(TestData.userPassword);
+		existingUser.setFirstName(TestData.userFirstname);
+		existingUser.setLastName(TestData.userLastname);
+		existingUser.setBirthday(TestData.userBirthday);
+		existingUser.setEmail(TestData.userEmail);
+		
+		when(userRepository.existsByUsername(TestData.userUsername2)).thenReturn(false);;
+		
+		try {
+			existingUser = userService.updateUser(TestData.userUsername2, TestData.userPassword, null, null, null, null, null);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("User does not exist.", error);
+	}
+	
+	@Test
+	public void testUpdateUserWrongPassword() {
+		String error = "";
+
+		
+		User existingUser = new User();
+		existingUser.setUsername(TestData.userUsername);
+		existingUser.setPassword(TestData.userPassword);
+		existingUser.setFirstName(TestData.userFirstname);
+		existingUser.setLastName(TestData.userLastname);
+		existingUser.setBirthday(TestData.userBirthday);
+		existingUser.setEmail(TestData.userEmail);
+		
+		when(userRepository.findUserByUsername(TestData.userUsername)).thenReturn(existingUser);
+		when(userRepository.existsByUsername(TestData.userUsername)).thenReturn(true);;
+		
+		try {
+			existingUser = userService.updateUser(TestData.userUsername, TestData.userPassword2, null, null, null, null, null);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("Incorrect Password.", error);
+	}
+	
+	@Test
+	public void testUpdateUserInvalid() {
+		String error = "";
+
+		
+		User existingUser = new User();
+		existingUser.setUsername(TestData.userUsername);
+		existingUser.setPassword(TestData.userPassword);
+		existingUser.setFirstName(TestData.userFirstname);
+		existingUser.setLastName(TestData.userLastname);
+		existingUser.setBirthday(TestData.userBirthday);
+		existingUser.setEmail(TestData.userEmail);
+		
+		when(userRepository.findUserByUsername(TestData.userUsername)).thenReturn(existingUser);
+		when(userRepository.existsByUsername(TestData.userUsername)).thenReturn(true);
+		
+		try {
+			existingUser = userService.updateUser(TestData.userUsername, TestData.userPassword, TestData.invalidUserPassword, null, null, TestData.invalidUserBirthday, TestData.invalidUserEmail);
+		} catch (IllegalArgumentException e) {
+			error = e.getMessage();
+		}
+		
+		assertEquals("Password is invalid. Birthday is invalid. Email is invalid.", error);
+	}
+	
 }
