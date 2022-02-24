@@ -20,6 +20,7 @@ function App() {
                         path='/editProfile'
                         element={<EditProfile />}
                     />
+                    <Route exact path='/manageattendees' element={<ManageAttendees />} />
                 </Routes>
             </Router>
         </>
