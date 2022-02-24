@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import EditProfile from './pages/EditProfile';
+import ManageAttendees from './pages/ManageAttendees';
 
 function App() {
     return (
