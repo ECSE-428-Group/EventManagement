@@ -16,10 +16,6 @@ export default function LandingPageAuth({ input }) {
     const navigate = useNavigate();
     const baseURL = "https://event-management-app-backend.herokuapp.com/";
 
-    // const axios = axios.create({
-    //     baseURL: "https://event-management-app-backend.herokuapp.com/"
-    // })
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -36,8 +32,9 @@ export default function LandingPageAuth({ input }) {
     }
 
     function checkData(data) {
+        console.log("Check");
         console.log(data);
-        if (data.password === password) {
+        if (data === password) {
             navigate(`${input.page}`);
         } else {
             setUsername("");
@@ -50,8 +47,10 @@ export default function LandingPageAuth({ input }) {
         localStorage.setItem('username', username);
         localStorage.setItem('password', password);
 
-        fetch(baseURL + "users/" + username)
-        .then(response => response.json())
+        fetch(baseURL + "users/checkUser/" + username + "?password=" + password)
+        .then(
+            response => response.json()
+            )
         .then(data => checkData(data));
     }
 

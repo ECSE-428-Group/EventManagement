@@ -78,11 +78,11 @@ public class UserController {
 	}
 
 	@GetMapping(value = {
-		"/users/getUser/{username}/",
-		"/users/getUser/{username}",
+		"/users/checkUser/{username}/",
+		"/users/checkUser/{username}",
 		})
-	public User getUser(@PathVariable("username") String username) {
+	public Boolean getUser(@PathVariable("username") String username, @RequestParam("password") String password) {
 
-		return userService.getUser(username);
+		return userService.checkUser(username, password);
 	}
 }

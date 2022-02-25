@@ -173,9 +173,9 @@ public class UserService {
 	}
 
 	@Transactional
-	public User getUser(String username) {
+	public Boolean checkUser(String username, String password) {
 		if (userRepository.existsByUsername(username)){
-			return userRepository.findUserByUsername(username);
+			return userRepository.findUserByUsername(username).getPassword().equals(password);
 		} else {
 			throw new IllegalArgumentException("User does not exist");
 		}
