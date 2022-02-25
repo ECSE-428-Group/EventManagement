@@ -1,4 +1,4 @@
-import React from 'react';
+import { React, useState } from 'react';
 
 // Router
 import { useNavigate } from 'react-router-dom';
@@ -14,8 +14,29 @@ import TextField from '@material-ui/core/TextField';
 export default function LandingPageAuth({ input }) {
     const navigate = useNavigate();
 
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
     function handleClick() {
         navigate(`${input.page}`);
+    }
+
+    function handleChange(e, idx) {
+        if ((idx) === 0) {
+            setEmail(e.target.value);
+        } else {
+            setPassword(e.target.value);
+        }
+    }
+
+    function handleLogin() {
+        console.log("Test");
+        localStorage.setItem('email', email);
+        localStorage.setItem('password', password);
+
+
+
     }
 
     const textFields = input.data.map((data, idx) => {
@@ -43,6 +64,7 @@ export default function LandingPageAuth({ input }) {
                             fontSize: 12,
                         },
                     }} // font size of input label
+                    onChange={e => handleChange(e, idx)}
                 />
             </Grid>
         );
@@ -75,7 +97,7 @@ export default function LandingPageAuth({ input }) {
                             </Typography>
                             <Typography variant='body2'>
                                 Enter your details below to get started on
-                                Joinit
+                                JoinIt
                             </Typography>
                         </Grid>
 
@@ -90,6 +112,7 @@ export default function LandingPageAuth({ input }) {
                                     backgroundColor: '#6558f5',
                                     color: '#ffffff',
                                 }}
+                                onClick={handleLogin}
                             >
                                 {input.button}
                             </Button>
