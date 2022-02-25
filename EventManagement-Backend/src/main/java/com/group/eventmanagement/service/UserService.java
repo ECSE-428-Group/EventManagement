@@ -173,6 +173,15 @@ public class UserService {
 	}
 
 	@Transactional
+	public User getUser(String username) {
+		if (userRepository.existsByUsername(username)){
+			return userRepository.findUserByUsername(username);
+		} else {
+			throw new IllegalArgumentException("User does not exist");
+		}
+	}
+
+	@Transactional
 	public List<User> getAllUsers() {
 		return toList(userRepository.findAll());
 	}

@@ -1,4 +1,5 @@
 import { React, useState } from 'react';
+// import axios from 'axios';
 
 // Router
 import { useNavigate } from 'react-router-dom';
@@ -13,9 +14,13 @@ import TextField from '@material-ui/core/TextField';
 
 export default function LandingPageAuth({ input }) {
     const navigate = useNavigate();
+    const baseURL = "https://event-management-app-backend.herokuapp.com/";
 
+    // const axios = axios.create({
+    //     baseURL: "https://event-management-app-backend.herokuapp.com/"
+    // })
 
-    const [email, setEmail] = useState('');
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     function handleClick() {
@@ -24,19 +29,30 @@ export default function LandingPageAuth({ input }) {
 
     function handleChange(e, idx) {
         if ((idx) === 0) {
-            setEmail(e.target.value);
+            setUsername(e.target.value);
         } else {
             setPassword(e.target.value);
         }
     }
 
+    function checkData(data) {
+        console.log(data);
+        if (data.password === password) {
+            navigate(`${input.page}`);
+        } else {
+            setUsername("");
+            setPassword("");
+        }
+    }
+
     function handleLogin() {
         console.log("Test");
-        localStorage.setItem('email', email);
+        localStorage.setItem('username', username);
         localStorage.setItem('password', password);
 
-
-
+        fetch(baseURL + "users/" + username)
+        .then(response => response.json())
+        .then(data => checkData(data));
     }
 
     const textFields = input.data.map((data, idx) => {

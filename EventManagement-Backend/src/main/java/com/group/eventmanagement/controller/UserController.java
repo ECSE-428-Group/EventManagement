@@ -68,7 +68,6 @@ public class UserController {
 		return updatedUser;
 	}
 
-	/////////// UPDATE USER ACCOUNT ///////////
 	@GetMapping(value = {
 		"/users/",
 		"/users",
@@ -76,5 +75,14 @@ public class UserController {
 	public List<User> getAllUsers() {
 
 		return userService.getAllUsers();
+	}
+
+	@GetMapping(value = {
+		"/users/getUser/{username}/",
+		"/users/getUser/{username}",
+		})
+	public User getUser(@PathVariable("username") String username) {
+
+		return userService.getUser(username);
 	}
 }
