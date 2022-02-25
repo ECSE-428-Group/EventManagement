@@ -15,6 +15,7 @@ import TextField from '@material-ui/core/TextField';
 export default function LandingPageAuth({ input }) {
     const navigate = useNavigate();
     const baseURL = "https://event-management-app-backend.herokuapp.com/";
+    const baseURLTesting = "http://localhost:8080/";
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -34,11 +35,12 @@ export default function LandingPageAuth({ input }) {
     function checkData(data) {
         console.log("Check");
         console.log(data);
-        if (data === password) {
-            navigate(`${input.page}`);
+        if (data === true) {
+            navigate(`${input.page}`); //CHANGE THIS TO LANDING PAGE OF APP
         } else {
             setUsername("");
             setPassword("");
+            window.location.reload(false);
         }
     }
 
@@ -47,7 +49,7 @@ export default function LandingPageAuth({ input }) {
         localStorage.setItem('username', username);
         localStorage.setItem('password', password);
 
-        fetch(baseURL + "users/checkUser/" + username + "?password=" + password)
+        fetch(baseURLTesting + "users/checkUser/" + username + "?password=" + password)
         .then(
             response => response.json()
             )
