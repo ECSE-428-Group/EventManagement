@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import EditProfile from './pages/EditProfile';
+import CreateEvent from './pages/CreateEvent';
 
 function App() {
     return (
@@ -19,6 +20,11 @@ function App() {
                         exact
                         path='/editProfile'
                         element={<EditProfile />}
+                    />
+                    <Route
+                        exact
+                        path='/createEvent'
+                        element={<CreateEvent />}
                     />
                 </Routes>
             </Router>
