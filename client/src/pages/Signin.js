@@ -5,8 +5,8 @@ import LandingPageAuth from '../components/LandingPageAuth';
 
 export default function Signin() {
     const input = {
-        data: ['Email', 'Password'],
-        label: ['name@email.com', 'Password'],
+        data: ['Username', 'Password'],
+        label: ['Username', 'Password'],
         page: '/signup',
         type: 'Sign In',
         button: 'Login',
