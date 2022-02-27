@@ -5,13 +5,15 @@ import { Grid, TextField, Typography, Button } from '@material-ui/core';
 
 export default function EditProfileUpdateInfo() {
     const input = {
-        name: 'name',
-        password: 'password',
-        email: 'email',
-        location: 'location',
+        newPassword: 'Password',
+        firstname: 'First Name',
+        lastname: 'Last Name',
+        email: 'Email'
     };
 
-    const textFields = Object.keys(input).map((data, idx) => {
+    const textLabels = ['New Password', 'First Name', 'Last Name', 'Email']
+
+    const textFields = Object.values(input).map((data, idx) => {
         return (
             <Grid
                 style={{
@@ -60,12 +62,21 @@ export default function EditProfileUpdateInfo() {
                 alignItems='flex-end'
             >
                 <Button
+                    //onClick = {updateUser} 
                     variant='outlined'
                     style={{ backgroundColor: '#6558f5', color: '#ffffff' }}
                 >
-                    Save Profile
+                    Update Profile
                 </Button>
             </Grid>
         </>
     );
+
+    // function updateUser(username) {
+    //     fetch('http://localhost:3000/$(username)'), {
+    //         method: 'PUT',
+    //         headers:{}
+    //         body:JSON.strinify(input)
+    //     }
+    // }
 }
