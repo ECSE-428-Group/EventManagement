@@ -96,7 +96,7 @@ public class UserService {
 			error += "Incorrect Password. ";
 		}
 
-		if(newPassword == null || newPassword.length() == 0) {
+		if(newPassword == null || newPassword.trim().length() == 0) {
 			newPassword = user.getPassword();
 		}
 
@@ -192,5 +192,10 @@ public class UserService {
 			resultList.add(user);
 		}
 		return resultList;
+	}
+	
+	@Transactional
+	public User getUser(String username) {
+		return userRepository.findUserByUsername(username);
 	}
 }

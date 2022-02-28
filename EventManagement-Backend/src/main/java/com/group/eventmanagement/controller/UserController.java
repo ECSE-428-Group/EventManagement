@@ -85,4 +85,13 @@ public class UserController {
 
 		return userService.checkUser(username, password);
 	}
+	
+	@GetMapping(value = {
+			"/users/{username}",
+			"/users/{username}/",
+	})
+	public User getUserData(@PathVariable("username") String username) {
+		
+			return userService.getUser(username);
+	}
 }
