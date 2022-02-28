@@ -8,8 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-export default function Event({ input, footer }) {
-    console.log(footer);
+export default function CreateEventComponent({ input, footer }) {
     const textFields = input.data.map((data, idx) => {
         return (
             <Grid
@@ -40,7 +39,7 @@ export default function Event({ input, footer }) {
         );
     });
 
-    const footer_div = Object.values(footer).map((data, idx) => {
+    const footer_div = Object.values(footer).map((data) => {
         return (
             <Grid item xs={6}>
                 <Typography gutterBottom variant='body2'>

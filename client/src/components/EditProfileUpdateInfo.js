@@ -11,7 +11,7 @@ export default function EditProfileUpdateInfo() {
         location: 'location',
     };
 
-    const textFields = Object.keys(input).map((data, idx) => {
+    const textFields = Object.keys(input).map((data) => {
         return (
             <Grid
                 style={{

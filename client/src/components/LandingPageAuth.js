@@ -103,7 +103,7 @@ export default function LandingPageAuth({ input }) {
                         >
                             {input.footer}
                             <span
-                                onClick={handleClick}
+                                onClick={() => handleClick()}
                                 style={{
                                     color: '#6558f5',
                                     cursor: 'pointer',
