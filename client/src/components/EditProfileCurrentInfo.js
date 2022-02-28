@@ -26,7 +26,6 @@ export default function EditProfileCurrentInfo() {
         console.log(baseURLTesting + "users/" + localStorage.getItem('username'));
         fetch(baseURLTesting + "users/" + localStorage.getItem('username')).then((result) => {
             result.json().then((resp) => {
-                console.log("CHECK");
                 console.log(resp);
                 setUsername(resp.username);
                 setFirstName(resp.firstName);
