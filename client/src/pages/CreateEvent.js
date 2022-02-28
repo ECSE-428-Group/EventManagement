@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Event from '../components/Event';
+import CreateEventComponent from '../components/CreateEventComponent';
 
 export default function CreateEvent() {
     const input = {
@@ -16,5 +16,5 @@ export default function CreateEvent() {
         a: 'Set Users Anonymous?',
         b: 'Add Organizers',
     };
-    return <Event input={input} footer={footer} />;
+    return <CreateEventComponent input={input} footer={footer} />;
 }
