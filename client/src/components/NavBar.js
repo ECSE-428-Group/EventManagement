@@ -1,46 +1,50 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
-import {
-    AppBar,
-    Toolbar,
-    Typography,
-    Button,
-    Hidden,
-} from "@material-ui/core";
+// Router
+import { useNavigate } from 'react-router-dom';
+
+// MUI
+import { AppBar, Toolbar, Typography, Button, Hidden } from '@material-ui/core';
 
 function NavBar() {
+    const navigate = useNavigate();
+
+    function handleClick(route) {
+        if (route !== undefined) navigate(`${route}`);
+    }
     const menuItems = [
         {
-            name: "Organize",
+            name: 'Organize',
         },
         {
-            link: "./pages/signup",
-            name: "Sign Up",
+            link: './pages/signup',
+            name: 'Sign Up',
+            route: '/signup',
         },
         {
-            link: "./pages/signin",
-            name: "Login",
-        }
+            link: './pages/signin',
+            name: 'Login',
+            route: '/signin',
+        },
     ];
     return (
         <div>
-            <AppBar position="fixed">
-                <Toolbar >
+            <AppBar position='fixed'>
+                <Toolbar>
                     <div>
-                        <Typography
-                            variant="h4"
-                            display="inline"
-                            color="white"
-                        >
+                        <Typography variant='h4' display='inline' color='white'>
                             JoinIt
                         </Typography>
                     </div>
                     <div>
                         <Hidden smDown>
-                            {menuItems.map(element => {
+                            {menuItems.map((element) => {
                                 return (
                                     <Button
-                                        size="large"
+                                        onClick={() =>
+                                            handleClick(element.route)
+                                        }
+                                        size='large'
                                         key={element.name}
                                     >
                                         {element.name}
