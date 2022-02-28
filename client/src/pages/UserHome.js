@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Grid } from '@material-ui/core';
 
-import Event from '../components/Event';
+import EventCard from '../components/EventCard';
 import NavBar from '../components/NavBar';
 
 import ev1 from '../static/images/ev1.jpg';
@@ -87,7 +87,7 @@ export default function UserHome() {
             <Grid container direction='row' alignItems='center' spacing={2}>
                 {EventData.map((ev, index) => (
                     <Grid xs={3} item key={index}>
-                        <Event
+                        <EventCard
                             image={ev.image}
                             title={ev.title}
                             text={ev.description}
@@ -98,7 +98,7 @@ export default function UserHome() {
             <Grid container direction='row' alignItems='center' spacing={2}>
                 {EventData2.map((ev, index) => (
                     <Grid xs={3} item key={index}>
-                        <Event
+                        <EventCard
                             image={ev.image}
                             title={ev.title}
                             text={ev.description}

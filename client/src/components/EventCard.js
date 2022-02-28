@@ -6,7 +6,7 @@ import {
     Typography,
 } from '@material-ui/core';
 
-const Event = (props) => {
+const EventCard = (props) => {
     return (
         <Card>
             <CardMedia component='img' image={props.image} />
@@ -19,4 +19,4 @@ const Event = (props) => {
     );
 };
 
-export default Event;
+export default EventCard;
