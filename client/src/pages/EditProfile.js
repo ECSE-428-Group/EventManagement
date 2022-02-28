@@ -24,10 +24,10 @@ export default function EditProfile() {
                     }}
                 >
                     <Grid container direction='row' alignItems='center'>
-                        <Grid item xs={4}>
+                        <Grid item xs={6}>
                             <EditProfileCurrentInfo />
                         </Grid>
-                        <Grid item xs={8} style={{ height: '100%' }}>
+                        <Grid item xs={6} style={{ height: '100%' }}>
                             <EditProfileUpdateInfo />
                         </Grid>
                     </Grid>
