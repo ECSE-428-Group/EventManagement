@@ -94,7 +94,7 @@ public class EventController {
 		boolean isPrivateb = Boolean.parseBoolean(isPrivate);
 		boolean isVirtualb = Boolean.parseBoolean(isVirtual);
 		Timestamp convertedEventDate = Timestamp.valueOf(date);
-		Event newEvent = eventService.createEvent(eventIDl, convertedEventDate, isPrivateb, isVirtualb, location, description, image);
+		Event newEvent = eventService.createEvent(convertedEventDate, isPrivateb, isVirtualb, location, description, image);
 		return newEvent;
 	}
 }
