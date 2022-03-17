@@ -2,6 +2,7 @@ import React from 'react';
 
 // Libraries for forms
 import { useFormik } from 'formik';
+import * as Yup from "yup";
 
 // MUI
 import Grid from '@material-ui/core/Grid';
@@ -12,26 +13,32 @@ import TextField from '@material-ui/core/TextField';
 import { FormControlLabel, RadioGroup } from '@material-ui/core';
 import Radio from "@material-ui/core/Radio"
 
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DateTimePicker from '@mui/lab/DateTimePicker';
+const today = new Date();
+
+const validationSchema = Yup.object({
+    date: Yup.date().required("This event has no date associated to it.").min(today, "This date has already passsed."),
+    location: Yup.string().required("This event has no location associated to it.").nullable(),
+    description: Yup.string().required("This event has no description associated to it.").nullable(),
+    image: Yup.mixed().required("This event has no image associated to it."),
+});
 
 export default function CreateEventComponent() {
     const formik = useFormik({
         initialValues: {
             date: "",
-            isPrivate: "",
-            isVirtual: "",
+            isPrivate: null,
+            isVirtual: null,
             location: "",
             description: "",
-            image: ""
+            image: null
         },
+        validationSchema: validationSchema,
         onSubmit: values => {
             fetch(`https://event-management-app-backend.herokuapp.com/event?date=${formik.values.date.replace("T", " ")}:00&isPrivate=${formik.values.isPrivate}&isVirtual=${formik.values.isVirtual}&location=${formik.values.location}&description=${formik.values.description}&image=${formik.values.image}`, {
                 method: "POST",
                 mode: "no-cors",
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'multipart/form-data'
                 }
             })
             .then(res => {
@@ -102,6 +109,8 @@ export default function CreateEventComponent() {
                                                 fontSize: 12,
                                             }
                                         }}
+                                        error={formik.touched.date && Boolean(formik.errors.date)}
+                                        helperText={formik.touched.date && formik.errors.date}
                                     />
                                     
                                 </Grid>
@@ -127,6 +136,8 @@ export default function CreateEventComponent() {
                                                 fontSize: 12,
                                             }
                                         }}
+                                        error={formik.touched.location && Boolean(formik.errors.location)}
+                                        helperText={formik.touched.location && formik.errors.location}
                                     />
                                 </Grid>
 
@@ -152,6 +163,8 @@ export default function CreateEventComponent() {
                                                 fontSize: 12,
                                             }
                                         }}
+                                        error={formik.touched.description && Boolean(formik.errors.description)}
+                                        helperText={formik.touched.description && formik.errors.description}
                                     />
                                 </Grid>
 
@@ -177,6 +190,8 @@ export default function CreateEventComponent() {
                                                 fontSize: 12,
                                             }
                                         }}
+                                        error={formik.touched.image && Boolean(formik.errors.image)}
+                                        helperText={formik.touched.image && formik.errors.image}
                                     />
                                 </Grid>
                                     
