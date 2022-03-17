@@ -119,9 +119,11 @@ export default function EditProfileUpdateInfo() {
         if (userUpdateObject.birthday === "") {
             getBirthday();
         }
+
         console.log(JSON.stringify(userUpdateObject));
 
         // attempt 1
+        //fetch(baseURLTesting + "users/checkUser/" + username + "?password=" + password)
         fetch(baseURLTesting + "userprofile/" + username, {
             method: 'PUT',
             headers: { 
