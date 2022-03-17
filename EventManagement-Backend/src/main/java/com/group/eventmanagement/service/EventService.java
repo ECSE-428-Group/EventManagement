@@ -30,7 +30,7 @@ public class EventService {
 
 	///// EVENT CREATION /////
 	@Transactional
-	public Event createEvent(Long eventID, Timestamp eventDate, boolean isPrivate, boolean isVirtual, String location, String description, String image) {
+	public Event createEvent(Timestamp eventDate, boolean isPrivate, boolean isVirtual, String location, String description, String image) {
 
 		String error = "";
 
@@ -59,7 +59,6 @@ public class EventService {
 
 		//Event creation
 		Event newEvent = new Event();
-		newEvent.setEventId(eventID);
 		newEvent.setDate(eventDate);
 		newEvent.setIsPrivate(isPrivate);
 		newEvent.setIsVirtual(isVirtual);
