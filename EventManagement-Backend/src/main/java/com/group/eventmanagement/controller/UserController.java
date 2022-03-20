@@ -2,10 +2,13 @@ package com.group.eventmanagement.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,14 +21,14 @@ import com.group.eventmanagement.service.UserService;
 @CrossOrigin(origins = "*")
 @RestController
 public class UserController {
-	
+
 	private UserService userService;
-	
+
 	@Autowired
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	/////////// CREATE USER ACCOUNT ///////////
 	@PostMapping(value = {
 			"/userprofile/{username}",
@@ -40,11 +43,11 @@ public class UserController {
 			@RequestParam(name = "email") String email
 			) throws IllegalArgumentException {
 		Timestamp convertedBirthday = Timestamp.valueOf(birthday.atStartOfDay());
-		User newUser = userService.createUser(username, password, 
+		User newUser = userService.createUser(username, password,
 				firstName, lastName, convertedBirthday, email);
 		return newUser;
 	}
-	
+
 	/////////// UPDATE USER ACCOUNT ///////////
 	@PutMapping(value = {
 			"/userprofile/{username}",
@@ -60,8 +63,26 @@ public class UserController {
 			@RequestParam(name = "email") String newEmail
 			) throws IllegalArgumentException {
 		Timestamp convertedBirthday = Timestamp.valueOf(newBirthday.atStartOfDay());
-		User updatedUser = userService.updateUser(username,curPassword,newPassword, 
+		User updatedUser = userService.updateUser(username,curPassword,newPassword,
 				newFirstName, newLastName, convertedBirthday, newEmail);
 		return updatedUser;
+	}
+
+	@GetMapping(value = {
+		"/users/",
+		"/users",
+		})
+	public List<User> getAllUsers() {
+
+		return userService.getAllUsers();
+	}
+
+	@GetMapping(value = {
+		"/users/checkUser/{username}/",
+		"/users/checkUser/{username}",
+		})
+	public Boolean getUser(@PathVariable("username") String username, @RequestParam("password") String password) {
+
+		return userService.checkUser(username, password);
 	}
 }

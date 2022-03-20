@@ -1,4 +1,5 @@
-import React from 'react';
+import { React, useState } from 'react';
+// import axios from 'axios';
 
 // Router
 import { useNavigate } from 'react-router-dom';
@@ -13,9 +14,46 @@ import TextField from '@material-ui/core/TextField';
 
 export default function LandingPageAuth({ input }) {
     const navigate = useNavigate();
+    const baseURL = "https://event-management-app-backend.herokuapp.com/";
+    const baseURLTesting = "http://localhost:8080/";
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
     function handleClick() {
         navigate(`${input.page}`);
+    }
+
+    function handleChange(e, idx) {
+        if ((idx) === 0) {
+            setUsername(e.target.value);
+        } else {
+            setPassword(e.target.value);
+        }
+    }
+
+    function checkData(data) {
+        console.log("Check");
+        console.log(data);
+        if (data === true) {
+            navigate(`${input.page}`); //CHANGE THIS TO LANDING PAGE OF APP
+        } else {
+            setUsername("");
+            setPassword("");
+            window.location.reload(false);
+        }
+    }
+
+    function handleLogin() {
+        console.log("Test");
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
+
+        fetch(baseURLTesting + "users/checkUser/" + username + "?password=" + password)
+        .then(
+            response => response.json()
+            )
+        .then(data => checkData(data));
     }
 
     const textFields = input.data.map((data, idx) => {
@@ -43,6 +81,7 @@ export default function LandingPageAuth({ input }) {
                             fontSize: 12,
                         },
                     }} // font size of input label
+                    onChange={e => handleChange(e, idx)}
                 />
             </Grid>
         );
@@ -75,7 +114,7 @@ export default function LandingPageAuth({ input }) {
                             </Typography>
                             <Typography variant='body2'>
                                 Enter your details below to get started on
-                                Joinit
+                                JoinIt
                             </Typography>
                         </Grid>
 
@@ -90,6 +129,7 @@ export default function LandingPageAuth({ input }) {
                                     backgroundColor: '#6558f5',
                                     color: '#ffffff',
                                 }}
+                                onClick={handleLogin}
                             >
                                 {input.button}
                             </Button>
