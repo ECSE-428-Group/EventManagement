@@ -12,50 +12,16 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-export default function LandingPageAuth({ input }) {
+export default function LandingPageAuth({
+    input,
+    textfieldNames,
+    handleOnClick,
+    handleForm,
+}) {
     const navigate = useNavigate();
-    const baseURL = "https://event-management-app-backend.herokuapp.com/";
-    const baseURLTesting = "http://localhost:8080/";
-
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-
     function handleClick() {
         navigate(`${input.page}`);
     }
-
-    function handleChange(e, idx) {
-        if ((idx) === 0) {
-            setUsername(e.target.value);
-        } else {
-            setPassword(e.target.value);
-        }
-    }
-
-    function checkData(data) {
-        console.log("Check");
-        console.log(data);
-        if (data === true) {
-            navigate(`${input.page}`); //CHANGE THIS TO LANDING PAGE OF APP
-        } else {
-            setUsername("");
-            setPassword("");
-            window.location.reload(false);
-        }
-    }
-
-    function handleLogin() {
-        console.log("Test");
-        localStorage.setItem('username', username);
-        localStorage.setItem('password', password);
-
-        fetch(baseURLTesting + "users/checkUser/" + username + "?password=" + password)
-        .then(
-            response => response.json()
-            )
-        .then(data => checkData(data));
-    }
-
     const textFields = input.data.map((data, idx) => {
         return (
             <Grid
@@ -67,10 +33,12 @@ export default function LandingPageAuth({ input }) {
                     {data}
                 </Typography>
                 <TextField
+                    id={textfieldNames[idx]}
                     label={`${input.label[idx]}`}
                     variant='outlined'
                     fullWidth
                     size='small'
+                    onChange={handleForm}
                     inputProps={{
                         style: {
                             fontSize: 12,
@@ -81,7 +49,6 @@ export default function LandingPageAuth({ input }) {
                             fontSize: 12,
                         },
                     }} // font size of input label
-                    onChange={e => handleChange(e, idx)}
                 />
             </Grid>
         );
@@ -123,13 +90,13 @@ export default function LandingPageAuth({ input }) {
                         </Grid>
                         <CardActions style={{ padding: '30px 0px 0px 0px' }}>
                             <Button
+                                onClick={handleOnClick}
                                 size='small'
                                 fullWidth
                                 style={{
                                     backgroundColor: '#6558f5',
                                     color: '#ffffff',
                                 }}
-                                onClick={handleLogin}
                             >
                                 {input.button}
                             </Button>

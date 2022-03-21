@@ -1,16 +1,67 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // Components
 import LandingPageAuth from '../components/LandingPageAuth';
 
-export default function Signup() {
+const INITIAL_FORM_DATA = {
+    username: '',
+    password: '',
+    firstname: '',
+    lastname: '',
+    birthday: '',
+    email: '',
+};
+
+function Signup({ handleCreateAccount }) {
+    const [accountData, setAccountData] = useState();
+
+    const textfieldNames = [
+        'username',
+        'password',
+        'firstname',
+        'lastname',
+        'birthday',
+        'email',
+    ];
+
+    const handleForm = (e) => {
+        setAccountData({
+            ...accountData, // The triple dot is called spread operator and allows an iterable like an array to expand all it's elements
+            [e.currentTarget.id]: e.currentTarget.value,
+        });
+    };
+
+    const handleOnClick = () => {
+        if (
+            accountData.username === '' ||
+            accountData.password === '' ||
+            accountData.firstname === '' ||
+            accountData.lastname === '' ||
+            accountData.birthday === '' ||
+            accountData.email === ''
+        ) {
+            return; // Can also do alert
+        }
+        handleCreateAccount(accountData);
+        setAccountData(INITIAL_FORM_DATA);
+    };
+
     const input = {
-        data: ['Name', 'Email', 'Password', 'Confirm password'],
+        data: [
+            'Username',
+            'Password',
+            'First Name',
+            'Last Name',
+            'Birthday',
+            'Email',
+        ],
         label: [
-            'Your name',
-            'name@email.com',
+            'Username',
             'At least 8 characters',
-            'Enter password again',
+            'Your name',
+            'Your last name',
+            'Birthday',
+            'user@email.com',
         ],
         page: '/signin',
         type: 'Sign Up',
@@ -18,5 +69,14 @@ export default function Signup() {
         footer: 'Already have an account?',
         span: 'Log In',
     };
-    return <LandingPageAuth input={input} />;
+    return (
+        <LandingPageAuth
+            textfieldNames={textfieldNames}
+            input={input}
+            handleOnClick={handleOnClick}
+            handleForm={handleForm}
+        />
+    );
 }
+
+export default Signup;
