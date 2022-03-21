@@ -29,7 +29,7 @@ export default function Signin() {
 
     function checkData(data) {
         if (data === true) {
-            navigate(`${input.page}`); //CHANGE THIS TO LANDING PAGE OF APP
+            navigate('/userhome'); //CHANGE THIS TO LANDING PAGE OF APP
         } else {
             setAccountData(INITIAL_FORM_DATA);
             window.location.reload(false);
@@ -37,7 +37,6 @@ export default function Signin() {
     }
 
     const handleOnClick = () => {
-        navigate(`${input.page}`);
         localStorage.setItem('username', accountData.username);
         localStorage.setItem('password', accountData.password);
 
