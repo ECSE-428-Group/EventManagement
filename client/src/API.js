@@ -12,7 +12,6 @@ export const createAccount = async (accountData) => {
             birthday: accountData.birthday,
             email: accountData.email,
         };
-        console.log(accountData);
 
         const accountCreated = await axios.post(
             baseUrl +

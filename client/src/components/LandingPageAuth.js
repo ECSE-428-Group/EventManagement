@@ -35,7 +35,9 @@ export default function LandingPageAuth({
                 </Typography>
                 <TextField
                     type={
-                        textfieldNames[idx] === 'password' ? 'password' : 'text'
+                        textfieldNames[idx].toLowerCase().includes('password')
+                            ? 'password'
+                            : 'text'
                     }
                     id={textfieldNames[idx]}
                     label={`${input.label[idx]}`}

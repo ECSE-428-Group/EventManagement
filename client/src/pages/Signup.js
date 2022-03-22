@@ -3,6 +3,9 @@ import React, { useState } from 'react';
 // Components
 import LandingPageAuth from '../components/LandingPageAuth';
 
+// Router
+import { useNavigate } from 'react-router-dom';
+
 const INITIAL_FORM_DATA = {
     username: '',
     password: '',
@@ -13,11 +16,14 @@ const INITIAL_FORM_DATA = {
 };
 
 function Signup({ handleCreateAccount }) {
+    const navigate = useNavigate();
+
     const [accountData, setAccountData] = useState();
 
     const textfieldNames = [
         'username',
         'password',
+        'confirmPassword',
         'firstname',
         'lastname',
         'birthday',
@@ -35,6 +41,7 @@ function Signup({ handleCreateAccount }) {
         if (
             accountData.username === '' ||
             accountData.password === '' ||
+            accountData.confirmPassword === '' ||
             accountData.firstname === '' ||
             accountData.lastname === '' ||
             accountData.birthday === '' ||
@@ -42,7 +49,18 @@ function Signup({ handleCreateAccount }) {
         ) {
             return; // Can also do alert
         }
-        handleCreateAccount(accountData);
+        if (accountData.password !== accountData.confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+        if (accountData.password.length < 6) {
+            alert('Passwords must be at least 6 characters');
+            return;
+        }
+        const status = handleCreateAccount(accountData);
+        if (status == 0) {
+            navigate('/userhome');
+        }
         setAccountData(INITIAL_FORM_DATA);
     };
 
@@ -50,6 +68,7 @@ function Signup({ handleCreateAccount }) {
         data: [
             'Username',
             'Password',
+            'Confirm password',
             'First Name',
             'Last Name',
             'Birthday',
@@ -57,7 +76,8 @@ function Signup({ handleCreateAccount }) {
         ],
         label: [
             'Username',
-            'At least 8 characters',
+            'At least 6 characters',
+            'At least 6 characters',
             'Your name',
             'Your last name',
             'Birthday',

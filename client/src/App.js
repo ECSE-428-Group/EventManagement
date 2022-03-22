@@ -23,6 +23,7 @@ function App() {
                 }
             })
             .catch((error) => console.log(error));
+        return 0;
     };
 
     return (
