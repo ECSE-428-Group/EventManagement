@@ -49,7 +49,14 @@ export default function Signin() {
                 'users/checkUser/' +
                 accountData.username +
                 '?password=' +
-                accountData.password
+                accountData.password,
+            {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }
         )
             .then((response) => response.json())
             .then((data) => checkData(data));
