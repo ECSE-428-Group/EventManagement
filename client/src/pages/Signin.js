@@ -36,7 +36,7 @@ export default function Signin() {
         }
     }
 
-    const handleOnClick = () => {
+    const handleOnClickSignIn = () => {
         localStorage.setItem('username', accountData.username);
         localStorage.setItem('password', accountData.password);
 
@@ -78,7 +78,7 @@ export default function Signin() {
         <LandingPageAuth
             textfieldNames={textfieldNames}
             input={input}
-            handleOnClick={handleOnClick}
+            handleOnClick={handleOnClickSignIn}
             handleForm={handleForm}
         />
     );

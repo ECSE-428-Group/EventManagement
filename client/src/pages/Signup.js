@@ -31,7 +31,7 @@ function Signup({ handleCreateAccount }) {
         });
     };
 
-    const handleOnClick = () => {
+    const handleOnClickCreateAccount = () => {
         if (
             accountData.username === '' ||
             accountData.password === '' ||
@@ -73,7 +73,7 @@ function Signup({ handleCreateAccount }) {
         <LandingPageAuth
             textfieldNames={textfieldNames}
             input={input}
-            handleOnClick={handleOnClick}
+            handleOnClick={handleOnClickCreateAccount}
             handleForm={handleForm}
         />
     );

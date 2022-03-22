@@ -19,7 +19,8 @@ export default function LandingPageAuth({
     handleForm,
 }) {
     const navigate = useNavigate();
-    function handleClick() {
+
+    function handleClickUpdateLink() {
         navigate(`${input.page}`);
     }
     const textFields = input.data.map((data, idx) => {
@@ -33,6 +34,9 @@ export default function LandingPageAuth({
                     {data}
                 </Typography>
                 <TextField
+                    type={
+                        textfieldNames[idx] === 'password' ? 'password' : 'text'
+                    }
                     id={textfieldNames[idx]}
                     label={`${input.label[idx]}`}
                     variant='outlined'
@@ -110,7 +114,7 @@ export default function LandingPageAuth({
                         >
                             {input.footer}
                             <span
-                                onClick={() => handleClick()}
+                                onClick={() => handleClickUpdateLink()}
                                 style={{
                                     color: '#6558f5',
                                     cursor: 'pointer',
