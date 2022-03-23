@@ -17,6 +17,7 @@ export default function LandingPageAuth({
     textfieldNames,
     handleOnClick,
     handleForm,
+    formErrors,
 }) {
     const navigate = useNavigate();
 
@@ -40,6 +41,12 @@ export default function LandingPageAuth({
                             : 'text'
                     }
                     id={textfieldNames[idx]}
+                    error={
+                        Object.values(formErrors)[idx] != undefined
+                            ? true
+                            : false
+                    }
+                    helperText={Object.values(formErrors)[idx]}
                     label={`${input.label[idx]}`}
                     variant='outlined'
                     fullWidth

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 // Components
 import LandingPageAuth from '../components/LandingPageAuth';
@@ -15,26 +16,105 @@ const INITIAL_FORM_DATA = {
     email: '',
 };
 
+const INITIAL_FORM_ERRORS = {
+    username: null,
+    password: null,
+    confirmpassword: null,
+    firstname: null,
+    lastname: null,
+    birthday: null,
+    email: null,
+};
+
+const textfieldNames = [
+    'username',
+    'password',
+    'confirmPassword',
+    'firstname',
+    'lastname',
+    'birthday',
+    'email',
+];
+
+const baseUrl = 'http://localhost:8080';
+
 function Signup({ handleCreateAccount }) {
     const navigate = useNavigate();
 
     const [accountData, setAccountData] = useState();
+    const [usernames, setUsernames] = useState([]);
+    const [formErrors, setFormErrors] = useState(INITIAL_FORM_ERRORS);
 
-    const textfieldNames = [
-        'username',
-        'password',
-        'confirmPassword',
-        'firstname',
-        'lastname',
-        'birthday',
-        'email',
-    ];
+    useEffect(() => {
+        checkUsername();
+        checkPasswords();
+    }, [accountData]);
+
+    useEffect(() => {
+        getCurrentUsers().then((res) => {
+            res.data.map((user) => {
+                setUsernames((usernames) => [...usernames, user.username]);
+            });
+        });
+    }, []);
 
     const handleForm = (e) => {
         setAccountData({
-            ...accountData, // The triple dot is called spread operator and allows an iterable like an array to expand all it's elements
+            ...accountData,
             [e.currentTarget.id]: e.currentTarget.value,
         });
+    };
+
+    const getCurrentUsers = () => {
+        return axios
+            .get(baseUrl + '/users')
+            .then((users) => {
+                return users;
+            })
+            .catch((error) => console.log(error));
+    };
+
+    const checkUsername = () => {
+        if (accountData == undefined || usernames == undefined) {
+            return;
+        }
+
+        if (usernames.includes(accountData.username)) {
+            setFormErrors((p) => ({
+                ...p,
+                username: 'Username already in use',
+            }));
+        } else {
+            setFormErrors((p) => ({
+                ...p,
+                username: null,
+            }));
+        }
+    };
+
+    const checkPasswords = () => {
+        if (accountData == undefined || usernames == undefined) {
+            return;
+        }
+
+        // Validate passwords
+        if (accountData.password !== accountData.confirmPassword) {
+            setFormErrors((p) => ({
+                ...p,
+                confirmpassword: 'Passwords do not match',
+            }));
+        } else {
+            setFormErrors((p) => ({ ...p, confirmpassword: null }));
+        }
+
+        if (accountData.password !== null && accountData.password.length < 6) {
+            setFormErrors((p) => ({
+                ...p,
+                password: 'Password must more than 6 characters',
+            }));
+        } else {
+            setFormErrors((p) => ({ ...p, password: null }));
+        }
     };
 
     const handleOnClickCreateAccount = () => {
@@ -77,7 +157,7 @@ function Signup({ handleCreateAccount }) {
         label: [
             'Username',
             'At least 6 characters',
-            'At least 6 characters',
+            'Repeat your password',
             'Your name',
             'Your last name',
             'Birthday',
@@ -95,6 +175,7 @@ function Signup({ handleCreateAccount }) {
             input={input}
             handleOnClick={handleOnClickCreateAccount}
             handleForm={handleForm}
+            formErrors={formErrors}
         />
     );
 }
