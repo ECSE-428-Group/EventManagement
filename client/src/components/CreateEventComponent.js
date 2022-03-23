@@ -12,6 +12,7 @@ export default function CreateEventComponent({ input, footer }) {
     const textFields = input.data.map((data, idx) => {
         return (
             <Grid
+                key={idx}
                 style={{
                     padding: '5px 0px',
                 }}
@@ -39,9 +40,9 @@ export default function CreateEventComponent({ input, footer }) {
         );
     });
 
-    const footer_div = Object.values(footer).map((data) => {
+    const footer_div = Object.values(footer).map((data, idx) => {
         return (
-            <Grid item xs={6}>
+            <Grid item xs={6} key={idx}>
                 <Typography gutterBottom variant='body2'>
                     {data}
                 </Typography>
@@ -54,7 +55,7 @@ export default function CreateEventComponent({ input, footer }) {
             style={{ height: '100vh' }}
             container
             direction='row'
-            justify='center'
+            justifyContent='center'
             alignItems='center'
         >
             <Card style={{ boxShadow: 'none', border: '1px solid #c4c4c4' }}>
@@ -62,7 +63,7 @@ export default function CreateEventComponent({ input, footer }) {
                     style={{ padding: 50 }}
                     container
                     direction='row'
-                    justify='center'
+                    justifyContent='center'
                     alignItems='center'
                 >
                     <Grid item xs={12}>
@@ -95,7 +96,7 @@ export default function CreateEventComponent({ input, footer }) {
                 <Grid
                     container
                     direction='row'
-                    justify='flex-end'
+                    justifyContent='flex-end'
                     alignItems='center'
                 >
                     <CardActions style={{ padding: '10px 10px' }}>

@@ -16,6 +16,7 @@ export default function EditProfileCurrentInfo() {
     const listItems = items.map((item, idx) => {
         return (
             <ListItem
+                key={idx}
                 style={{ borderTop: idx !== 0 ? '1px solid #c4c4c4' : 'None' }}
             >
                 <ListItemText primary={`${item}`} />
