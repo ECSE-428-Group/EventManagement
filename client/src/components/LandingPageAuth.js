@@ -27,11 +27,12 @@ export default function LandingPageAuth({
     const textFields = input.data.map((data, idx) => {
         return (
             <Grid
+                key={idx}
                 style={{
                     padding: '5px 0px',
                 }}
             >
-                <Typography gutterBottom variant='body2'>
+                <Typography gutterBottom variant='body2' key={idx}>
                     {data}
                 </Typography>
                 <TextField
@@ -42,11 +43,15 @@ export default function LandingPageAuth({
                     }
                     id={textfieldNames[idx]}
                     error={
+                        formErrors !== undefined &&
                         Object.values(formErrors)[idx] != undefined
                             ? true
                             : false
                     }
-                    helperText={Object.values(formErrors)[idx]}
+                    helperText={
+                        formErrors !== undefined &&
+                        Object.values(formErrors)[idx]
+                    }
                     label={`${input.label[idx]}`}
                     variant='outlined'
                     fullWidth
@@ -72,7 +77,7 @@ export default function LandingPageAuth({
             style={{ height: '100vh' }}
             container
             direction='row'
-            justify='center'
+            justifyContent='center'
             alignItems='center'
         >
             <Card style={{ boxShadow: 'none', border: '1px solid #c4c4c4' }}>
@@ -80,7 +85,7 @@ export default function LandingPageAuth({
                     style={{ padding: 50 }}
                     container
                     direction='row'
-                    justify='center'
+                    justifyContent='center'
                     alignItems='center'
                 >
                     <Grid item xs={12}>
