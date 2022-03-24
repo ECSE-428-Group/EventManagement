@@ -51,7 +51,7 @@ const input = {
     ],
     label: [
         'Username',
-        'At least 7 characters',
+        'At least 6 characters',
         'Repeat your password',
         'Your name',
         'Your last name',
@@ -140,7 +140,7 @@ function Signup({ handleCreateAccount }) {
 
         if (
             accountData.password == undefined ||
-            accountData.password.length > 7 ||
+            accountData.password.length >= 6 ||
             accountData.password == ''
         ) {
             setFormErrors((p) => ({
@@ -150,7 +150,7 @@ function Signup({ handleCreateAccount }) {
         } else {
             setFormErrors((p) => ({
                 ...p,
-                password: 'Password must more than 7 characters',
+                password: 'Password must more than 6 characters',
             }));
         }
     };
@@ -217,14 +217,7 @@ function Signup({ handleCreateAccount }) {
         ) {
             return; // Can also do alert
         }
-        if (accountData.password !== accountData.confirmPassword) {
-            alert('Passwords do not match');
-            return;
-        }
-        if (accountData.password.length < 7) {
-            alert('Passwords must be at least 7 characters');
-            return;
-        }
+
         const status = handleCreateAccount(accountData);
         if (status == 0) {
             navigate('/userhome');
