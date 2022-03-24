@@ -169,7 +169,7 @@ function Signup({ handleCreateAccount }) {
         if (
             validDate ||
             accountData.birthday === '' ||
-            accountData.birthday === null
+            accountData.birthday === undefined
         ) {
             setFormErrors((p) => ({
                 ...p,
@@ -191,7 +191,7 @@ function Signup({ handleCreateAccount }) {
         if (
             validEmail ||
             accountData.email === '' ||
-            accountData.email === null
+            accountData.email === undefined
         ) {
             setFormErrors((p) => ({
                 ...p,
