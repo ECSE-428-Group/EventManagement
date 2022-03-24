@@ -34,7 +34,7 @@ public class UserControllerTest {
 					.param("firstName", TestData.userFirstname)
 					.param("lastName", TestData.userLastname)
 					.param("password", TestData.userPassword)
-					.param("birthday", TestData.userBirthday2.toString())
+					.param("birthday", TestData.userBirthday3)
 					.param("email", TestData.userEmail)
 					).andExpect(status().isOk());
 		} catch (Exception e) {

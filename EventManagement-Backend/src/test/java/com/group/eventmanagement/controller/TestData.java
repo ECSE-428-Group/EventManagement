@@ -29,6 +29,7 @@ public class TestData {
 	static Timestamp userBirthday = new Timestamp(System.currentTimeMillis());
 
 	static LocalDate userBirthday2 = LocalDate.of(1990, 1, 8);
+	static String userBirthday3 = "1998-02-25";
 	static Timestamp userBirthday2Con = Timestamp.valueOf(userBirthday2.atStartOfDay());
 
 	static String userUsername2 = "user2";

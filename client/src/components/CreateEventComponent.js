@@ -1,8 +1,4 @@
-import { React, useState } from 'react';
-// import axios from 'axios';
-
-// Router
-import { useNavigate } from 'react-router-dom';
+import React from 'react';
 
 // MUI
 import Grid from '@material-ui/core/Grid';
@@ -12,18 +8,7 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-export default function LandingPageAuth({
-    input,
-    textfieldNames,
-    handleOnClick,
-    handleForm,
-    formErrors,
-}) {
-    const navigate = useNavigate();
-
-    function handleClickUpdateLink() {
-        navigate(`${input.page}`);
-    }
+export default function CreateEventComponent({ input, footer }) {
     const textFields = input.data.map((data, idx) => {
         return (
             <Grid
@@ -32,31 +17,14 @@ export default function LandingPageAuth({
                     padding: '5px 0px',
                 }}
             >
-                <Typography gutterBottom variant='body2' key={idx}>
+                <Typography gutterBottom variant='body2'>
                     {data}
                 </Typography>
                 <TextField
-                    type={
-                        textfieldNames[idx].toLowerCase().includes('password')
-                            ? 'password'
-                            : 'text'
-                    }
-                    id={textfieldNames[idx]}
-                    error={
-                        formErrors !== undefined &&
-                        Object.values(formErrors)[idx] != undefined
-                            ? true
-                            : false
-                    }
-                    helperText={
-                        formErrors !== undefined &&
-                        Object.values(formErrors)[idx]
-                    }
                     label={`${input.label[idx]}`}
                     variant='outlined'
                     fullWidth
                     size='small'
-                    onChange={handleForm}
                     inputProps={{
                         style: {
                             fontSize: 12,
@@ -68,6 +36,16 @@ export default function LandingPageAuth({
                         },
                     }} // font size of input label
                 />
+            </Grid>
+        );
+    });
+
+    const footer_div = Object.values(footer).map((data, idx) => {
+        return (
+            <Grid item xs={6} key={idx}>
+                <Typography gutterBottom variant='body2'>
+                    {data}
+                </Typography>
             </Grid>
         );
     });
@@ -99,46 +77,52 @@ export default function LandingPageAuth({
                             </Typography>
                             <Typography variant='body2'>
                                 Enter your details below to get started on
-                                JoinIt
+                                Joinit
                             </Typography>
                         </Grid>
 
                         <Grid style={{ padding: '10px 0px' }}>
                             {textFields}
                         </Grid>
-                        <CardActions style={{ padding: '30px 0px 0px 0px' }}>
-                            <Button
-                                onClick={handleOnClick}
-                                size='small'
-                                fullWidth
-                                style={{
-                                    backgroundColor: '#6558f5',
-                                    color: '#ffffff',
-                                }}
-                            >
-                                {input.button}
-                            </Button>
-                        </CardActions>
-                        <Typography
+                    </Grid>
+                    <Grid
+                        container
+                        rowSpacing={1}
+                        columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+                    >
+                        {footer_div}
+                    </Grid>
+                </Grid>
+                <Grid
+                    container
+                    direction='row'
+                    justifyContent='flex-end'
+                    alignItems='center'
+                >
+                    <CardActions style={{ padding: '10px 10px' }}>
+                        <Button
+                            size='small'
+                            fullWidth
                             style={{
-                                padding: '10px 0px',
-                                textAlign: 'center',
-                                fontSize: '10px',
+                                backgroundColor: '#c93c3c',
+                                color: '#ffffff',
                             }}
                         >
-                            {input.footer}
-                            <span
-                                onClick={() => handleClickUpdateLink()}
-                                style={{
-                                    color: '#6558f5',
-                                    cursor: 'pointer',
-                                }}
-                            >
-                                {' '}
-                                {input.span}
-                            </span>
-                        </Typography>
-                    </Grid>
+                            Cancel
+                        </Button>
+                        <Button
+                            size='small'
+                            fullWidth
+                            style={{
+                                whiteSpace: 'nowrap',
+                                minWidth: 'max-content',
+                                backgroundColor: '#6558f5',
+                                color: '#ffffff',
+                            }}
+                        >
+                            {input.button}
+                        </Button>
+                    </CardActions>
                 </Grid>
             </Card>
         </Grid>
