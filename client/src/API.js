@@ -33,3 +33,39 @@ export const createAccount = async (accountData) => {
         throw new Error(error);
     }
 };
+
+export const editProfile = async (editProfileData) => {
+    try {
+        const editData = {
+            username: editProfileData.username,
+            curPassword: editProfileData.curPassword,
+            newPassword: editProfileData.newPassword,
+            firstname: editProfileData.firstname,
+            lastname: editProfileData.lastname,
+            birthday: editProfileData.birthday,
+            email: editProfileData.email,
+        };
+
+        const accountEdited = await axios.put(
+            baseUrl +
+                `/userprofile/${editProfileData.username}` +
+                '?curPassword=' +
+                editProfileData.curPassword +
+                '&newPassword=' +
+                editProfileData.newPassword +
+                '&firstName=' +
+                editProfileData.firstname +
+                '&lastName=' +
+                editProfileData.lastname +
+                '&birthday=' +
+                editProfileData.birthday +
+                '&email=' +
+                editProfileData.email
+        );
+        console.log('SUCCESS')
+        return accountEdited;
+    } catch (error) {
+        console.log(error);
+        throw new Error(error);
+    }
+};

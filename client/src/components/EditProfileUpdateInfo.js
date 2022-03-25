@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 // MUI
 import { Grid, TextField, Typography, Button } from '@material-ui/core';
 
-export default function EditProfileUpdateInfo() {
+export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     const baseURL = "https://event-management-app-backend.herokuapp.com/";
     const baseURLTesting = "http://localhost:8080/";
     
@@ -22,12 +22,11 @@ export default function EditProfileUpdateInfo() {
     const [email, setNewEmail] = useState("");
     const [birthday, setNewBirthday] = useState("");
 
-    const userUpdateObject = {username,curPassword,newPassword,firstName,lastName,birthday,email};
+    const editProfileData = {username,curPassword,newPassword,firstName,lastName,birthday,email};
 
     const textFields = Object.values(inputs).map((data, idx) => {
         return (
             <Grid
-                key={idx}
                 style={{
                     padding: '5px 0px',
                 }}
@@ -58,7 +57,7 @@ export default function EditProfileUpdateInfo() {
             <Grid
                 container
                 direction='row'
-                justifyContent='flex-start'
+                justify='flex-start'
                 alignItems='center'
                 style={{ margin: 30 }}
                 item
@@ -85,6 +84,8 @@ export default function EditProfileUpdateInfo() {
         </>
     );
 
+    
+
     function handleChange(e, idx) {
         if ((idx) === 0) {
             setNewPassword(e.target.value);
@@ -95,55 +96,37 @@ export default function EditProfileUpdateInfo() {
         } else if ((idx) === 3) {
             setNewEmail(e.target.value);
         }
+        console.log(editProfileData)
     }
 
     function updateUser() {
         setUsername(localStorage.getItem('username'));
         setCurPassword(localStorage.getItem('password'));
 
-        // If any parameter is null, just replace it with the existing one.
-        // Not sure this is actually necessary since the updateUser service method will do the same thing
-        // if it encounters a null parameter. However I added this here as I was trying to debug my bad requests.
 
-        if (userUpdateObject.newPassword === "") {
-            getPassword();
-        }
-        if (userUpdateObject.firstName === "") {
-            getFirstName();
-        }
-        if (userUpdateObject.lastName === "") {
-            getLastName();
-        }
-        if (userUpdateObject.email === "") {
-            getEmail();
-        }
-        if (userUpdateObject.birthday === "") {
-            getBirthday();
+        // if (editProfileData.newPassword === "") {
+        //     getPassword();
+        // }
+        // if (editProfileData.firstName === "") {
+        //     getFirstName();
+        // }
+        // if (editProfileData.lastName === "") {
+        //     getLastName();
+        // }
+        // if (editProfileData.email === "") {
+        //     getEmail();
+        // }
+        // if (editProfileData.birthday === "") {
+        //     getBirthday();
+        // }
+
+        handleEditProfile(editProfileData);
+        getPassword();
+        if(editProfileData.newPassword != localStorage.getItem('password')) {
+            localStorage.setItem('password',editProfileData.newPassword);
+            console.log(editProfileData.newPassword);
         }
 
-        console.log(JSON.stringify(userUpdateObject));
-
-        // attempt 1
-        //fetch(baseURLTesting + "users/checkUser/" + username + "?password=" + password)
-        fetch(baseURLTesting + "userprofile/" + username, {
-            method: 'PUT',
-            headers: { 
-                'Content-Type': 'application/json' ,
-                'Accept':'application/json'},
-            body: JSON.stringify(userUpdateObject)
-        }).then((result) => {
-            result.json().then((resp) => {
-              console.warn(resp)
-            })
-        });
-
-        // attempt 2
-        // let updateURL = new URLSearchParams(userUpdateObject).toString();
-        // console.log(updateURL)
-        // fetch(baseURLTesting + "userprofile/" + username, {
-        //     method: 'PUT',
-        //     body: updateURL
-        // });
     }
 
     function getPassword() {

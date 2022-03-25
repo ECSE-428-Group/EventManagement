@@ -6,7 +6,7 @@ import { Grid, Card } from '@material-ui/core';
 import EditProfileCurrentInfo from '../components/EditProfileCurrentInfo';
 import EditProfileUpdateInfo from '../components/EditProfileUpdateInfo';
 
-export default function EditProfile() {
+function EditProfile( {handleEditProfile}) {
     return (
         <Grid
             style={{ height: '100vh' }}
@@ -28,7 +28,9 @@ export default function EditProfile() {
                             <EditProfileCurrentInfo />
                         </Grid>
                         <Grid item xs={6} style={{ height: '100%' }}>
-                            <EditProfileUpdateInfo />
+                            <EditProfileUpdateInfo 
+                                handleEditProfile={handleEditProfile}
+                            />
                         </Grid>
                     </Grid>
                 </Card>
@@ -36,3 +38,5 @@ export default function EditProfile() {
         </Grid>
     );
 }
+
+export default EditProfile
