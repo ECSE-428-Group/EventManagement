@@ -7,6 +7,7 @@ import com.group.eventmanagement.service.UserService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import net.bytebuddy.build.BuildLogger;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
@@ -44,8 +45,14 @@ public class CreateAccountStepDefinitions {
                 "http://localhost:8080/",
                 "userprofile/bunnies?password=testPass&firstName=saba&lastName=fathi&birthday=2001-01-01&email=test@email.com",
                 postDataBytes);
-        assertEquals(200, Util.getResponseCode("POST", "http://localhost:8080/", path, "UTF-8"));
+//        assertEquals(200, Util.getResponseCode("POST", "http://localhost:8080/", path, "UTF-8"));
 
+        Util.sendRequest("GET",
+                "http://localhost:8080/",
+                "users",
+                postDataBytes);
+
+        System.out.println("TEST REQUESTSSSSS" + Util.getResponseCode("GET", "http://localhost:8080/", "users", "UTF-8"));
 //        String response= Util.sendRequest("POST",
 //                "http://localhost:8080/",
 //                "",
