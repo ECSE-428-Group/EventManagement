@@ -6,9 +6,13 @@ Scenario Outline: Create account successfully
     Given that "<username>" has not been selected by another user
     When the user tries to create an account with "<username>", "<password>", "<firstname>", "<lastname>", "<birthday>", "<email>"
     Then the account is created
-    And the user can log in using the credentials "<username>" and "<password>"
+#    And the user can log in using the credentials "<username>" and "<password>"
+#  Examples:
+#    | username | password | firstname | lastname | birthday | email |
+#    | username | password | firstname | lastname | birthday | email |
+#    | username | password | firstname | lastname | birthday | email |
 
-Scenario Outline: Unsuccessful Account Creation
+  Scenario Outline: Unsuccessful Account Creation
     Given the following user exists in the system:
       | username | password | firstname | lastname | birthday   | email                |
       | user1    | pass123  | John      | Smith    | 1998-02-15 | john.smith@gmail.com |

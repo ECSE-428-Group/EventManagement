@@ -18,16 +18,16 @@ public class AdminControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private AdminService adminService;
-	
+
 	@Test
 	public void testAdminCreation() {
 		Admin mockAdmin = TestData.createAdminObject(TestData.userUsername, TestData.userPassword, TestData.userFirstname, TestData.userLastname, TestData.userEmail);
 		when(adminService.createAdmin(TestData.adminUsername, TestData.adminFirstname, TestData.adminLastname, TestData.adminEmail, TestData.adminPassword))
 		.thenReturn(mockAdmin);
-		
+
 		try {
 			this.mockMvc.perform(post("/admin/"+TestData.adminUsername)
 					.param("firstName", TestData.adminFirstname)
@@ -38,14 +38,14 @@ public class AdminControllerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+
 	}
-	
+
 	@Test
 	public void testInvalidAdminCreation() {
 		when(adminService.createAdmin(TestData.invalidAdminUsername, TestData.adminFirstname, TestData.adminLastname, TestData.adminEmail, TestData.adminPassword))
 		.thenThrow(IllegalArgumentException.class);
-		
+
 		try {
 			this.mockMvc.perform(post("/admin/"+TestData.invalidAdminUsername)
 					.param("firstName", TestData.adminFirstname)
@@ -56,7 +56,7 @@ public class AdminControllerTest {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+
 	}
-	
+
 }
