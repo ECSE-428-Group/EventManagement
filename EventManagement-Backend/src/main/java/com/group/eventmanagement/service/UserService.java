@@ -93,7 +93,7 @@ public class UserService {
 		User user = userRepository.findUserByUsername(username);
 
 		if(!curPassword.equals(user.getPassword())) {
-			error += ("Incorrect Password.  Expected: " + user.getPassword() + " Received: " + curPassword);
+			error += ("Incorrect Password. ");
 		}
 
 		if(newPassword == null || newPassword.trim().length() == 0) {
