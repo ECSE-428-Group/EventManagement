@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import { FormControlLabel, RadioGroup } from '@material-ui/core';
 import Radio from "@material-ui/core/Radio"
+import { useNavigate } from 'react-router-dom';
 
 const today = new Date();
 
@@ -22,7 +23,11 @@ const validationSchema = Yup.object({
     image: Yup.mixed().required("This event has no image associated to it."),
 });
 
+const baseUrl = 'http://localhost:8080';
+
 export default function CreateEventComponent() {
+    const navigate = useNavigate();
+    
     const formik = useFormik({
         initialValues: {
             date: "",
@@ -30,22 +35,22 @@ export default function CreateEventComponent() {
             isVirtual: null,
             location: "",
             description: "",
-            image: null
+            image: "DUMMYVALUE"
         },
         validationSchema: validationSchema,
         onSubmit: values => {
-            fetch(`https://event-management-app-backend.herokuapp.com/event?date=${formik.values.date.replace("T", " ")}:00&isPrivate=${formik.values.isPrivate}&isVirtual=${formik.values.isVirtual}&location=${formik.values.location}&description=${formik.values.description}&image=${formik.values.image}`, {
+            fetch(`${baseUrl}/event?date=${formik.values.date.replace("T", " ")}:00&isPrivate=${formik.values.isPrivate}&isVirtual=${formik.values.isVirtual}&location=${formik.values.location}&description=${formik.values.description}&image=${formik.values.image}`, {
                 method: "POST",
                 mode: "no-cors",
                 headers: {
-                    'Content-Type': 'multipart/form-data'
+                    'Content-Type': 'application/json'
                 }
             })
             .then(res => {
-                if(res.status !== 200 && res.status !== 201) {
+                if(res.status !== 200 && res.status !== 201 && res.status !== 0) {
                     alert("Failed!");
                 } else {
-                    alert("Event successfully created!");
+                    navigate('/userhome');
                 }
             })
             .catch(err => {
@@ -167,7 +172,8 @@ export default function CreateEventComponent() {
                                         helperText={formik.touched.description && formik.errors.description}
                                     />
                                 </Grid>
-
+                                
+                                {/*
                                 <Grid style={{padding: '5px 0px'}}>
                                     <Typography gutterBottom variant='body2'>
                                         Image
@@ -194,7 +200,8 @@ export default function CreateEventComponent() {
                                         helperText={formik.touched.image && formik.errors.image}
                                     />
                                 </Grid>
-                                    
+                                    */}
+
                                 <Grid style={{padding: '5px 0px'}}>
                                     <Typography gutterBottom variant='body2'>
                                         Private Event?
