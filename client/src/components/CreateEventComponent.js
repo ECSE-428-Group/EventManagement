@@ -59,7 +59,7 @@ export default function CreateEventComponent() {
             style={{ height: '100vh' }}
             container
             direction='row'
-            justify='center'
+            justifyContent='center'
             alignItems='center'
         >
             <Card style={{ boxShadow: 'none', border: '1px solid #c4c4c4' }}>
@@ -67,7 +67,7 @@ export default function CreateEventComponent() {
                     style={{ padding: 50 }}
                     container
                     direction='row'
-                    justify='center'
+                    justifyContent='center'
                     alignItems='center'
                 >
                     <Grid item xs={12}>
@@ -263,7 +263,7 @@ export default function CreateEventComponent() {
                 <Grid
                     container
                     direction='row'
-                    justify='flex-end'
+                    justifyContent='flex-end'
                     alignItems='center'
                 >
                 </Grid>

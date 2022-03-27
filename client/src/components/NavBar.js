@@ -32,7 +32,11 @@ function NavBar() {
             <AppBar position='fixed'>
                 <Toolbar>
                     <div>
-                        <Typography variant='h4' display='inline' color='white'>
+                        <Typography
+                            variant='h4'
+                            display='inline'
+                            style={{ color: '#ffffff' }}
+                        >
                             JoinIt
                         </Typography>
                     </div>

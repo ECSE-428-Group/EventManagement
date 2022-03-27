@@ -11,9 +11,10 @@ export default function EditProfileUpdateInfo() {
         location: 'location',
     };
 
-    const textFields = Object.keys(input).map((data) => {
+    const textFields = Object.keys(input).map((data, idx) => {
         return (
             <Grid
+                key={idx}
                 style={{
                     padding: '5px 0px',
                 }}
@@ -43,7 +44,7 @@ export default function EditProfileUpdateInfo() {
             <Grid
                 container
                 direction='row'
-                justify='flex-start'
+                justifyContent='flex-start'
                 alignItems='center'
                 style={{ margin: 30 }}
                 item
