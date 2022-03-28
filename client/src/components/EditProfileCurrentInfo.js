@@ -23,21 +23,27 @@ export default function EditProfileCurrentInfo() {
     const userParams = {username,firstname,lastname,birthday,email};
 
     useEffect(() => {
-        console.log(baseURLTesting + "users/" + localStorage.getItem('username'));
-        fetch(baseURLTesting + "users/" + localStorage.getItem('username')).then((result) => {
+        fetch(
+            baseURLTesting + "users/" + localStorage.getItem('username'),
+            {
+                method: 'GET',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                    "Access-Control-Allow-Origin" : "*", 
+                    "Access-Control-Allow-Credentials" : true 
+                },
+            }
+            ).then((result) => {
             result.json().then((resp) => {
-                console.log(resp);
                 setUsername(resp.username);
                 setFirstName(resp.firstName);
                 setLastName(resp.lastName);
                 setEmail(resp.email);
                 setBirthday((resp.birthday).substring(0,10));
-                console.log(userParams)
             })
         }).catch(error => console.log("ERROR OCCURRED"))
     },[])
-
-    const items = ['Username', 'First Name','Last Name', 'Email', 'Birthday'];
 
     let listItems = Object.values(userParams).map((item, idx) => {
         return (

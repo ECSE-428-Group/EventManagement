@@ -27,15 +27,17 @@ function App() {
     };
 
     const handleEditProfile = (editProfileData) => {
+        let success = 1;
         editProfile(editProfileData)
-            .then(({ status, data }) => {
+            .then(console.log(status),({ status, data }) => {
                 if (status !== 200) {
                     // 200 indicates successful request
-                    throw new Error('Account not created');
+                    success = 0;
+                    throw new Error('Account not Edited');
                 }
             })
             .catch((error) => console.log(error));
-        return 0;
+        return success;
     };
 
     return (
