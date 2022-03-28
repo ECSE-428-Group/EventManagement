@@ -80,7 +80,7 @@ public class UserService {
 	@Transactional
 	public User updateUser(String username, String curPassword, String newPassword, String newFirstName, String newLastName, Timestamp newBirthday, String newEmail) {
 		String error = "";
-
+		
 		if(!userRepository.existsByUsername(username)) {
 			error += "User does not exist. ";
 		}
@@ -118,7 +118,7 @@ public class UserService {
 			error += "Birthday is invalid. ";
 		}
 
-		if(newEmail == null) {
+		if(newEmail == null || newEmail.trim().length() == 0) {
 			newEmail = user.getEmail();
 		}
 

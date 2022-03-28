@@ -2,6 +2,7 @@ package com.group.eventmanagement.controller;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,10 +60,13 @@ public class UserController {
 			@RequestParam(name = "newPassword") String newPassword,
 			@RequestParam(name = "firstName") String newFirstName,
 			@RequestParam(name = "lastName") String newLastName,
-			@RequestParam(name = "birthday") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate newBirthday,
+			@RequestParam(name = "birthday") String newBirthday,
 			@RequestParam(name = "email") String newEmail
 			) throws IllegalArgumentException {
-		Timestamp convertedBirthday = Timestamp.valueOf(newBirthday.atStartOfDay());
+		Timestamp convertedBirthday = null;
+		if (newBirthday != "") {
+			convertedBirthday = Timestamp.valueOf(LocalDate.parse(newBirthday).atStartOfDay());
+		}
 		User updatedUser = userService.updateUser(username,curPassword,newPassword,
 				newFirstName, newLastName, convertedBirthday, newEmail);
 		return updatedUser;

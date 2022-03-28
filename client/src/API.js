@@ -29,7 +29,6 @@ export const createAccount = async (accountData) => {
         );
         return accountCreated;
     } catch (error) {
-        console.log(error);
         throw new Error(error);
     }
 };
@@ -54,15 +53,18 @@ export const editProfile = async (editProfileData) => {
                 '&newPassword=' +
                 editProfileData.newPassword +
                 '&firstName=' +
-                editProfileData.firstname +
+                editProfileData.firstName +
                 '&lastName=' +
-                editProfileData.lastname +
+                editProfileData.lastName +
                 '&birthday=' +
                 editProfileData.birthday +
                 '&email=' +
                 editProfileData.email
         );
         console.log('SUCCESS')
+        if (editProfileData.newPassword !== "") {
+            localStorage.setItem('password',editProfileData.newPassword);
+        }
         return accountEdited;
     } catch (error) {
         console.log(error);
