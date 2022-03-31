@@ -11,11 +11,8 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     const baseURLTesting = "http://localhost:8080/";
 
     const input = {
-        newPassword: 'Password',
-        firstname: 'First Name',
-        lastname: 'Last Name',
-        email: 'Email' ,
         data: [
+            'Current Password',
             'New Password',
             'Confirm New Password',
             'Update First Name',
@@ -24,6 +21,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
             'Update Email',
         ],
         label: [
+            'Enter Current Password',
             'At least 6 characters',
             'Repeat your password',
             'First name',
@@ -37,6 +35,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     };
 
     const INITIAL_FORM_ERRORS = {
+        currentpassword: null,
         password: null,
         confirmpassword: null,
         firstname: null,
@@ -54,6 +53,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     const [lastName, setNewLastName] = useState("");
     const [email, setNewEmail] = useState("");
     const [birthday, setNewBirthday] = useState("");
+    const [disableButton, setDisableButton] = useState(false);
 
     const [confirmPassword, setConfirmPassword] = useState("");
 
@@ -102,29 +102,56 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
         checkEmail();
         checkDate();
         checkPasswords();
+        checkButton();
     },[newPassword,confirmPassword,birthday,email]);
 
-
+    function checkButton() {
+        if(
+            Object.values(textFields).every(value => {
+            if (value == "") {
+                return true;
+            }
+            return false;
+        }) 
+        || (
+            Object.values(formErrors).every(value => { // check if all form errors are null
+            if (value == null) {
+                return true
+            }
+            return false
+        }))) {
+            setDisableButton(false);
+        } else {
+            setDisableButton(true);
+        }
+    }
     function handleChange(e, idx) {
         if ((idx) === 0) {
-            setNewPassword(e.target.value);
+            setCurPassword(e.target.value);
         } else if ((idx) === 1) {
-            setConfirmPassword(e.target.value);
+            setNewPassword(e.target.value);
         } else if ((idx) === 2) {
-            setNewFirstName(e.target.value);
+            setConfirmPassword(e.target.value);
         } else if ((idx) === 3) {
-            setNewLastName(e.target.value);
+            setNewFirstName(e.target.value);
         } else if ((idx) === 4) {
-            setNewBirthday(e.target.value);
+            setNewLastName(e.target.value);
         } else if ((idx) === 5) {
+            setNewBirthday(e.target.value);
+        } else if ((idx) === 6) {
             setNewEmail(e.target.value);
         }
     }
 
     function updateUser() {
-        setCurPassword(localStorage.getItem('password'));
 
-        const status = handleEditProfile(editProfileData);
+        if(formErrors == null) {
+
+            const status = handleEditProfile(editProfileData);
+            if (status === 200) {
+                refreshPage();
+            }
+        }
     }
 
     function checkDate() {
@@ -243,6 +270,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
                 alignItems='flex-end'
             >
                 <Button
+                    disabled = {disableButton}
                     onClick = {updateUser} 
                     variant='outlined'
                     style={{ backgroundColor: '#6558f5', color: '#ffffff' }}
