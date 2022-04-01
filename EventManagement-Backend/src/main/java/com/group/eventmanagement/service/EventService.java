@@ -31,6 +31,9 @@ public class EventService {
         return eventRepository.findByEventId(eventId);
     }
 
+    public List<Event> getAllEvents() {
+        return eventRepository.findAll();
+    }
 
 	///// EVENT CREATION /////
 	@Transactional

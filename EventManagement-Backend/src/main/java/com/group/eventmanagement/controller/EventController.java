@@ -67,6 +67,7 @@ public class EventController {
 		 eventService.removeAllAttendeesFromEvent(callerUsername, id);
 
 	 }
+
 	@GetMapping(value = {
 		"/event/{eventId}",
 		"/event/{eventId}/"
@@ -76,6 +77,15 @@ public class EventController {
 			)throws IllegalArgumentException{
 
 		return eventService.getEvent(eventId);
+	}
+
+	@GetMapping(value = {
+		"getAll/event/",
+		"getAll/event"
+	})
+	public List<Event> getAllEvents() throws IllegalArgumentException{
+
+		return eventService.getAllEvents();
 	}
 
 	/////////// CREATE EVENT ///////////
