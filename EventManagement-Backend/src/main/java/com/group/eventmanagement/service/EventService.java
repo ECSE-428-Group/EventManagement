@@ -27,6 +27,10 @@ public class EventService {
         this.userRepository = userRepository;
     }
 
+	public Event getEvent(Long eventId) {
+        return eventRepository.findByEventId(eventId);
+    }
+
 
 	///// EVENT CREATION /////
 	@Transactional

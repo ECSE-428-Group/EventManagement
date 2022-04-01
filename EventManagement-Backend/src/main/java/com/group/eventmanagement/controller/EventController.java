@@ -67,7 +67,16 @@ public class EventController {
 		 eventService.removeAllAttendeesFromEvent(callerUsername, id);
 
 	 }
+	@GetMapping(value = {
+		"/event/{eventId}",
+		"/event/{eventId}/"
+	})
+	public Event getEvent(
+			@PathVariable(name = "eventId") Long eventId
+			)throws IllegalArgumentException{
 
+		return eventService.getEvent(eventId);
+	}
 
 	/////////// CREATE EVENT ///////////
 	@PostMapping(value = {
