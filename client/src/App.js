@@ -29,11 +29,10 @@ function App() {
     const handleEditProfile = (editProfileData) => {
         let success = 200;
         editProfile(editProfileData)
-            .then(console.log(status),({ status, data }) => {
+            .then(({ status, data }) => {
                 if (status !== 200) {
                     // 200 indicates successful request
                     success = status;
-                    console.log("Failure!");
                     throw new Error('Account not Edited');
                 }
             })

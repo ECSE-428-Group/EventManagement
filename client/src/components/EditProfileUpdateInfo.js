@@ -7,8 +7,6 @@ import { Grid, TextField, Typography, Button } from '@material-ui/core';
 import moment from 'moment';
 
 export default function EditProfileUpdateInfo( {handleEditProfile} ) {
-    const baseURL = "https://event-management-app-backend.herokuapp.com/";
-    const baseURLTesting = "http://localhost:8080/";
 
     const input = {
         data: [
@@ -21,9 +19,9 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
             'Update Email',
         ],
         label: [
-            'Enter Current Password',
+            'Enter your current password',
             'At least 6 characters',
-            'Repeat your password',
+            'Confirm your new password',
             'First name',
             'Last name',
             'YYYY-MM-DD',
@@ -35,7 +33,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     };
 
     const INITIAL_FORM_ERRORS = {
-        currentpassword: null,
+        curpassword: null,
         password: null,
         confirmpassword: null,
         firstname: null,
@@ -62,16 +60,18 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     const textFields = input.data.map((data, idx) => {
         return (
             <Grid
+            key={idx}
                 style={{
                     padding: '5px 0px',
                 }}
             >
                 <Typography>{data}</Typography>
                 <TextField
+                    key={idx}
                     label={`${input.label[idx]}`}
                     error={
                         formErrors !== undefined &&
-                        Object.values(formErrors)[idx] != undefined
+                        Object.values(formErrors)[idx] !== null
                             ? true
                             : false
                     }
@@ -93,36 +93,47 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
                         },
                     }} // font size of input label
                     onChange={e => handleChange(e, idx)}
+                    type={formType(idx)}
                 />
             </Grid>
         );
     });
+
+    function formType(idx) {
+        if(idx === 0 || idx === 1 || idx === 2) {
+            return 'password'
+        }
+        return 'text'
+    }
     
     useEffect(() => {
         checkEmail();
         checkDate();
         checkPasswords();
         checkButton();
-    },[newPassword,confirmPassword,birthday,email]);
+    },[confirmPassword,curPassword,newPassword,firstName,lastName,birthday,email]);
 
     function checkButton() {
-        if(
+        if ( // check if current password is empty
+            curPassword === ""
+        ||  // check if all other text fields are empty
             Object.values(textFields).every(value => {
-            if (value == "") {
-                return true;
-            }
-            return false;
-        }) 
-        || (
-            Object.values(formErrors).every(value => { // check if all form errors are null
-            if (value == null) {
-                return true
-            }
-            return false
-        }))) {
-            setDisableButton(false);
-        } else {
+                if (value === "" && value !== curPassword) {
+                    return true;
+                }
+                return false;
+            }) 
+        || // check if any form errors are not null
+            Object.values(formErrors).every(value => { 
+                if (value !== null) {
+                    return true;
+                }
+                return false
+        })
+        ) {
             setDisableButton(true);
+        } else {
+            setDisableButton(false);
         }
     }
     function handleChange(e, idx) {
@@ -145,17 +156,15 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
 
     function updateUser() {
 
-        if(formErrors == null) {
 
-            const status = handleEditProfile(editProfileData);
-            if (status === 200) {
-                refreshPage();
-            }
+        const status = handleEditProfile(editProfileData);
+        if (status === 200) {
+            refreshPage();
         }
     }
 
     function checkDate() {
-        if (editProfileData == undefined) {
+        if (editProfileData === undefined) {
         } else {
 
             const validDate = moment(
@@ -166,8 +175,8 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
 
             if (
                 validDate ||
-                editProfileData.birthday == '' ||
-                editProfileData.birthday == null
+                editProfileData.birthday === '' ||
+                editProfileData.birthday === null
             ) {
                 setFormErrors((p) => ({
                     ...p,
@@ -180,7 +189,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     };
 
     function checkPasswords() {
-        if (editProfileData == undefined) {
+        if (editProfileData === undefined) {
         } else {
                 if ((editProfileData.newPassword !== confirmPassword) && (confirmPassword.length > 0)) {
                 setFormErrors((p) => ({
@@ -192,9 +201,9 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
             }
 
             if (
-                editProfileData.newPassword == undefined ||
+                editProfileData.newPassword === undefined ||
                 (editProfileData.newPassword.length >= 6 && editProfileData.newPassword.length <= 26) ||
-                editProfileData.newPassword == ''
+                editProfileData.newPassword === ''
             ) {
                 setFormErrors((p) => ({
                     ...p,
@@ -219,7 +228,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
     };
 
     function checkEmail() {
-        if (editProfileData == undefined) {
+        if (editProfileData === undefined) {
         } else {
 
             var re = /\S+@\S+\.\S+/;
@@ -227,8 +236,8 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
 
             if (
                 validEmail ||
-                editProfileData.email == '' ||
-                editProfileData.email == null
+                editProfileData.email === '' ||
+                editProfileData.email === null
             ) {
                 setFormErrors((p) => ({
                     ...p,
@@ -253,7 +262,7 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
             <Grid
                 container
                 direction='row'
-                justify='flex-start'
+                justifyContent='flex-start'
                 alignItems='center'
                 style={{ margin: 30 }}
                 item
@@ -262,21 +271,16 @@ export default function EditProfileUpdateInfo( {handleEditProfile} ) {
                 <Grid item xs={10}>
                     {textFields}
                 </Grid>
-            </Grid>
-            <Grid
-                style={{ padding: '60px 10px 0px 0px' }}
-                container
-                justifyContent='flex-end'
-                alignItems='flex-end'
-            >
-                <Button
-                    disabled = {disableButton}
-                    onClick = {updateUser} 
-                    variant='outlined'
-                    style={{ backgroundColor: '#6558f5', color: '#ffffff' }}
-                >
-                    Update Profile
-                </Button>
+                <Grid>
+                    <Button
+                        disabled = {disableButton}
+                        onClick = {updateUser} 
+                        variant='outlined'
+                        style={{ backgroundColor: '#6558f5', color: '#ffffff', marginTop: 30}}
+                    >
+                        Update Profile
+                    </Button>
+                </Grid>
             </Grid>
         </>
     );

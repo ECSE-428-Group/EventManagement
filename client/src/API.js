@@ -35,16 +35,6 @@ export const createAccount = async (accountData) => {
 
 export const editProfile = async (editProfileData) => {
     try {
-        const editData = {
-            username: editProfileData.username,
-            curPassword: editProfileData.curPassword,
-            newPassword: editProfileData.newPassword,
-            firstname: editProfileData.firstname,
-            lastname: editProfileData.lastname,
-            birthday: editProfileData.birthday,
-            email: editProfileData.email,
-        };
-
         const accountEdited = await axios.put(
             baseUrl +
                 `/userprofile/${editProfileData.username}` +
@@ -62,9 +52,6 @@ export const editProfile = async (editProfileData) => {
                 editProfileData.email
         );
         console.log('SUCCESS')
-        if (editProfileData.newPassword !== "") {
-            localStorage.setItem('password',editProfileData.newPassword);
-        }
         return accountEdited;
     } catch (error) {
         console.log(error);

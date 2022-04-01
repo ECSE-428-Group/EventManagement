@@ -49,7 +49,7 @@ export default function EditProfileCurrentInfo() {
         return (
             <ListItem
                 key={idx}
-                style={{ borderTop: idx !== 0 ? '1px solid #c4c4c4' : 'None' }}
+                style={{ borderTop: idx !== 0 ? '2px solid #c4c4c4' : 'None'}}
             >
                 <ListItemText primary={`${item}`} />
             </ListItem>
