@@ -7,10 +7,10 @@ Scenario Outline: Create account successfully
     When the user tries to create an account with "<username>", "<password>", "<firstname>", "<lastname>", "<birthday>", "<email>"
     Then the account is created
 #    And the user can log in using the credentials "<username>" and "<password>"
-#  Examples:
-#    | username | password | firstname | lastname | birthday | email |
-#    | username | password | firstname | lastname | birthday | email |
-#    | username | password | firstname | lastname | birthday | email |
+  Examples:
+    | username | password | firstname | lastname | birthday | email |
+    | username | password | firstname | lastname | birthday | email |
+    | username | password | firstname | lastname | birthday | email |
 
   Scenario Outline: Unsuccessful Account Creation
     Given the following user exists in the system:
