@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 
 // Router
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -50,7 +50,11 @@ function App() {
                         path='/createEvent'
                         element={<CreateEvent />}
                     />
-                    <Route exact path='/viewEvent' element={<ViewEvent />} />
+                    <Route
+                        exact
+                        path='/viewEvent/:id'
+                        element={<ViewEvent />}
+                    />
                 </Routes>
             </Router>
         </>

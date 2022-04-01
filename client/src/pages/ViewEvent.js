@@ -7,7 +7,7 @@ import { Grid, Card } from '@material-ui/core';
 import ViewEventInfo from '../components/ViewEventInfo';
 import EventNameInfo from '../components/EventNameInfo';
 
-export default function ViewEvent() {
+export default function ViewEvent({}) {
     return (
         <Grid
             style={{ height: '100vh' }}
@@ -29,11 +29,11 @@ export default function ViewEvent() {
                             <EventNameInfo />
                         </Grid>
                         <Grid item xs={8} style={{ height: '100%' }}>
-                            <ViewEventInfo/>
+                            <ViewEventInfo />
                         </Grid>
                     </Grid>
                 </Card>
             </Grid>
         </Grid>
-    )
+    );
 }
