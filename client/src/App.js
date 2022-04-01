@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import EditProfile from './pages/EditProfile';
 import UserHome from './pages/UserHome';
 import CreateEvent from './pages/CreateEvent';
+import ViewEvent from './pages/ViewEvent';
 
 // API
 import { createAccount } from './API';
@@ -49,6 +50,7 @@ function App() {
                         path='/createEvent'
                         element={<CreateEvent />}
                     />
+                    <Route exact path='/viewEvent' element={<ViewEvent />} />
                 </Routes>
             </Router>
         </>
