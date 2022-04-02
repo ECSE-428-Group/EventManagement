@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // MUI
 import { Grid, Card } from '@material-ui/core';
@@ -6,8 +6,45 @@ import { Grid, Card } from '@material-ui/core';
 // Components
 import ViewEventInfo from '../components/ViewEventInfo';
 import EventNameInfo from '../components/EventNameInfo';
+import { getEvent } from './../API';
+import { useParams } from 'react-router-dom';
+
+const INITIAL_EVENT_DETAIL = {
+    date: '',
+    isPrivate: false,
+    isVirtual: false,
+    location: '',
+    description: '',
+    image: '',
+    tags: [],
+    organizers: [],
+    attendees: [],
+    posts: [],
+};
 
 export default function ViewEvent({}) {
+    const params = useParams();
+
+    const getEventDetails = (eventId) => {
+        getEvent(eventId)
+            .then(({ status, data }) => {
+                if (status !== 200) {
+                    // 200 indicates successful request
+                    throw new Error('No event found');
+                }
+                setEventDetails(data);
+                console.log(data);
+            })
+            .catch((error) => console.log(error));
+        return 0;
+    };
+
+    useEffect(() => {
+        getEventDetails(params.id);
+    }, []);
+
+    const [eventDetails, setEventDetails] = useState(INITIAL_EVENT_DETAIL);
+
     return (
         <Grid
             style={{ height: '100vh' }}
@@ -26,10 +63,14 @@ export default function ViewEvent({}) {
                 >
                     <Grid container direction='row' alignItems='center'>
                         <Grid item xs={4}>
-                            <EventNameInfo />
+                            <EventNameInfo 
+                            eventDetails = {eventDetails}  
+                            />
                         </Grid>
                         <Grid item xs={8} style={{ height: '100%' }}>
-                            <ViewEventInfo />
+                            <ViewEventInfo
+                            eventDetails = {eventDetails}                            
+                            />
                         </Grid>
                     </Grid>
                 </Card>

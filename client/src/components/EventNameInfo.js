@@ -10,9 +10,15 @@ import {
     CardContent,
 } from '@material-ui/core';
 
-export default function EventNameInfo() {
-    const items = ['Event Name', 'Event Location', 'Event Tags'];
+export default function EventNameInfo({eventDetails}) {
 
+    var year = eventDetails.date.slice(0,4);
+    var monthNm = eventDetails.date.slice(5,7);
+    var day = eventDetails.date.slice(8,10);  
+    var time = eventDetails.date.slice(11,16);  
+    var fullDate = "This event is on (dd/mm/yyyy): "+day + "/" + monthNm + "/" + year + " at " + time;   
+
+    const items = ['When and Where is this event?', fullDate, "This event is taking place at: "+eventDetails.location];
     const listItems = items.map((item, idx) => {
         return (
             <ListItem
@@ -26,7 +32,7 @@ export default function EventNameInfo() {
         <Card style={{ backgroundColor: '#f8fcff', borderRadius: '0%' }}>
             <CardMedia
                 style={{
-                    borderRadius: '50%',
+                    borderRadius: '5%',
                     objectFit: 'fill',
                     height: '200px',
                     width: '200px',
