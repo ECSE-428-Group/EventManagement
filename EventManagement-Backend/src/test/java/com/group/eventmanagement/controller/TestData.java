@@ -29,10 +29,18 @@ public class TestData {
 	static Timestamp userBirthday = new Timestamp(System.currentTimeMillis());
 
 	static LocalDate userBirthday2 = LocalDate.of(1990, 1, 8);
+	static String userBirthday3 = "1998-02-25";
 	static Timestamp userBirthday2Con = Timestamp.valueOf(userBirthday2.atStartOfDay());
+
+	static String userUsername2 = "user2";
+	static String userFirstname2 = "Jake";
+	static String userLastname2 = "Doe";
+	static String userEmail2 = "test2@email.com";
+	static String userPassword2 = "testtest1234";
 
 	// INVALID CONSTANTS
 	static String invalidUserUsername = "invalidUser";
+	static String invalidUserPassword= "ab";
 
 	public static User createUserObject(String username, String password, String firstName, String lastName,
 			Timestamp birthday, String email) {

@@ -106,7 +106,7 @@ function Signup({ handleCreateAccount }) {
     };
 
     const checkUsername = () => {
-        if (accountData == undefined || usernames == undefined) {
+        if (accountData === undefined || usernames === undefined) {
             return;
         }
 
@@ -124,7 +124,7 @@ function Signup({ handleCreateAccount }) {
     };
 
     const checkPasswords = () => {
-        if (accountData == undefined || usernames == undefined) {
+        if (accountData === undefined || usernames === undefined) {
             return;
         }
 
@@ -139,9 +139,9 @@ function Signup({ handleCreateAccount }) {
         }
 
         if (
-            accountData.password == undefined ||
-            accountData.password.length > 6 ||
-            accountData.password == ''
+            accountData.password === undefined ||
+            accountData.password.length >= 6 ||
+            accountData.password === ''
         ) {
             setFormErrors((p) => ({
                 ...p,
@@ -156,7 +156,7 @@ function Signup({ handleCreateAccount }) {
     };
 
     const checkdate = () => {
-        if (accountData == undefined) {
+        if (accountData === undefined) {
             return;
         }
 
@@ -168,8 +168,8 @@ function Signup({ handleCreateAccount }) {
 
         if (
             validDate ||
-            accountData.birthday == '' ||
-            accountData.birthday == null
+            accountData.birthday === '' ||
+            accountData.birthday === undefined
         ) {
             setFormErrors((p) => ({
                 ...p,
@@ -181,7 +181,7 @@ function Signup({ handleCreateAccount }) {
     };
 
     const checkEmail = () => {
-        if (accountData == undefined) {
+        if (accountData === undefined) {
             return;
         }
 
@@ -190,8 +190,8 @@ function Signup({ handleCreateAccount }) {
 
         if (
             validEmail ||
-            accountData.email == '' ||
-            accountData.email == null
+            accountData.email === '' ||
+            accountData.email === undefined
         ) {
             setFormErrors((p) => ({
                 ...p,
@@ -217,17 +217,12 @@ function Signup({ handleCreateAccount }) {
         ) {
             return; // Can also do alert
         }
-        if (accountData.password !== accountData.confirmPassword) {
-            alert('Passwords do not match');
-            return;
-        }
-        if (accountData.password.length < 6) {
-            alert('Passwords must be at least 6 characters');
-            return;
-        }
+
         const status = handleCreateAccount(accountData);
-        if (status == 0) {
+        if (status === 0) {
             navigate('/userhome');
+            localStorage.setItem('username', accountData.username);
+            localStorage.setItem('password', accountData.password);
         }
         setAccountData(INITIAL_FORM_DATA);
     };
