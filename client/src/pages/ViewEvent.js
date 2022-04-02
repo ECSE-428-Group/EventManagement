@@ -49,7 +49,7 @@ export default function ViewEvent({}) {
             style={{ height: '100vh' }}
             container
             direction='row'
-            justify='center'
+            justifyContent='center'
             alignItems='center'
         >
             <Grid container direction='row' alignItems='center' item xs={10}>
