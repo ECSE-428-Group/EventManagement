@@ -1,5 +1,5 @@
 import React from 'react';
-
+import axios from 'axios';
 import { Grid } from '@material-ui/core';
 
 import EventCard from '../components/EventCard';
@@ -80,27 +80,22 @@ const EventData2 = [
 ];
 
 export default function UserHome() {
+    const [events, setEvents] = React.useState([]);
+
+    React.useEffect(() => {
+        axios.get("http://localhost:8080/getAll/event")
+            .then((res) => { setEvents(res.data.sort((a, b) => (b.eventId > a.eventId) ? 1 : ((a.eventId > b.eventId) ? -1 : 0))); });
+    }, []);
     return (
         <>
             <NavBar />
             <img src={home} alt='home' />
             <Grid container direction='row' alignItems='center' spacing={2}>
-                {EventData.map((ev, index) => (
+                {events.map((ev, index) => (
                     <Grid xs={3} item key={index}>
                         <EventCard
-                            image={ev.image}
-                            title={ev.title}
-                            text={ev.description}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
-            <Grid container direction='row' alignItems='center' spacing={2}>
-                {EventData2.map((ev, index) => (
-                    <Grid xs={3} item key={index}>
-                        <EventCard
-                            image={ev.image}
-                            title={ev.title}
+                            image={EventData[index % EventData.length].image}
+                            title={ev.eventId}
                             text={ev.description}
                         />
                     </Grid>
