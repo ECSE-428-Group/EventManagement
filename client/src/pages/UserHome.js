@@ -48,46 +48,20 @@ const EventData = [
     },
 ];
 
-const EventData2 = [
-    {
-        image: ev5,
-        title: 'Philosophy Discussions',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
-            'labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-    },
-    {
-        image: ev6,
-        title: 'Potluck',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
-            'labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-    },
-    {
-        image: ev7,
-        title: 'Grill Fest',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
-            'labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-    },
-    {
-        image: ev8,
-        title: 'Hiking',
-        description:
-            'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut ' +
-            'labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation',
-    },
-];
-
 export default function UserHome() {
     const [events, setEvents] = React.useState([]);
 
     React.useEffect(() => {
-        axios.get("http://localhost:8080/getAll/event")
-            .then((res) => { setEvents(res.data.sort((a, b) => (b.eventId > a.eventId) ? 1 : ((a.eventId > b.eventId) ? -1 : 0))); });
+        axios.get('http://localhost:8080/getAll/event').then((res) => {
+            setEvents(
+                res.data.sort((a, b) =>
+                    b.eventId > a.eventId ? 1 : a.eventId > b.eventId ? -1 : 0
+                )
+            );
+        });
     }, []);
     return (
-        <>
+        <div style={{ backgroundColor: '#424d81' }}>
             <NavBar />
             <img src={home} alt='home' />
             <Grid container direction='row' alignItems='center' spacing={2}>
@@ -101,6 +75,6 @@ export default function UserHome() {
                     </Grid>
                 ))}
             </Grid>
-        </>
+        </div>
     );
 }
