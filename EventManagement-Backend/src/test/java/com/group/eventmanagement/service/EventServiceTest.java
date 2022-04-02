@@ -474,13 +474,12 @@ public class EventServiceTest {
 
 		Event newEvent = null;
 		try {
-			newEvent = service.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+			newEvent = service.createEvent(TestData.eventDate, TestData.isPrivate,
 					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
 		} catch (IllegalArgumentException e) {
 			fail();
 		}
 		assertNotNull(newEvent);
-		assertEquals(TestData.eventID, newEvent.getEventId());
 		assertEquals(TestData.eventDate, newEvent.getDate());
 		assertEquals(TestData.isPrivate, newEvent.getIsPrivate());
 		assertEquals(TestData.isVirtual, newEvent.getIsVirtual());
@@ -495,7 +494,7 @@ public class EventServiceTest {
 		Event eventWithNullDate = null;
 		String er = "";
 		try {
-			eventWithNullDate = service.createEvent(TestData.eventID, null, TestData.isPrivate,
+			eventWithNullDate = service.createEvent(null, TestData.isPrivate,
 					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();
@@ -510,7 +509,7 @@ public class EventServiceTest {
 		Event eventWithInvalidDate = null;
 		String er = "";
 		try {
-			eventWithInvalidDate = service.createEvent(TestData.eventID, TestData.invalidEventDate, TestData.isPrivate,
+			eventWithInvalidDate = service.createEvent(TestData.invalidEventDate, TestData.isPrivate,
 					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();
@@ -525,7 +524,7 @@ public class EventServiceTest {
 		Event eventWithNoLocation = null;
 		String er = "";
 		try {
-			eventWithNoLocation = service.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+			eventWithNoLocation = service.createEvent(TestData.eventDate, TestData.isPrivate,
 					TestData.isVirtual, null, TestData.eventDescription, TestData.eventImage);
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();
@@ -539,7 +538,7 @@ public class EventServiceTest {
 		Event eventWithNoLocation = null;
 		String er = "";
 		try {
-			eventWithNoLocation = service.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+			eventWithNoLocation = service.createEvent(TestData.eventDate, TestData.isPrivate,
 					TestData.isVirtual, "", TestData.eventDescription, TestData.eventImage);
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();
@@ -554,7 +553,7 @@ public class EventServiceTest {
 		Event eventWithNullDescription = null;
 		String er = "";
 		try {
-			eventWithNullDescription = service.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+			eventWithNullDescription = service.createEvent(TestData.eventDate, TestData.isPrivate,
 					TestData.isVirtual, TestData.eventLocation, null, TestData.eventImage);
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();
@@ -570,7 +569,7 @@ public class EventServiceTest {
 		Event eventWithNoDescription = null;
 		String er = "";
 		try {
-			eventWithNoDescription = service.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+			eventWithNoDescription = service.createEvent(TestData.eventDate, TestData.isPrivate,
 					TestData.isVirtual, TestData.eventLocation, "", TestData.eventImage);
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();
@@ -585,7 +584,7 @@ public class EventServiceTest {
 		Event eventWithNullImage = null;
 		String er = "";
 		try {
-			eventWithNullImage = service.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+			eventWithNullImage = service.createEvent(TestData.eventDate, TestData.isPrivate,
 					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, null);
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();
@@ -600,7 +599,7 @@ public class EventServiceTest {
 		Event eventWithNoImage = null;
 		String er = "";
 		try {
-			eventWithNoImage = service.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate,
+			eventWithNoImage = service.createEvent(TestData.eventDate, TestData.isPrivate,
 					TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, "");
 		} catch (IllegalArgumentException e) {
 			er = e.getMessage();

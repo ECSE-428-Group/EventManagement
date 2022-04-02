@@ -95,7 +95,7 @@ public class EventControllerTest {
 	public void testValidGetAttendee() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
+			when(eventService.createEvent(TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
 			.thenReturn(mockEvent);
 
 			//create attendee
@@ -240,11 +240,11 @@ public class EventControllerTest {
 	@Test
 	public void testEventCreation() {
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-		when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
+		when(eventService.createEvent(TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
 		.thenReturn(mockEvent);
 
 		try {
-			this.mockMvc.perform(post("/event/"+TestData.eventID.toString())
+			this.mockMvc.perform(post("/event/")
 					.param("date", TestData.eventDate.toString())
 					.param("isPrivate", String.valueOf(TestData.isPrivate))
 					.param("isVirtual", String.valueOf(TestData.isVirtual))
@@ -261,7 +261,7 @@ public class EventControllerTest {
 	public void testInvalidRemoveAllAttendees() {
 		//mockUp Event
 		Event mockEvent = TestData.createEventObject(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage);
-			when(eventService.createEvent(TestData.eventID, TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
+			when(eventService.createEvent(TestData.eventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
 			.thenReturn(mockEvent);
 
 			//create attendee
@@ -290,7 +290,7 @@ public class EventControllerTest {
 			}
 
 	public void testInvalidEventCreation() {
-		when(eventService.createEvent(TestData.eventID, TestData.invalidEventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
+		when(eventService.createEvent(TestData.invalidEventDate, TestData.isPrivate, TestData.isVirtual, TestData.eventLocation, TestData.eventDescription, TestData.eventImage))
 		.thenThrow(IllegalArgumentException.class);
 
 		try {
