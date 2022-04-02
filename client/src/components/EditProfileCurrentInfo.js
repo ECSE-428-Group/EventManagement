@@ -8,6 +8,7 @@ import {
     ListItem,
     ListItemText,
     CardContent,
+    Grid,
 } from '@material-ui/core';
 
 export default function EditProfileCurrentInfo() {
@@ -24,18 +25,25 @@ export default function EditProfileCurrentInfo() {
         );
     });
     return (
-        <Card style={{ backgroundColor: '#f8fcff', borderRadius: '0%' }}>
-            <CardMedia
-                style={{
-                    borderRadius: '50%',
-                    objectFit: 'cover',
-                    height: '200px',
-                    width: '200px',
-                }}
-                component='img'
-                image={require('../static/images/chad.jpeg')}
-                alt='Chad'
-            />
+        <Card
+            style={{
+                backgroundColor: '#f8fcff',
+                borderRadius: '0%',
+            }}
+        >
+            <Grid style={{ width: '200px', width: '200px' }}>
+                <CardMedia
+                    style={{
+                        height: '200px',
+                        width: '200px',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                    }}
+                    component='img'
+                    image={require('../static/images/chad.jpeg')}
+                    alt='Chad'
+                />
+            </Grid>
             <CardContent>
                 <List
                     sx={{
