@@ -29,6 +29,31 @@ export const createAccount = async (accountData) => {
         );
         return accountCreated;
     } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export const editProfile = async (editProfileData) => {
+    try {
+        const accountEdited = await axios.put(
+            baseUrl +
+                `/userprofile/${editProfileData.username}` +
+                '?curPassword=' +
+                editProfileData.curPassword +
+                '&newPassword=' +
+                editProfileData.newPassword +
+                '&firstName=' +
+                editProfileData.firstName +
+                '&lastName=' +
+                editProfileData.lastName +
+                '&birthday=' +
+                editProfileData.birthday +
+                '&email=' +
+                editProfileData.email
+        );
+        console.log('SUCCESS')
+        return accountEdited;
+    } catch (error) {
         console.log(error);
         throw new Error(error);
     }

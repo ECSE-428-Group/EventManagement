@@ -221,6 +221,8 @@ function Signup({ handleCreateAccount }) {
         const status = handleCreateAccount(accountData);
         if (status === 0) {
             navigate('/userhome');
+            localStorage.setItem('username', accountData.username);
+            localStorage.setItem('password', accountData.password);
         }
         setAccountData(INITIAL_FORM_DATA);
     };

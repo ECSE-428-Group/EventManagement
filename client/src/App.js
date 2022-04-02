@@ -11,7 +11,7 @@ import UserHome from './pages/UserHome';
 import CreateEvent from './pages/CreateEvent';
 
 // API
-import { createAccount } from './API';
+import { createAccount, editProfile } from './API';
 
 function App() {
     const handleCreateAccount = (createAccountData) => {
@@ -24,6 +24,20 @@ function App() {
             })
             .catch((error) => console.log(error));
         return 0;
+    };
+
+    const handleEditProfile = (editProfileData) => {
+        let success = 200;
+        editProfile(editProfileData)
+            .then(({ status, data }) => {
+                if (status !== 200) {
+                    // 200 indicates successful request
+                    success = status;
+                    throw new Error('Account not Edited');
+                }
+            })
+            .catch((error) => console.log(error));
+        return success;
     };
 
     return (
@@ -42,7 +56,7 @@ function App() {
                     <Route
                         exact
                         path='/editProfile'
-                        element={<EditProfile />}
+                        element={<EditProfile handleEditProfile={handleEditProfile} />}
                     />
                     <Route
                         exact
