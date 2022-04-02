@@ -68,6 +68,25 @@ public class EventController {
 
 	 }
 
+	@GetMapping(value = {
+		"/event/{eventId}",
+		"/event/{eventId}/"
+	})
+	public Event getEvent(
+			@PathVariable(name = "eventId") Long eventId
+			)throws IllegalArgumentException{
+
+		return eventService.getEvent(eventId);
+	}
+
+	@GetMapping(value = {
+		"getAll/event/",
+		"getAll/event"
+	})
+	public List<Event> getAllEvents() throws IllegalArgumentException{
+
+		return eventService.getAllEvents();
+	}
 
 	/////////// CREATE EVENT ///////////
 	@PostMapping(value = {

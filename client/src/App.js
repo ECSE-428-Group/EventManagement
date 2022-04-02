@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 
 // Router
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -9,6 +9,7 @@ import Signup from './pages/Signup';
 import EditProfile from './pages/EditProfile';
 import UserHome from './pages/UserHome';
 import CreateEvent from './pages/CreateEvent';
+import ViewEvent from './pages/ViewEvent';
 
 // API
 import { createAccount, editProfile } from './API';
@@ -62,6 +63,11 @@ function App() {
                         exact
                         path='/createEvent'
                         element={<CreateEvent />}
+                    />
+                    <Route
+                        exact
+                        path='/viewEvent/:id'
+                        element={<ViewEvent />}
                     />
                 </Routes>
             </Router>

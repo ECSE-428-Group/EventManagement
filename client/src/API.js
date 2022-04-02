@@ -58,3 +58,13 @@ export const editProfile = async (editProfileData) => {
         throw new Error(error);
     }
 };
+
+export const getEvent = async (eventId) => {
+    try {
+        const eventDetails = await axios.get(baseUrl + '/event/' + eventId);
+        return eventDetails;
+    } catch (error) {
+        console.log(error);
+        throw new Error(error);
+    }
+};
