@@ -14,7 +14,8 @@ function NavBar() {
     }
     const menuItems = [
         {
-            name: 'Organize',
+            name: 'Create Event',
+            route: '/createEvent',
         },
         {
             link: './pages/signup',
@@ -40,7 +41,7 @@ function NavBar() {
                             JoinIt
                         </Typography>
                     </div>
-                    <div>
+                    <div style={{ padding: 15 }}>
                         <Hidden smDown>
                             {menuItems.map((element) => {
                                 return (
